@@ -1,20 +1,5 @@
-// pages/api/updatePlayers.js
-import { supabase } from "../../../database/supabase";
 import { NextResponse } from "next/server";
-import sgMail from "@sendgrid/mail";
-
-sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-
-async function sendEmail(subject, text) {
-  const msg = {
-    to: "eric.yamir@gmail.com",
-    from: "dispatch@roadyhaul.com", // Change to your verified sender
-    subject: subject,
-    text: text,
-  };
-
-  await sgMail.send(msg);
-}
+import { supabase } from "../../../database/supabase";
 
 async function addPlayers(players) {
   const { error } = await supabase.from("players").upsert(players);
@@ -222,16 +207,7 @@ async function fetchMarketValues(playerId) {
   }
 }
 
-export default async function handler(req) {
-  if (req.method !== "POST") {
-    return new NextResponse(null, {
-      status: 405,
-      headers: {
-        Allow: "POST",
-      },
-    });
-  }
-  const startTime = Date.now();
+async function runCronJob() {
   const startingIndex = 0;
   const endingIndex = 1850;
   let players = [];
@@ -241,7 +217,6 @@ export default async function handler(req) {
     promises.push(fetchData(playerId));
 
     if (promises.length >= 70) {
-      // MAX_CONCURRENT_REQUESTS
       const playerDataArray = await Promise.all(promises);
       promises.length = 0; // Reset the promises array
 
@@ -265,7 +240,6 @@ export default async function handler(req) {
     }
   }
 
-  // Process any remaining promises
   if (promises.length > 0) {
     const playerDataArray = await Promise.all(promises);
     const marketValuePromises = playerDataArray.map((data) =>
@@ -288,29 +262,25 @@ export default async function handler(req) {
       splitPlayersData(players);
     await addPlayers(playersData);
     await addStats(statsData);
-
-    const endTime = Date.now();
-    const duration = ((endTime - startTime) / 1000).toFixed(2); // Duration in seconds, fixed to 2 decimal places
-
-    await sendEmail(
-      "Cron Job Executed Successfully.",
-      `The cron job was successful and took ${duration} seconds to finish.`
-    );
-
-    return new NextResponse(JSON.stringify({ message: "Update successful" }), {
-      status: 200,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
   } catch (error) {
-    console.error("Error updating Supabase:", error);
+    console.error("Error updating database:", error);
+    throw error;
+  }
+}
 
-    await sendEmail(
-      "Cron Job Failed",
-      `The cron job failed with error: ${error.message}`
+export async function GET() {
+  try {
+    await runCronJob();
+    return new NextResponse(
+      JSON.stringify({ message: "Cron job executed successfully." }),
+      {
+        status: 200,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
     );
-
+  } catch (error) {
     return new NextResponse(
       JSON.stringify({ error: "Internal server error" }),
       {
