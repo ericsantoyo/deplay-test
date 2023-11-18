@@ -1,6 +1,6 @@
 {
   "crons": [{
-    "path": "/api/updatePlayers",
-    "schedule": "35 22 * * *"
+    "path": "/api/cron/route",
+    "schedule": "22 23 * * *"
   }]
 }
