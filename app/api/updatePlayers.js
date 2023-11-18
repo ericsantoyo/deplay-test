@@ -1,5 +1,6 @@
 // pages/api/updatePlayers.js
 import { supabase } from "../../database/supabase";
+import { NextResponse } from 'next/server';
 
 
 async function addPlayers(players) {
@@ -212,12 +213,14 @@ async function fetchMarketValues(playerId) {
   }
 }
 
-export default async function handler(req, res) {
-  // This should be a POST request to prevent accidental GET requests
+export default async function handler(req) {
   if (req.method !== 'POST') {
-    res.setHeader('Allow', 'POST');
-    res.status(405).end('Method Not Allowed');
-    return;
+    return new NextResponse(null, {
+      status: 405,
+      headers: {
+        'Allow': 'POST'
+      }
+    });
   }
 
   const startingIndex = 0;
@@ -272,9 +275,19 @@ export default async function handler(req, res) {
     const { players: playersData, stats: statsData } = splitPlayersData(players);
     await addPlayers(playersData);
     await addStats(statsData);
-    res.status(200).json({ message: "Update successful" });
+    return new NextResponse(JSON.stringify({ message: "Update successful" }), {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
   } catch (error) {
     console.error('Error updating Supabase:', error);
-    res.status(500).json({ error: "Internal server error" });
+    return new NextResponse(JSON.stringify({ error: "Internal server error" }), {
+      status: 500,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
   }
 }
