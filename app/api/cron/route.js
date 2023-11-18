@@ -293,7 +293,7 @@ export default async function handler(req) {
     const duration = ((endTime - startTime) / 1000).toFixed(2); // Duration in seconds, fixed to 2 decimal places
 
     await sendEmail(
-      "Cron Job Executed Successfully",
+      "Cron Job Executed Successfully.",
       `The cron job was successful and took ${duration} seconds to finish.`
     );
 
