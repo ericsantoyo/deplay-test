@@ -1,9 +1,7 @@
 name: Daily Update
 
 on:
-  schedule:
-    # Runs at 6:16 PM every day
-    - cron: '5 22 * * *'
+  workflow_dispatch: # This enables manual triggering
 
 jobs:
   update_data:
