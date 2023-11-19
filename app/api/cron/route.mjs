@@ -1,5 +1,3 @@
-
-import { NextResponse } from "next/server";
 import { createClient } from '@supabase/supabase-js';
 
 // Initialize the Supabase client directly here
@@ -220,15 +218,7 @@ async function fetchMarketValues(playerId) {
   }
 }
 
-export default async function handler(req) {
-  if (req.method !== "POST") {
-    return new NextResponse(null, {
-      status: 405,
-      headers: {
-        Allow: "POST",
-      },
-    });
-  }
+async function main() {
   const startingIndex = 0;
   const endingIndex = 1850;
   let players = [];
@@ -281,33 +271,17 @@ export default async function handler(req) {
   }
 
   try {
-    const { players: playersData, stats: statsData } =
-      splitPlayersData(players);
+    const { players: playersData, stats: statsData } = splitPlayersData(players);
     await addPlayers(playersData);
     await addStats(statsData);
-
-
-    
-
-    return new NextResponse(JSON.stringify({ message: "Update successful" }), {
-      status: 200,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    console.log('Update successful');
+    process.exit(0); // Exit with a success status code
   } catch (error) {
-    console.error("Error updating Supabase:", error);
-
-   
-
-    return new NextResponse(
-      JSON.stringify({ error: "Internal server error" }),
-      {
-        status: 500,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    console.error('Error updating Supabase:', error);
+    process.exit(1); // Exit with an error status code
   }
 }
+
+// Execute the main function when the script is run
+main();
+
