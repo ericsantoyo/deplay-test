@@ -1,6 +1,17 @@
-import { supabase } from '../../../database/supabase';
-import { NextResponse } from "next/server";
 
+import { NextResponse } from "next/server";
+import { createClient } from '@supabase/supabase-js';
+
+// Initialize the Supabase client directly here
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+if (!supabaseUrl || !supabaseAnonKey) {
+  console.error('Supabase environment variables are not set');
+  process.exit(1); // Exit the process if the environment variables are not set
+}
+
+const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 
 async function addPlayers(players) {
