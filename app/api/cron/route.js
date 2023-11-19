@@ -1,19 +1,7 @@
 import { supabase } from "../../../database/supabase";
 import { NextResponse } from "next/server";
-import sgMail from "@sendgrid/mail";
 
-sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
-async function sendEmail(subject, text) {
-  const msg = {
-    to: "eric.yamir@gmail.com",
-    from: "dispatch@roadyhaul.com", // Change to your verified sender
-    subject: subject,
-    text: text,
-  };
-
-  await sgMail.send(msg);
-}
 
 async function addPlayers(players) {
   const { error } = await supabase.from("players").upsert(players);
@@ -230,7 +218,6 @@ export default async function handler(req) {
       },
     });
   }
-  const startTime = Date.now();
   const startingIndex = 0;
   const endingIndex = 1850;
   let players = [];
@@ -288,13 +275,8 @@ export default async function handler(req) {
     await addPlayers(playersData);
     await addStats(statsData);
 
-    const endTime = Date.now();
-    const duration = ((endTime - startTime) / 1000).toFixed(2); // Duration in seconds, fixed to 2 decimal places
 
-    await sendEmail(
-      "Cron Job Executed Successfully",
-      `The cron job was successful and took ${duration} seconds to finish.`
-    );
+    
 
     return new NextResponse(JSON.stringify({ message: "Update successful" }), {
       status: 200,
@@ -305,10 +287,7 @@ export default async function handler(req) {
   } catch (error) {
     console.error("Error updating Supabase:", error);
 
-    await sendEmail(
-      "Cron Job Failed",
-      `The cron job failed with error: ${error.message}`
-    );
+   
 
     return new NextResponse(
       JSON.stringify({ error: "Internal server error" }),
