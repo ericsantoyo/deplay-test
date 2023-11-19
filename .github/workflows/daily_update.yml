@@ -3,7 +3,7 @@ name: Daily Update
 on:
   schedule:
     # Runs at 6:16 PM every day
-    - cron: '57 21 * * *'
+    - cron: '5 22 * * *'
 
 jobs:
   update_data:
