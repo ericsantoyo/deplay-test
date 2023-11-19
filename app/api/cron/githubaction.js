@@ -1,5 +1,5 @@
-const { supabase } = require("../../../database/supabase");
-const { NextResponse } = require("next/server");
+import { supabase } from "../../../database/supabase";
+import { NextResponse } from "next/server";
 
 
 
@@ -209,7 +209,7 @@ async function fetchMarketValues(playerId) {
   }
 }
 
-module.exports = async function handler(req) {
+export default async function handler(req) {
   if (req.method !== "POST") {
     return new NextResponse(null, {
       status: 405,
