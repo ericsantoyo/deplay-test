@@ -20,4 +20,4 @@ jobs:
       run: npm install # or yarn install
 
     - name: Run the script
-      run: node app/api/cron/githubaction.js
+      run: node app/api/cron/route.js
