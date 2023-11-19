@@ -1,0 +1,25 @@
+name: Daily Update
+
+on:
+  schedule:
+    # Runs at 6:16 PM every day
+    - cron: '16 18 * * *'
+
+jobs:
+  update_data:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Check out repository code
+      uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v4.0.0
+      with:
+        node-version: '18' # Specify the Node.js version
+
+    - name: Install dependencies
+      run: npm install # or yarn install
+
+    - name: Run the script
+      run: node app/api/cron/route.js
