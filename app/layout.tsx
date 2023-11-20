@@ -4,6 +4,8 @@ import "./globals.css";
 import Navbar from "@/app/components/navbar/Navbar";
 import { Main } from "next/document";
 import StyledJsxRegistry from "./registry";
+import Footer from "./components/footer/Footer";
+import BottomMenu from "./components/BottomMenu";
 // import { ThemeProvider } from "./theme-provider";
 // import ThemeRegistry from "./ThemeRegistry";
 
@@ -37,7 +39,7 @@ export default function RootLayout({
 }) {
   return (
     <html suppressHydrationWarning lang="en">
-      <body className={`${inter.className} transition-all`}>
+      <body className={`${inter.className}  transition-all`}>
         <Navbar />
         <main className="container max-w-6xl">
 
@@ -49,6 +51,8 @@ export default function RootLayout({
         {/* </ThemeProvider> */}
 
         </main>
+        <Footer />
+        <BottomMenu />
       </body>
     </html>
   );

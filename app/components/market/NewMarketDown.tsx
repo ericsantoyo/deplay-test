@@ -105,7 +105,7 @@ interface PlayerWithStats {
 }
 
 const NewMarketDown = () => {
-  const [rowData, setRowData] = useState<PlayerWithStats[]>([]);
+  const [rowData, setRowData] = useState<PlayerWithStats[]>();
 
   // const { theme } = useTheme();
 

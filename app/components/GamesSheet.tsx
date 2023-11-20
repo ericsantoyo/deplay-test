@@ -15,7 +15,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { slugById } from "@/utils/utils";
+import { getCurrentWeek, slugById } from "@/utils/utils";
 
 import { Skeleton } from "@/components/ui/skeleton";
 import {
@@ -27,35 +27,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-
-const getCurrentWeek = (matchesData: matches[]): number => {
-  const today = new Date();
-
-  for (const match of matchesData) {
-    const matchDate = new Date(match.matchDate);
-
-    if (
-      today.getDate() === matchDate.getDate() &&
-      today.getMonth() === matchDate.getMonth() &&
-      today.getFullYear() === matchDate.getFullYear()
-    ) {
-      return match.week;
-    }
-
-    const allMatchesForWeek = matchesData.filter((m) => m.week === match.week);
-    const allMatchesFinished = allMatchesForWeek.every(
-      (m) => m.matchState === 7
-    );
-
-    if (allMatchesFinished) {
-      const nextWeek = match.week + 1;
-      return nextWeek;
-    }
-  }
-
-  console.log("No matching week found, defaulting to week 1");
-  return 1;
-};
 
 // Your component
 export default function GamesSheet() {

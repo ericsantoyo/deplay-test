@@ -17,7 +17,7 @@ const GamesIcon = (props: Props) => {
           borderRadius: 1,
           padding: 0,
         }}
-        className={`${props.className}  w-12 h-12 md:w-8 md:h-8 group transition-all bg-neutral-50 `}
+        className={`${props.className}  w-12 h-12 md:w-8 md:h-8 group transition-all  `}
         // onClick={props.onClick}
       >
         <div className="flex justify-center items-center ">

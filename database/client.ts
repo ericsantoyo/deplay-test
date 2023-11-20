@@ -1,16 +1,11 @@
-import { Matches } from "@/types";
 import { supabase } from "./supabase";
 
-type Player = object;
-type Stat = object;
-type Team = object;
-
-async function getAllPlayers(): Promise<{ allPlayers: Player[] }> {
+async function getAllPlayers(): Promise<{ allPlayers: players[] }> {
   const { data: allPlayers } = await supabase
     .from("players")
     .select("*")
     .order("points", { ascending: false });
-  return { allPlayers };
+  return { allPlayers: allPlayers as players[] };
 }
 
 async function getPaginatedPlayers({
@@ -23,7 +18,7 @@ async function getPaginatedPlayers({
   playerName?: string;
   page: number;
   limit: number;
-}): Promise<{ paginatedPlayers: Player[]; totalCount: number }> {
+}): Promise<{ paginatedPlayers: players[]; totalCount: number }> {
   let request = supabase.from("players").select("*");
 
   if (teamID !== undefined) {
@@ -38,21 +33,24 @@ async function getPaginatedPlayers({
     .order("points", { ascending: false })
     .range(page * limit - limit, page * limit - 1);
 
-  return { paginatedPlayers, totalCount: count };
+  return {
+    paginatedPlayers: paginatedPlayers as players[],
+    totalCount: Number(count),
+  };
 }
 
-async function getAllStats(): Promise<{ allStats: Stat[] }> {
+async function getAllStats(): Promise<{ allStats: stats[] }> {
   const { data: allStats } = await supabase
     .from("stats")
     .select("*")
     .order("week", { ascending: false });
 
-  return { allStats };
+  return { allStats: allStats as stats[] };
 }
 
-async function getAllTeams(): Promise<{ allTeams: Team[] }> {
+async function getAllTeams(): Promise<{ allTeams: teams[] }> {
   const { data: allTeams } = await supabase.from("teams").select("*");
-  return { allTeams };
+  return { allTeams: allTeams as teams[] };
 }
 
 async function getPlayerById(playerID: number) {
@@ -66,8 +64,8 @@ async function getPlayerById(playerID: number) {
     .select("*")
     .eq("playerID", playerID);
 
-  let player: Player | null = null;
-  let stats: Stat[] = [];
+  let player: players | null = null;
+  let stats: stats[] = [];
 
   if (playerData && playerData.length > 0) {
     player = playerData[0];
@@ -84,7 +82,7 @@ async function getPlayerById(playerID: number) {
   };
 }
 
-async function getTeamByTeamID(teamID) {
+async function getTeamByTeamID(teamID: number) {
   if (!teamID) return { data: null, error: "No teamID provided" };
   const { data, error } = await supabase
     .from("teams")
@@ -96,17 +94,17 @@ async function getTeamByTeamID(teamID) {
 
 async function getPlayersByTeamID(
   teamID: number
-): Promise<{ data: Player[] | null; error: string | null }> {
+): Promise<{ data: players[] | null; error: string | null }> {
   if (!teamID)
     return { data: null, error: "No teamID provided for getPlayersByTeamID" };
   const { data, error } = await supabase
     .from("players")
     .select("*")
     .eq("teamID", teamID);
-  return { data, error };
+  return { data, error: error?.message || null };
 }
 
-async function getAllMatches(): Promise<{ allMatches: Matches[] }> {
+async function getAllMatches(): Promise<{ allMatches: matches[] }> {
   //imitate delay
   // await new Promise((resolve) => setTimeout(resolve, 3000));
 
@@ -114,7 +112,7 @@ async function getAllMatches(): Promise<{ allMatches: Matches[] }> {
     .from("matches")
     .select("*")
     .order("matchID", { ascending: false });
-  return { allMatches };
+  return { allMatches: allMatches as matches[] };
 }
 
 async function getMatchesByTeamID(teamID: number) {

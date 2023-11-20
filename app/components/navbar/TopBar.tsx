@@ -69,7 +69,7 @@ const TopBar = (props: Props) => {
             <SheetTrigger asChild>
               <IconButton
                 size="large"
-                className="w-12 h-12 group bg-neutral-50"
+                className="w-12 h-12 group"
                 sx={{
                   // boxShadow: 2,
                   borderRadius: 1,
@@ -89,7 +89,7 @@ const TopBar = (props: Props) => {
             className=" flex flex-row justify-between items-center pr-14"
           >
             <SearchBox className={``} onSearch={handleSearch} />
-            <SocialIcons className=" shrink-0 " />
+            <SocialIcons className=" shrink-0 flex justify-between items-center space-x-3" />
           </SheetContent>
         </Sheet>
 
@@ -105,7 +105,7 @@ const TopBar = (props: Props) => {
             {/* SEARCHBOX */}
             <SearchBox className={`grow `} onSearch={handleSearch} />
             {/* SOCIALS */}
-            <SocialIcons className=" shrink-0 " />
+            <SocialIcons className=" shrink-0 flex justify-between items-center space-x-3" />
             {/* THEMETOGGLE */}
 
             {/* <SignedOut>
@@ -126,7 +126,7 @@ const TopBar = (props: Props) => {
 
           {/* TEXT MENU */}
           <TextItems
-            classNameDiv={`hidden order-last md:order-first md:flex md:flex-row  md:flex-nowrap font-semibold 
+            classNameDiv={`order-last md:order-first   flex-nowrap font-semibold 
             }`}
             classNameUL={""}
             classNameLI={""}

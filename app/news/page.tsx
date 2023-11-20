@@ -4,25 +4,18 @@ import {
   getAllStats,
   getTeamByTeamID,
   getPlayersByTeamID,
-  getAllTeams
+  getAllTeams,
 } from "@/database/client";
 import Calendar from "../components/news/Calendar";
 
-import { Match } from "@/types";
-
-
-
 export default async function News() {
-
   const { allMatches: matchesData } = await getAllMatches();
   const { allTeams: teams } = await getAllTeams();
-
-
 
   return (
     <div className=" flex flex-col gap-3">
       {/* <pre className="text-center">{JSON.stringify(teams, null, 2)}</pre> */}
-      <Calendar matches = {matchesData} allTeams= {teams}/>
+      <Calendar matches={matchesData} allTeams={teams} gamesToShow={6} />
     </div>
   );
 }

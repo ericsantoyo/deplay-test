@@ -1,5 +1,4 @@
-"use client";
-import React, { useState } from "react";
+
 import Link from "next/link";
 import { navLinks } from "@/constants";
 
@@ -19,10 +18,9 @@ const TextItems: React.FC<TextItemsProps> = ({
   classNameLI,
   classNameUL,
 }) => {
-  const [navbar, setNavbar] = useState(false);
   return (
     <div
-      className={` ${classNameDiv} 
+      className={`hidden md:flex ${classNameDiv} 
                 
               `}
     >
@@ -43,7 +41,7 @@ const TextItems: React.FC<TextItemsProps> = ({
                     dark:text-neutral-300 
                     `}
           >
-            <Link onClick={() => setNavbar(!navbar)} href={`${nav.id}`}>
+            <Link href={`${nav.id}`}>
               {nav.title}
             </Link>
             <span

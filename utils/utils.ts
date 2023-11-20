@@ -1,4 +1,3 @@
-
 export const teams = [
   { name: "Deportivo Alavés", slug: "d-alaves", id: 21 },
   { name: "UD Almería", slug: "ud-almeria", id: 1 },
@@ -22,13 +21,13 @@ export const teams = [
   { name: "Villarreal CF", slug: "villarreal-cf", id: 20 },
 ];
 
-export function slugById(teamID) {
+export function slugById(teamID: number) {
   const team = teams.find((team) => team.id === teamID);
   const slug = team ? team.slug : "Not Found";
   return slug;
 }
 
-export function slugByName({ name }) {
+export function slugByName({ name }: { name: string }) {
   const team = teams.find(
     (team) => team.name.replace(/\s/g, "") === name.replace(/\s/g, "")
   );
@@ -45,19 +44,23 @@ export const getColor = (points: number) => {
   return "bg-red-700 text-neutral-50 font-bold text-shadow";
 };
 
-export function formatDate(dateString) {
+export function formatDate(dateString: string | number | Date) {
   const date = new Date(dateString);
-  const options = { month: "short", day: "numeric" };
+  const options = { month: "short", day: "numeric" } as const;
   return date.toLocaleDateString(undefined, options);
 }
 
-export function formatMoney(value) {
+export function formatMoney(value: number) {
   const formatter = new Intl.NumberFormat("en-GB", {});
   const formattedValue = formatter.format(value);
   return formattedValue;
 }
 
-export function getWeeksTotalPointsFromStats(playerId, rowData, maxWeeks) {
+export function getWeeksTotalPointsFromStats(
+  playerId: number,
+  rowData: any[],
+  maxWeeks: number
+) {
   const selectedPlayerData = rowData.find(
     (player) => player.playerData.playerID === playerId
   );
@@ -79,7 +82,7 @@ export function getWeeksTotalPointsFromStats(playerId, rowData, maxWeeks) {
   }
 
   // Determine the maximum week
-  let maxWeek = Math.max(...stats.map((stat) => stat.week));
+  let maxWeek = Math.max(...stats.map((stat: { week: number }) => stat.week));
 
   // Get the last N weeks (or fewer if less than N weeks of data)
   for (let i = maxWeek; i > maxWeek - maxWeeks && i >= 1; i--) {
@@ -97,14 +100,19 @@ export function getWeeksTotalPointsFromStats(playerId, rowData, maxWeeks) {
 
 export const formatter = new Intl.NumberFormat("en-GB", {});
 
-export const lastChangeStyle = (lastChange) => {
+export const lastChangeStyle = (lastChange: number) => {
   if (lastChange >= 0) return " text-green-600 dark:text-green-400";
   return "text-red-500";
 };
 
 // TEAM PAGE UTILS
 
-export const getTotalPointsOfTeam = (players) => {
+export const getTotalPointsOfTeam = (players: {
+  [x: string]: {
+    status: string;
+    points: number;
+  };
+}) => {
   let total = 0;
   for (let player in players) {
     if (players[player].status === "out_of_league") {
@@ -115,7 +123,12 @@ export const getTotalPointsOfTeam = (players) => {
   return total;
 };
 
-export const getTotalMarketValueOfTeam = (players) => {
+export const getTotalMarketValueOfTeam = (players: {
+  [x: string]: {
+    status: string;
+    marketValue: number;
+  };
+}) => {
   let total = 0;
   for (let player in players) {
     if (players[player].status === "out_of_league") {
@@ -126,7 +139,9 @@ export const getTotalMarketValueOfTeam = (players) => {
   return total;
 };
 
-export const getNumberOfPlayersOfTeam = (players) => {
+export const getNumberOfPlayersOfTeam = (players: {
+  [x: string]: { status: string };
+}) => {
   let total = 0;
   for (let player in players) {
     if (players[player].status !== "out_of_league") {
@@ -136,7 +151,9 @@ export const getNumberOfPlayersOfTeam = (players) => {
   return total;
 };
 
-export const getNumberOfAvailablePlayersOfTeam = (players) => {
+export const getNumberOfAvailablePlayersOfTeam = (players: {
+  [x: string]: { status: string };
+}) => {
   let total = 0;
   for (let player in players) {
     if (players[player].status === "ok") {
@@ -145,8 +162,6 @@ export const getNumberOfAvailablePlayersOfTeam = (players) => {
   }
   return total;
 };
-
-
 
 interface PositionBadge {
   abbreviation: string;
@@ -158,27 +173,32 @@ export function getPositionBadge(positionID: number): PositionBadge {
     case 1:
       return {
         abbreviation: "POR",
-        className: "shadow-sm shadow-neutral-400 dark:shadow-neutral-800 w-9 text-center text-[12px] leading-5 font-semibold rounded bg-gradient-to-r from-[#d85912] to-[#ff7e00] dark:bg-orange-600 text-gray-50",
+        className:
+          "shadow-sm shadow-neutral-400 dark:shadow-neutral-800 w-9 text-center text-[12px] leading-5 font-semibold rounded bg-gradient-to-r from-[#d85912] to-[#ff7e00] dark:bg-orange-600 text-gray-50",
       };
     case 2:
       return {
         abbreviation: "DEF",
-        className: "shadow-sm shadow-neutral-400 dark:shadow-neutral-800 w-9 text-center text-[12px] leading-5 font-semibold rounded bg-gradient-to-r from-[#8023a7] to-[#ce32dc] dark:bg-purple-600 text-gray-50",
+        className:
+          "shadow-sm shadow-neutral-400 dark:shadow-neutral-800 w-9 text-center text-[12px] leading-5 font-semibold rounded bg-gradient-to-r from-[#8023a7] to-[#ce32dc] dark:bg-purple-600 text-gray-50",
       };
     case 3:
       return {
         abbreviation: "CEN",
-        className: "shadow-sm shadow-neutral-400 dark:shadow-neutral-800 w-9 text-center text-[12px] leading-5 font-semibold rounded bg-gradient-to-tr from-[#0094ff] to-[#4bafe3] dark:bg-blue-600 text-gray-50",
+        className:
+          "shadow-sm shadow-neutral-400 dark:shadow-neutral-800 w-9 text-center text-[12px] leading-5 font-semibold rounded bg-gradient-to-tr from-[#0094ff] to-[#4bafe3] dark:bg-blue-600 text-gray-50",
       };
     case 4:
       return {
         abbreviation: "DEL",
-        className: "shadow-sm shadow-neutral-400 border-gray-600 dark:shadow-neutral-800 w-9 text-center text-[12px] leading-5 font-semibold rounded bg-gradient-to-tr from-[#ee9015] to-[#f3c832] dark:bg-red-600 text-gray-50",
+        className:
+          "shadow-sm shadow-neutral-400 border-gray-600 dark:shadow-neutral-800 w-9 text-center text-[12px] leading-5 font-semibold rounded bg-gradient-to-tr from-[#ee9015] to-[#f3c832] dark:bg-red-600 text-gray-50",
       };
     case 5:
       return {
         abbreviation: "ENT",
-        className: "shadow-sm shadow-neutral-400 dark:shadow-neutral-800 w-9 text-center text-[12px] leading-5 font-semibold rounded bg-gradient-to-br from-[#02da67] to-[#449fcf] dark:bg-green-600 text-gray-50",
+        className:
+          "shadow-sm shadow-neutral-400 dark:shadow-neutral-800 w-9 text-center text-[12px] leading-5 font-semibold rounded bg-gradient-to-br from-[#02da67] to-[#449fcf] dark:bg-green-600 text-gray-50",
       };
     default:
       return {
@@ -188,13 +208,17 @@ export function getPositionBadge(positionID: number): PositionBadge {
   }
 }
 
-
-export async function getTeamLogo(teamID) {
+export async function getTeamLogo(teamID: number) {
   const slug = slugById(teamID);
   return `/teamLogos/${slug}.png`;
 }
 
-export async function getWeeksTotalPointsFromStatsWithTeamLogo(playerId, rowData, maxWeeks, teamMatches) {
+export async function getWeeksTotalPointsFromStatsWithTeamLogo(
+  playerId: number,
+  rowData: any[],
+  maxWeeks: number,
+  teamMatches: any
+) {
   const selectedPlayerData = rowData.find(
     (player) => player.playerData.playerID === playerId
   );
@@ -211,7 +235,7 @@ export async function getWeeksTotalPointsFromStatsWithTeamLogo(playerId, rowData
     pointsByWeek.set(week, totalPoints);
   }
 
-  let maxWeek = Math.max(...stats.map((stat) => stat.week));
+  let maxWeek = Math.max(...stats.map((stat: { week: number }) => stat.week));
 
   // Get the last N weeks (or fewer if less than N weeks of data)
   for (let i = maxWeek; i > maxWeek - maxWeeks && i >= 1; i--) {
@@ -227,3 +251,64 @@ export async function getWeeksTotalPointsFromStatsWithTeamLogo(playerId, rowData
 
   return points;
 }
+
+export const getCurrentWeek = (matches: matches[]): number => {
+  const now = new Date();
+
+  // Filter upcoming matches (matchState is not 7) and sort them by matchDate in ascending order
+  const upcomingMatches = matches
+    .filter((match) => match.matchState !== 7)
+    .sort(
+      (a, b) =>
+        new Date(a.matchDate).getTime() - new Date(b.matchDate).getTime()
+    );
+
+  // Find the first upcoming match where the match date is after the current date and time
+  const nextMatch = upcomingMatches.find(
+    (match) => new Date(match.matchDate) > now
+  );
+
+  // If there's an upcoming match, return its week, otherwise default to 1
+  return nextMatch ? nextMatch.week : 1;
+};
+
+export const getUpcomingTeamMatches = (
+  teamMatches: matches[],
+  gamesToShow: number
+): matches[] => {
+  const now = new Date();
+
+  // Filter out matches for the team that have not finished and sort them by matchDate
+  const upcomingMatches = teamMatches
+    .filter(
+      (match) => match.matchState !== 7 && new Date(match.matchDate) > now
+    )
+    .sort(
+      (a, b) =>
+        new Date(a.matchDate).getTime() - new Date(b.matchDate).getTime()
+    )
+    .slice(0, gamesToShow); // Limit the number of upcoming matches returned
+
+  return upcomingMatches;
+};
+
+// utils.ts
+export const getUpcomingMatches = (
+  allMatches: matches[],
+  gamesToShow: number
+): matches[] => {
+  const now = new Date();
+
+  // Filter out matches that have not finished and sort them by matchDate
+  const upcomingMatches = allMatches
+    .filter(
+      (match) => match.matchState !== 7 && new Date(match.matchDate) > now
+    )
+    .sort(
+      (a, b) =>
+        new Date(a.matchDate).getTime() - new Date(b.matchDate).getTime()
+    )
+    .slice(0, gamesToShow); // Limit the number of upcoming matches returned
+
+  return upcomingMatches;
+};
