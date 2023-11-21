@@ -83,7 +83,7 @@ const TeamLineup: React.FC<Props> = ({ teamselected, teamPlayers }) => {
     ));
   };
 
-  const aspectRatio = (9000 / 6000) * 100; // This should be height / width
+  const aspectRatio = (900 / 600) * 100; // This should be height / width
   // <div className="lineup-container relative" style={{ width: '400px', height: '686px' }}>
   //style={{ position: 'relative', width: '400px', height: '686px' }}
   return (
@@ -100,7 +100,7 @@ const TeamLineup: React.FC<Props> = ({ teamselected, teamPlayers }) => {
 	"
         >
           <Image
-            src="/newfield1-min.jpeg"
+            src="/FieldLineup.png"
             alt="Soccer Field"
             layout="fill"
             objectFit="contain"
