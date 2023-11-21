@@ -1,3 +1,4 @@
+import { Card } from "@/components/ui/card";
 import Image from "next/image";
 
 interface Props {
@@ -26,22 +27,22 @@ const TeamLineup: React.FC<Props> = ({ teamselected, teamPlayers }) => {
     .slice(0, 3);
 
   const positions = {
-    goalkeepers: [{ top: "90%", left: "50%" }],
+    goalkeepers: [{ top: "89%", left: "50%" }],
     defenders: [
-      { top: "68%", left: "15%" },
+      { top: "65%", left: "15%" },
       { top: "72%", left: "38%" },
       { top: "72%", left: "62%" },
-      { top: "68%", left: "85%" },
+      { top: "65%", left: "85%" },
     ],
     midfielders: [
-      { top: "45%", left: "25%" },
+      { top: "43%", left: "23%" },
       { top: "52%", left: "50%" },
-      { top: "45%", left: "75%" },
+      { top: "43%", left: "78%" },
     ],
     forwards: [
-      { top: "25%", left: "20%" },
-      { top: "15%", left: "50%" },
-      { top: "25%", left: "80%" },
+      { top: "22%", left: "20%" },
+      { top: "14%", left: "50%" },
+      { top: "22%", left: "80%" },
     ],
   };
 
@@ -49,38 +50,62 @@ const TeamLineup: React.FC<Props> = ({ teamselected, teamPlayers }) => {
     return players.map((player, index) => (
       <div
         key={player.playerID}
-        className="player flex flex-col justify-center items-center"
+        className="player flex flex-col items-center justify-center"
         style={{
           position: "absolute",
           top: positions[positionType][index].top,
           left: positions[positionType][index].left,
           transform: "translate(-50%, -50%)",
+          width: "84px", // larger width
+          height: "84px", // larger height to allow zooming
         }}
       >
-        <Image
-          src={player.image}
-          alt={player.name}
-          width={64}
-          height={64}
-          className="w-16"
-        />
-        <span className="font-semibold text-center">
+        <div
+          className="image-container"
+          style={{ position: "relative", width: "100%", height: "100%" }}
+        >
+          <Image
+            src={player.image}
+            alt={player.name}
+            layout="fill"
+            objectFit="cover"
+            objectPosition="center top"
+          />
+        </div>
+
+        <Card
+          className="font-semibold text-center min-w-[72px] px-2 border-none rounded-sm text-base drop-shadow-xl shadow-neutral-700 
+ text-neutral-800  backdrop-blur bg-white/30  "
+        >
           {player.nickname.split(" ").slice(-1).join(" ")}
-        </span>
+        </Card>
       </div>
     ));
   };
 
-  const aspectRatio = (686 / 400) * 100; // This should be height / width
+  const aspectRatio = (9000 / 6000) * 100; // This should be height / width
   // <div className="lineup-container relative" style={{ width: '400px', height: '686px' }}>
   //style={{ position: 'relative', width: '400px', height: '686px' }}
   return (
     <div className="relative w-full">
       {/* Aspect ratio box to maintain the ratio */}
-      <div className="aspect-ratio-box" style={{ paddingTop: `${aspectRatio}%` }}>
+      <div
+        className="aspect-ratio-box"
+        style={{ paddingTop: `${aspectRatio}%` }}
+      >
         {/* Actual image container */}
-        <div className="absolute top-0 left-0 right-0 bottom-0">
-          <Image src="/field.png" alt="Soccer Field" layout="fill" objectFit="contain" />
+        <div
+          className="absolute top-0 left-0 right-0 bottom-0 contrast-50
+
+	"
+        >
+          <Image
+            src="/newfield1-min.jpeg"
+            alt="Soccer Field"
+            layout="fill"
+            objectFit="contain"
+            className="	"
+          />
         </div>
       </div>
       {goalkeepers && renderPlayers(goalkeepers, "goalkeepers")}
