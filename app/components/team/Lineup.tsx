@@ -69,7 +69,7 @@ const TeamLineup: React.FC<Props> = ({ teamselected, teamPlayers }) => {
             <Image
               src={player.image}
               alt={player.name}
-              layout="fill"
+              fill={true}
               style={{objectFit: "contain"}}
               priority
             />
@@ -99,7 +99,7 @@ const TeamLineup: React.FC<Props> = ({ teamselected, teamPlayers }) => {
           <Image
             src="/FieldLineup.png"
             alt="Soccer Field"
-            layout="fill"
+            fill={true}
             style={{objectFit: "contain"}}
             className="	"
             priority
