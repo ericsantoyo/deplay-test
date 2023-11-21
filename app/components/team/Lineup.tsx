@@ -70,7 +70,7 @@ const TeamLineup: React.FC<Props> = ({ teamselected, teamPlayers }) => {
               src={player.image}
               alt={player.name}
               fill={true}
-              style={{objectFit: "contain"}}
+              style={{ objectFit: "contain" }}
               priority
             />
           </Link>
@@ -85,31 +85,35 @@ const TeamLineup: React.FC<Props> = ({ teamselected, teamPlayers }) => {
   };
 
   const aspectRatio = (900 / 600) * 100; // This should be height / width
-  // <div className="lineup-container relative" style={{ width: '400px', height: '686px' }}>
-  //style={{ position: 'relative', width: '400px', height: '686px' }}
+
   return (
-    <div className="relative max-w-md ">
-      {/* Aspect ratio box to maintain the ratio */}
-      <div
+    <div className="w-full">
+      <div className="relative ">
+        {/* Aspect ratio box to maintain the ratio */}
+        {/* <div
         className="aspect-ratio-box"
         style={{ paddingTop: `${aspectRatio}%` }}
-      >
+      > */}
         {/* Actual image container */}
-        <div className="absolute top-0 left-0 right-0 bottom-0  ">
+        <div className="max-w-2xl ">
           <Image
             src="/FieldLineup.png"
             alt="Soccer Field"
-            fill={true}
-            style={{objectFit: "contain"}}
-            className="	"
+            width={600}
+            height={900}
+            // fill={true}
+            // style={{objectFit: "contain"}}
+            className=" w-full h-auto"
             priority
           />
         </div>
+        {/* </div> */}
+
+        {goalkeepers && renderPlayers(goalkeepers, "goalkeepers")}
+        {defenders && renderPlayers(defenders, "defenders")}
+        {midfielders && renderPlayers(midfielders, "midfielders")}
+        {forwards && renderPlayers(forwards, "forwards")}
       </div>
-      {goalkeepers && renderPlayers(goalkeepers, "goalkeepers")}
-      {defenders && renderPlayers(defenders, "defenders")}
-      {midfielders && renderPlayers(midfielders, "midfielders")}
-      {forwards && renderPlayers(forwards, "forwards")}
     </div>
   );
 };

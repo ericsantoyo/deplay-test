@@ -33,7 +33,7 @@ export default async function Team({ params }: { params: { teamID: number } }) {
 
     for (const player of players) {
       const playerStats = stats.filter(
-        (stat: { playerID: any; }) => stat.playerID === player.playerID
+        (stat: { playerID: any }) => stat.playerID === player.playerID
       );
       formattedPlayers.push({ playerData: player, stats: playerStats });
     }
@@ -48,27 +48,33 @@ export default async function Team({ params }: { params: { teamID: number } }) {
       // Handle the case where players is null
       return [];
     }
-  
+
     // If players is not null, make a copy of the array and sort it
     let sorted = [...players];
     sorted.sort((a, b) => b.points - a.points);
     return sorted;
   };
-  
 
   const sortedPlayers = getSortedPlayersByPoints();
 
   return (
     <div className=" flex flex-col gap-3 w-full">
       <TeamInfoCard teamInfo={team} playerInfo={players} />
-      <div className="flex">
-        <Tabs defaultValue="alineacion" className="w-full">
-          <TabsList>
-            <TabsTrigger value="alineacion">Alineacion</TabsTrigger>
-            <TabsTrigger value="plantilla">Plantilla</TabsTrigger>
+      <div className="flex md:hidden w-full">
+        <Tabs defaultValue="alineacion" className="grow w-full mx-auto">
+          <TabsList className="flex flex-row justify-center items-center ">
+            <TabsTrigger className="w-full" value="alineacion">
+              Alineacion
+            </TabsTrigger>
+            <TabsTrigger className="w-full" value="plantilla">
+              Plantilla
+            </TabsTrigger>
           </TabsList>
           <TabsContent value="alineacion" className="overflow-visible">
-            <TeamLineup teamselected={team.teamID} teamPlayers={sortedPlayers}/>
+            <TeamLineup
+              teamselected={team.teamID}
+              teamPlayers={sortedPlayers}
+            />
           </TabsContent>
           <TabsContent value="plantilla">
             <TeamLayout
@@ -77,6 +83,13 @@ export default async function Team({ params }: { params: { teamID: number } }) {
             />
           </TabsContent>
         </Tabs>
+      </div>
+      <div className="hidden  md:flex md:flex-row md:justify-between md:gap-4 md:container mx-auto	 ">
+        <TeamLineup teamselected={team.teamID} teamPlayers={sortedPlayers} />
+        <TeamLayout
+          teamPlayers={sortedPlayers}
+          playerStats={playersWithStats}
+        />
       </div>
     </div>
   );
