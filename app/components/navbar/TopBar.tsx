@@ -42,8 +42,8 @@ const TopBar = (props: Props) => {
     <>
       <div
         className="
-        flex justify-between items-center md:flex-row px-4
-        mx-auto max-w-5xl w-full md:flex-nowrap flex-wrap mt-2
+        container flex justify-between items-center md:flex-row 
+        mx-auto max-w-6xl w-full md:flex-nowrap flex-wrap 
         "
       >
         {/* --- GAMES ICON --- */}
