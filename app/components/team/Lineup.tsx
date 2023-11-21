@@ -1,5 +1,6 @@
 import { Card } from "@/components/ui/card";
 import Image from "next/image";
+import Link from "next/link";
 
 interface Props {
   teamselected: string;
@@ -29,19 +30,19 @@ const TeamLineup: React.FC<Props> = ({ teamselected, teamPlayers }) => {
   const positions = {
     goalkeepers: [{ top: "89%", left: "50%" }],
     defenders: [
-      { top: "65%", left: "15%" },
+      { top: "63%", left: "15%" },
       { top: "72%", left: "38%" },
       { top: "72%", left: "62%" },
-      { top: "65%", left: "85%" },
+      { top: "63%", left: "85%" },
     ],
     midfielders: [
-      { top: "43%", left: "23%" },
+      { top: "40%", left: "23%" },
       { top: "52%", left: "50%" },
-      { top: "43%", left: "78%" },
+      { top: "40%", left: "78%" },
     ],
     forwards: [
       { top: "22%", left: "20%" },
-      { top: "14%", left: "50%" },
+      { top: "12%", left: "50%" },
       { top: "22%", left: "80%" },
     ],
   };
@@ -64,21 +65,21 @@ const TeamLineup: React.FC<Props> = ({ teamselected, teamPlayers }) => {
           className="image-container"
           style={{ position: "relative", width: "100%", height: "100%" }}
         >
-          <Image
-            src={player.image}
-            alt={player.name}
-            layout="fill"
-            objectFit="cover"
-            objectPosition="center top"
-          />
+          <Link href={`/player/${player.playerID}`}>
+            <Image
+              src={player.image}
+              alt={player.name}
+              layout="fill"
+              style={{objectFit: "contain"}}
+              priority
+            />
+          </Link>
         </div>
-
-        <Card
-          className="font-semibold text-center min-w-[72px] px-2 border-none rounded-sm text-base drop-shadow-xl shadow-neutral-700 
- text-neutral-800  backdrop-blur bg-white/30  "
-        >
-          {player.nickname.split(" ").slice(-1).join(" ")}
-        </Card>
+        <Link href={`/player/${player.playerID}`}>
+          <Card className="font-semibold text-center min-w-[72px] px-2 border-none rounded-xs text-base shadow-md shadow-neutral-800 text-neutral-800 backdrop-blur-xl bg-white/50  ">
+            {player.nickname.split(" ").slice(-1).join(" ")}
+          </Card>
+        </Link>
       </div>
     ));
   };
@@ -87,24 +88,21 @@ const TeamLineup: React.FC<Props> = ({ teamselected, teamPlayers }) => {
   // <div className="lineup-container relative" style={{ width: '400px', height: '686px' }}>
   //style={{ position: 'relative', width: '400px', height: '686px' }}
   return (
-    <div className="relative w-full">
+    <div className="relative max-w-md ">
       {/* Aspect ratio box to maintain the ratio */}
       <div
         className="aspect-ratio-box"
         style={{ paddingTop: `${aspectRatio}%` }}
       >
         {/* Actual image container */}
-        <div
-          className="absolute top-0 left-0 right-0 bottom-0 contrast-50
-
-	"
-        >
+        <div className="absolute top-0 left-0 right-0 bottom-0  ">
           <Image
             src="/FieldLineup.png"
             alt="Soccer Field"
             layout="fill"
-            objectFit="contain"
+            style={{objectFit: "contain"}}
             className="	"
+            priority
           />
         </div>
       </div>

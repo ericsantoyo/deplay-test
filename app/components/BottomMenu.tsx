@@ -13,7 +13,7 @@ export default function BottomMenu() {
   return (
     <Card className="fixed bottom-0 right-0 left-0 w-full rounded-none shadow-none h-[66px] 	 md:hidden ">
       <div className="flex flex-row justify-between items-center w-full h-full px-6">
-        <Link href="/market" className="flex flex-col justify-center items-center">
+        <Link href="/matches" className="flex flex-col justify-center items-center">
           <SportsIcon className="text-neutral-600" sx={{ fontSize: 32 }} />
           <p className="text-xs">Partidos</p>
         </Link>
