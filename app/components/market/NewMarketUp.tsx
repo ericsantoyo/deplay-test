@@ -9,6 +9,8 @@ import tableClubLogos from "@/app/components/market/tableProps/tableClubLogos";
 import tableSubidasBajadas from "@/app/components/market/tableProps/tableSubidasBajadas";
 import tablePlayerNames from "@/app/components/market/tableProps/tablePlayerNames";
 import tablePlayerImg from "@/app/components/market/tableProps/tablePlayerImg";
+import HomeIcon from "@mui/icons-material/Home";
+import FlightIcon from "@mui/icons-material/Flight";
 import {
   getAllPlayers,
   getAllStats,
@@ -19,6 +21,7 @@ import {
   formatDate,
   formatMoney,
   getWeeksTotalPointsFromStats,
+  getNextThreeMatches,
 } from "@/utils/utils";
 // import { useTheme } from "next-themes";
 import Image from "next/image";
@@ -47,6 +50,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import useSWR from "swr";
 import { Card, CardFooter } from "@/components/ui/card";
 import ValueChart from "../player/ValueChart";
+import { Separator } from "@/components/ui/separator";
 
 interface Player {
   averagePoints: number;
@@ -106,7 +110,6 @@ interface PlayerWithStats {
 
 const NewMarketUp = () => {
   const [rowData, setRowData] = useState<PlayerWithStats[]>();
-
 
   // const { theme } = useTheme();
 
@@ -201,7 +204,7 @@ const NewMarketUp = () => {
   };
 
   const [teamMatches, setTeamMatches] = useState<matches[]>([]);
-  
+
   const handlePlayerSelection = async (player: PlayerWithStats) => {
     if (player) {
       const { data, error } = await getMatchesByTeamID(
@@ -235,7 +238,7 @@ const NewMarketUp = () => {
     },
     {
       field: "playerData.lastMarketChange",
-      headerName: "Subida",
+      headerName: "Cambio",
       minWidth: 90,
       sort: "desc",
       headerClass: "ag-center-header",
@@ -332,6 +335,8 @@ const NewMarketUp = () => {
     (entry) => entry.marketValue
   );
 
+  const nextThreeMatches = getNextThreeMatches(teamMatches, selectedPlayer);
+
   return (
     <>
       {selectedPlayer && (
@@ -356,29 +361,59 @@ const NewMarketUp = () => {
             // style={{ transitionDelay: open ? "0ms" : "0ms" }} // Adjust this value
           >
             <Card className=" w-[340px] h-fit p-4 transition-all absolute outline-none rounded-md flex flex-col justify-between ">
-              <Card className="py-2 px-4 flex flex-row justify-between items-center rounded-md ">
-                <div className="flex flex-col justify-between items-start h-full ">
-                  <div className="flex flex-col justify-center items-start gap-y-1 text-sm">
-                    <div className="flex flex-row justify-center items-center gap-x-2">
-                      Puntos:{" "}
-                      <div className="font-bold">
-                        {selectedPlayer.playerData.points}
+              <Card className="py-2 px-4 flex flex-col justify-start items-center rounded-md ">
+                <div className="flex flex-row justify-center items-center mb-2">
+                  <div className="text-xl font-bold uppercase text-center w-min 	whitespace-nowrap	 ">
+                    {selectedPlayer.playerData.nickname}
+                  </div>
+                  <Separator orientation="vertical" className="mx-2 " />
+                  <Image
+                    src={`/teamLogos/${slugById(
+                      selectedPlayer.playerData.teamID
+                    )}.png`}
+                    alt={selectedPlayer.playerData.teamName}
+                    width={28}
+                    height={28}
+                    className="h-6 w-auto"
+                  />
+                </div>
+
+                <div className="flex flex-col justify-between items-start h-full w-full">
+                  <div className="flex flex-row justify-between w-full">
+                    <div className="flex flex-col justify-center items-start gap-y-1 text-sm">
+                      <div className="flex flex-row justify-center items-center gap-x-2">
+                        Puntos:{" "}
+                        <div className="font-bold">
+                          {selectedPlayer.playerData.points}
+                        </div>
+                      </div>
+                      <div className="flex flex-row justify-center items-center gap-x-2">
+                        Promedio:{" "}
+                        <div className="font-bold">
+                          {selectedPlayer.playerData.averagePoints.toFixed(2)}
+                        </div>
+                      </div>
+                      <div className="flex flex-row justify-center items-center gap-x-2">
+                        Precio:{" "}
+                        <div className="font-bold">
+                          {formatMoney(selectedPlayer.playerData.marketValue)}
+                        </div>
                       </div>
                     </div>
-                    <div className="flex flex-row justify-center items-center gap-x-2">
-                      Promedio:{" "}
-                      <div className="font-bold">
-                        {selectedPlayer.playerData.averagePoints.toFixed(2)}
-                      </div>
-                    </div>
-                    <div className="flex flex-row justify-center items-center gap-x-2">
-                      Precio:{" "}
-                      <div className="font-bold">
-                        {formatMoney(selectedPlayer.playerData.marketValue)}
+                    <div className="flex flex-col justify-center items-center gap-y-2 w-fit">
+                      <div className="">
+                        <Image
+                          src={selectedPlayer.playerData.image}
+                          alt={selectedPlayer.playerData.nickname}
+                          width={64}
+                          height={64}
+                          className="h-16 w-auto "
+                        />
                       </div>
                     </div>
                   </div>
-                  <div className="flex flex-col justify-center items-end gap-y-1 mt-4">
+                  <Separator className="my-2" />
+                  <div className="flex flex-row justify-between items-center w-full">
                     <div className="flex flex-row items-center gap-x-1">
                       {getWeeksTotalPointsFromStats(
                         selectedPlayer.playerData.playerID,
@@ -444,30 +479,61 @@ const NewMarketUp = () => {
                         );
                       })}
                     </div>
+                    <div className="flex flex-col">
+                      <p className="text-center text-xs font-bold pb-1 uppercase">
+                        Prox. Partidos
+                      </p>
+                      <div className="flex flex-row justify-center items-start gap-3">
+                        {nextThreeMatches.map((match, index) => (
+                          <div
+                            key={index}
+                            className="flex flex-col justify-start items-center "
+                          >
+                            {/* Display team logo for local team */}
+                            {match.localTeamID !==
+                              selectedPlayer.playerData.teamID && (
+                              <Image
+                                src={`/teamLogos/${slugById(
+                                  match.localTeamID
+                                )}.png`}
+                                alt="opponent"
+                                width={20}
+                                height={20}
+                                style={{ objectFit: "contain" }}
+                                className="h-5 w-auto "
+                              />
+                            )}
+
+                            {/* Display team logo for visitor team */}
+                            {match.visitorTeamID !==
+                              selectedPlayer.playerData.teamID && (
+                              <Image
+                                src={`/teamLogos/${slugById(
+                                  match.visitorTeamID
+                                )}.png`}
+                                alt="opponent"
+                                width={20}
+                                height={20}
+                                style={{ objectFit: "contain" }}
+                                className="h-5 w-auto "
+                              />
+                            )}
+                            <div className="">
+                              {match.visitorTeamID !==
+                              selectedPlayer.playerData.teamID ? (
+                                <FlightIcon
+                                  sx={{ fontSize: 18 }}
+                                  className="rotate-45"
+                                />
+                              ) : (
+                                <HomeIcon sx={{ fontSize: 18 }} />
+                              )}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
                   </div>
-                </div>
-                <div className="flex flex-col justify-center items-center gap-y-2 w-fit">
-                  <div className="">
-                    <Image
-                      src={selectedPlayer.playerData.image}
-                      alt={selectedPlayer.playerData.nickname}
-                      width={64}
-                      height={64}
-                      className="h-16 w-auto "
-                    />
-                  </div>
-                  <div className="text-sm		 font-bold uppercase text-center w-min 	whitespace-nowrap	 ">
-                    {selectedPlayer.playerData.nickname}
-                  </div>
-                  <Image
-                    src={`/teamLogos/${slugById(
-                      selectedPlayer.playerData.teamID
-                    )}.png`}
-                    alt={selectedPlayer.playerData.teamName}
-                    width={28}
-                    height={28}
-                    className="h-7 w-auto"
-                  />
                 </div>
               </Card>
               <Tabs defaultValue="table" className="grow w-full mx-auto">
@@ -480,7 +546,7 @@ const NewMarketUp = () => {
                   </TabsTrigger>
                 </TabsList>
                 <TabsContent value="table">
-                  <Card className="h-[360px] pt-0 flex flex-col justify-between items-center rounded-md border-none shadow-none">
+                  <Card className="h-[330px] pt-0 flex flex-col justify-between items-center rounded-md border-none shadow-none">
                     <Table className="m-auto w-auto mt-1">
                       <TableHeader>
                         <TableRow>
@@ -568,8 +634,8 @@ const NewMarketUp = () => {
                   </Card>{" "}
                 </TabsContent>
                 <TabsContent value="graph" className="h-fit ">
-                  <Card className="h-[360px] w-full pt-0 flex flex-col justify-start gap-4 items-center rounded-md border-none shadow-none">
-                  <ValueChart fetchedPlayer={selectedPlayer.playerData} />
+                  <Card className="h-[330px] w-full pt-0 flex flex-col justify-start gap-4 items-center rounded-md border-none shadow-none">
+                    <ValueChart fetchedPlayer={selectedPlayer.playerData} />
                     <div className="flex flex-col gap-4">
                       <div className="text-center">
                         <p className="text-center text-sm">Valor minimo:</p>

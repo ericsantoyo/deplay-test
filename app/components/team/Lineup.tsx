@@ -76,7 +76,7 @@ const TeamLineup: React.FC<Props> = ({ teamselected, teamPlayers }) => {
           </Link>
         </div>
         <Link href={`/player/${player.playerID}`}>
-          <Card className="font-semibold text-center min-w-[72px] px-2 border-none rounded-xs text-base shadow-md shadow-neutral-800 text-neutral-800 backdrop-blur-xl bg-white/50  ">
+          <Card className="font-semibold text-center min-w-[72px] px-2 border-none rounded-xs text-base shadow-md shadow-neutral-800 text-neutral-800 backdrop-blur-xl bg-white/50 whitespace-nowrap	">
             {player.nickname.split(" ").slice(-1).join(" ")}
           </Card>
         </Link>
@@ -87,15 +87,10 @@ const TeamLineup: React.FC<Props> = ({ teamselected, teamPlayers }) => {
   const aspectRatio = (900 / 600) * 100; // This should be height / width
 
   return (
-    <div className="w-full">
-      <div className="relative ">
-        {/* Aspect ratio box to maintain the ratio */}
-        {/* <div
-        className="aspect-ratio-box"
-        style={{ paddingTop: `${aspectRatio}%` }}
-      > */}
-        {/* Actual image container */}
-        <div className="max-w-2xl ">
+    <div className="w-full ">
+      <div className="relative max-w-2xl mx-auto min-w-[343px]">
+    
+        <div className="w-full ">
           <Image
             src="/FieldLineup.png"
             alt="Soccer Field"
@@ -107,7 +102,7 @@ const TeamLineup: React.FC<Props> = ({ teamselected, teamPlayers }) => {
             priority
           />
         </div>
-        {/* </div> */}
+      
 
         {goalkeepers && renderPlayers(goalkeepers, "goalkeepers")}
         {defenders && renderPlayers(defenders, "defenders")}

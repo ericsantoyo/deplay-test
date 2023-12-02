@@ -1,3 +1,5 @@
+import { Matches, Player } from "@/types";
+
 export const teams = [
   { name: "Deportivo Alavés", slug: "d-alaves", id: 21 },
   { name: "UD Almería", slug: "ud-almeria", id: 1 },
@@ -311,4 +313,17 @@ export const getUpcomingMatches = (
     .slice(0, gamesToShow); // Limit the number of upcoming matches returned
 
   return upcomingMatches;
+};
+
+export const getNextThreeMatches = (matches: Matches[], selectedPlayer: players): matches[] => {
+  const currentWeek = getCurrentWeek(matches);
+  return matches
+    .filter(match => 
+      match.week >= currentWeek && match.week < currentWeek + 3 && 
+      (match.localTeamID === selectedPlayer.playerData.teamID || 
+       match.visitorTeamID === selectedPlayer.playerData.teamID)
+    )
+    .sort((a, b) => 
+      new Date(a.matchDate).getTime() - new Date(b.matchDate).getTime()
+    );
 };

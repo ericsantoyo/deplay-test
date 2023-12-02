@@ -1,5 +1,5 @@
 import { Card } from "@/components/ui/card";
-import { slugById } from "@/utils/utils";
+import { getCurrentWeek, slugById } from "@/utils/utils";
 import Image from "next/image";
 import HomeIcon from "@mui/icons-material/Home";
 import FlightIcon from "@mui/icons-material/Flight";
@@ -9,68 +9,10 @@ interface Props {
   selectedTeam: number;
 }
 
-const getCurrentWeek = (matches: any[]): number => {
-  const now = new Date();
-
-  // Filter matches with matchState = 7 (finished) and sort them by matchDate in descending order
-  const finishedMatches = matches
-    .filter((match) => match.matchState === 7)
-    .sort(
-      (a, b) =>
-        new Date(b.matchDate).getTime() - new Date(a.matchDate).getTime()
-    );
-
-  if (finishedMatches.length === 0) {
-    // No finished matches, return the week of the next upcoming match
-    const upcomingMatches = matches
-      .filter((match) => match.matchState !== 7)
-      .sort(
-        (a, b) =>
-          new Date(a.matchDate).getTime() - new Date(b.matchDate).getTime()
-      );
-
-    if (
-      upcomingMatches.length > 0 &&
-      now.getTime() <=
-        new Date(upcomingMatches[0].matchDate).getTime() + 24 * 60 * 60 * 1000
-    ) {
-      // If today is within 1 day of the next upcoming match, return its week
-      return upcomingMatches[0].week;
-    }
-  } else {
-    // Return the week of the most recent finished match if it's within 1 day
-    if (
-      now.getTime() <=
-      new Date(finishedMatches[0].matchDate).getTime() + 24 * 60 * 60 * 1000
-    ) {
-      return finishedMatches[0].week;
-    } else {
-      // Return the week of the next upcoming match
-      const upcomingMatches = matches
-        .filter((match) => match.matchState !== 7)
-        .sort(
-          (a, b) =>
-            new Date(a.matchDate).getTime() - new Date(b.matchDate).getTime()
-        );
-
-      if (
-        upcomingMatches.length > 0 &&
-        now.getTime() <=
-          new Date(upcomingMatches[0].matchDate).getTime() + 24 * 60 * 60 * 1000
-      ) {
-        // If today is within 1 day of the next upcoming match, return its week
-        return upcomingMatches[0].week;
-      }
-    }
-  }
-
-  // Default to 1 if no matches are found
-  return 1;
-};
-
 const NextMatches = ({ matches, selectedTeam }: Props) => {
   const teamMatches = matches;
   const currentWeek = getCurrentWeek(teamMatches);
+  // console.log(currentWeek);
 
   return (
     <div className=" flex flex-col  md:flex-none min-w-fit">

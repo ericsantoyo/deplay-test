@@ -5,13 +5,13 @@ import {
   getTeamByTeamID,
   getPlayersByTeamID,
 } from "@/database/client";
-import TeamLayout from "@/app/components/team/TeamRoster";
 
 import TeamInfoCard from "@/app/components/team/TeamInfoCard";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { notFound } from "next/navigation";
 import TeamLineup from "@/app/components/team/Lineup";
+import TeamRoster from "@/app/components/team/TeamRoster";
 
 export const revalidate = 0;
 
@@ -60,7 +60,7 @@ export default async function Team({ params }: { params: { teamID: number } }) {
   return (
     <div className=" flex flex-col gap-3 w-full">
       <TeamInfoCard teamInfo={team} playerInfo={players} />
-      <div className="flex md:hidden w-full">
+      <div className="flex w-full">
         <Tabs defaultValue="alineacion" className="grow w-full mx-auto">
           <TabsList className="flex flex-row justify-center items-center ">
             <TabsTrigger className="w-full" value="alineacion">
@@ -70,27 +70,27 @@ export default async function Team({ params }: { params: { teamID: number } }) {
               Plantilla
             </TabsTrigger>
           </TabsList>
-          <TabsContent value="alineacion" className="overflow-visible">
+          <TabsContent value="alineacion" className="overflow-visible mx-auto">
             <TeamLineup
               teamselected={team.teamID}
               teamPlayers={sortedPlayers}
             />
           </TabsContent>
-          <TabsContent value="plantilla">
-            <TeamLayout
+          <TabsContent value="plantilla" className="overflow-visible mx-auto">
+            <TeamRoster
               teamPlayers={sortedPlayers}
               playerStats={playersWithStats}
             />
           </TabsContent>
         </Tabs>
       </div>
-      <div className="hidden  md:flex md:flex-row md:justify-between md:gap-4 md:container mx-auto	 ">
+      {/* <div className="hidden  md:flex md:flex-row md:justify-between md:gap-4 md:container mx-auto	 ">
         <TeamLineup teamselected={team.teamID} teamPlayers={sortedPlayers} />
-        <TeamLayout
+        <TeamRoster
           teamPlayers={sortedPlayers}
           playerStats={playersWithStats}
         />
-      </div>
+      </div> */}
     </div>
   );
 }

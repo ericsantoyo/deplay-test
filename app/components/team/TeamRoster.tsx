@@ -45,7 +45,7 @@ const TeamRoster: React.FC<TeamRosterProps> = ({
 }) => {
   return (
     <>
-      <div className=" flex flex-col justify-start ">
+      <div className=" flex flex-col justify-start w-full mx-auto">
         <Card className="py-2 border-none shadow-none flex flex-row justify-between items-center px-2 text-xs md:text-sm font-medium">
           <div className="flex flex-row justify-center items-center ml-2 md:w-36 w-[120px] flex-none">
             <p className="">Jugador</p>
