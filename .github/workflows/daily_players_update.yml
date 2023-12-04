@@ -1,9 +1,7 @@
 name: Daily PLAYERS Update
 
 on:
-  schedule:
-    - cron: '16 23 * * *' 
-     workflow_dispatch:
+  workflow_dispatch:
 
 jobs:
   update_data:
