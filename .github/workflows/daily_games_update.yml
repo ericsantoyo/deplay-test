@@ -2,7 +2,8 @@ name: Daily MATCHES Update
 
 on:
   schedule:
-    - cron: '0 23 * * *' # Runs at 6:00 PM UTC every day
+    - cron: '0 23 * * *' 
+     workflow_dispatch:
 
 jobs:
   update_data:
