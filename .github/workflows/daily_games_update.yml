@@ -2,7 +2,7 @@ name: Daily Update
 
 on:
   schedule:
-    - cron: '16 23 * * *' # Runs at 6:16 PM UTC every day
+    - cron: '0 23 * * *' # Runs at 6:00 PM UTC every day
 
 jobs:
   update_data:
@@ -21,7 +21,7 @@ jobs:
       run: npm install # or yarn install
 
     - name: Run the script
-      run: node app/api/cron/route.mjs
+      run: node app/api/cron/games.mjs
       env:
         NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
         NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}

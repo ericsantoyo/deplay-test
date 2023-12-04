@@ -47,7 +47,7 @@ const TopBar = (props: Props) => {
         "
       >
         {/* --- GAMES ICON --- */}
-        <div className="md:order-2 shrink-0 md:ml-4">
+        <div className="md:order-2 shrink-0 md:ml-3">
           <Sheet>
             <SheetTrigger asChild>
               <GamesIcon className="" />

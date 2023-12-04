@@ -108,7 +108,7 @@ interface PlayerWithStats {
   stats: Stat[];
 }
 
-const NewMarketUp = () => {
+const NewMarketDown = () => {
   const [rowData, setRowData] = useState<PlayerWithStats[]>();
 
   // const { theme } = useTheme();
@@ -363,7 +363,7 @@ const NewMarketUp = () => {
             <Card className=" w-[340px] h-fit p-4 transition-all absolute outline-none rounded-md flex flex-col justify-between ">
               <Card className="py-2 px-4 flex flex-col justify-start items-center rounded-md ">
                 <div className="flex flex-row justify-center items-center mb-2">
-                  <div className="text-xl font-bold uppercase text-center w-min 	whitespace-nowrap	 ">
+                  <div className="text-lg font-bold uppercase text-center w-min 	whitespace-nowrap	 ">
                     {selectedPlayer.playerData.nickname}
                   </div>
                   <Separator orientation="vertical" className="mx-2 " />
@@ -761,4 +761,4 @@ const NewMarketUp = () => {
   );
 };
 //cjamgeeeeeee
-export default NewMarketUp;
+export default NewMarketDown;

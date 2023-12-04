@@ -6,6 +6,7 @@ import YouTubeIcon from "@mui/icons-material/YouTube";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import GamesIcon from "./GamesIcon";
 import { ThemeSwitcher } from "./ThemeSwitcher";
+import { Button } from "@/components/ui/button";
 
 interface SocialIconsProps {
   className: string;
@@ -16,30 +17,34 @@ const SocialIcons = ({ className }: SocialIconsProps) => {
     <div className={`${className} `}>
       {/* YOUTUBE LOGO */}
       <Link className="" target="_blank" href="https://www.youtube.com/">
-        <IconButton
-          size="small"
-          sx={{ boxShadow: 1 }}
+      <Button
+          // size="small"
+          // sx={{ boxShadow: 1 }}
+          variant="default"
+          size={"icon"}
           className={`group transition-all bg-neutral-50 dark:bg-neutral-300 dark:hover:bg-red-600 hover:bg-red-600`}
         >
           <YouTubeIcon
             color="error"
-            className="group-hover:text-neutral-200 transition "
+            className="group-hover:text-neutral-100 transition "
           />
-        </IconButton>
+        </Button>
       </Link>
 
       {/* TWITTER LOGO */}
       <Link className="" target="_blank" href="https://twitter.com/home">
-        <IconButton
-          size="small"
-          sx={{ boxShadow: 1 }}
-          className={`group transition-all bg-neutral-50 dark:bg-neutral-300 dark:hover:bg-sky-600 hover:bg-sky-600`}
+        <Button
+          // size="small"
+          // sx={{ boxShadow: 1 }}
+          variant="default"
+          size={"icon"}
+          className={` group transition-all bg-neutral-50 dark:bg-neutral-300 dark:hover:bg-sky-600 hover:bg-sky-600`}
         >
           <TwitterIcon
             color="primary"
-            className="group-hover:text-neutral-200 transition  "
+            className="group-hover:text-neutral-100 transition  "
           />
-        </IconButton>
+        </Button>
       </Link>
 
       {/* <ThemeSwitcher className="" /> */}
