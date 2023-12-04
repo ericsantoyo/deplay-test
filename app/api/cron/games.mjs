@@ -55,14 +55,15 @@ async function fetchMatchData(weekID) {
 }
 
 async function main() {
+  const matches = [];
   const startingIndex = 0;
   const endingIndex = 40;
-  let matches = [];
+  
 
   for (let weekID = startingIndex; weekID <= endingIndex; weekID++) {
     const matchData = await fetchMatchData(weekID);
     if (matchData) {
-      const formattedMatches = formatMatches(matchData);
+      const formattedMatches = formatMatches(matchData, weekID);
       matches.push(...formattedMatches);
     }
   }
