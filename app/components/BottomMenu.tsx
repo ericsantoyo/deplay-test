@@ -23,11 +23,11 @@ export default function BottomMenu() {
           <NewspaperIcon className="text-neutral-800" sx={{ fontSize: 32 }} />
           <p className="text-xs">Noticias</p>
         </Link>
-        <Link href="/matches" className="flex flex-col justify-center items-center">
+        <Link href="/stats" className="flex flex-col justify-center items-center">
           <TroubleshootIcon className="text-neutral-800" sx={{ fontSize: 32 }} />
           <p className="text-xs">Stats</p>
         </Link>
-        <Link href="/news" className="flex flex-col justify-center items-center">
+        <Link href="/calendar" className="flex flex-col justify-center items-center">
           <CalendarMonthIcon className="text-neutral-800" sx={{ fontSize: 32 }} />
           <p className="text-xs">Calendario</p>
 

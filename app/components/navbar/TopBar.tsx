@@ -144,16 +144,16 @@ const TopBar = (props: Props) => {
             classNameUL={""}
             classNameLI={""}
           /> */}
-          <div className="flex order-last md:order-first justify-between items-center gap-8  flex-nowrap font-semibold mr-4">
+          <div className="hidden lg:flex order-last md:order-first justify-between items-center  md:gap-2 lg:gap-8  flex-nowrap font-semibold mr-4">
             {/* MARKET BUTTON */}
             <Link
               href="/market"
-              className="flex flex-col justify-center items-center"
+              className="w-16 flex flex-col justify-center items-center"
             >
               <IconButton sx={{ padding: 0 }}>
                 <QueryStatsIcon
                   className="text-neutral-800 "
-                  sx={{ fontSize: 32 }}
+                  sx={{ fontSize: 28 }}
                 />
               </IconButton>
               <p className="text-center text-[14px] p-0 m-0">Mercado</p>
@@ -162,13 +162,13 @@ const TopBar = (props: Props) => {
             {/* NEWS BUTTON */}
             <Link
               href="/news"
-              className="flex flex-col justify-center items-center"
+              className="w-16 flex flex-col justify-center items-center"
             >
               
                 <IconButton sx={{ padding: 0 }}>
                   <NewspaperIcon
                     className="text-neutral-800"
-                    sx={{ fontSize: 32 }}
+                    sx={{ fontSize: 28 }}
                   />
                 </IconButton>
                 <p className="text-center text-[14px] p-0 m-0">Noticias</p>
@@ -177,13 +177,13 @@ const TopBar = (props: Props) => {
             {/* STATS BUTTON */}
             <Link
               href="/stats"
-              className="flex flex-col justify-center items-center"
+              className="w-16 flex flex-col justify-center items-center"
             >
               
                 <IconButton sx={{ padding: 0 }}>
                   <TroubleshootIcon
                     className="text-neutral-800"
-                    sx={{ fontSize: 32 }}
+                    sx={{ fontSize: 28 }}
                   />
                 </IconButton>
                 <p className="text-center text-[14px] p-0 m-0">Stats</p>
@@ -193,13 +193,13 @@ const TopBar = (props: Props) => {
             {/* STATS BUTTON */}
             <Link
               href="/calendar"
-              className="flex flex-col justify-center items-center"
+              className="w-16 flex flex-col justify-center items-center"
             >
               
                 <IconButton sx={{ padding: 0 }}>
                   <CalendarMonthIcon
                     className="text-neutral-800"
-                    sx={{ fontSize: 32 }}
+                    sx={{ fontSize: 28 }}
                   />
                 </IconButton>
                 <p className="text-center text-[14px] p-0 m-0">Calendario</p>
@@ -209,13 +209,13 @@ const TopBar = (props: Props) => {
             {/* MYTEAM BUTTON */}
             <Link
               href="/myteam"
-              className="flex flex-col justify-center items-center"
+              className="w-16 flex flex-col justify-center items-center"
             >
               
                 <IconButton sx={{ padding: 0 }}>
                   <AssignmentIndIcon
                     className="text-neutral-800"
-                    sx={{ fontSize: 32 }}
+                    sx={{ fontSize: 28 }}
                   />
                 </IconButton>
                 <p className="text-center text-[14px] p-0 m-0">MyTeam</p>
@@ -224,10 +224,10 @@ const TopBar = (props: Props) => {
           </div>
         </div>
         {/* MENU WITH ONLY ICONS AND TOOLTIP */}
-        {/* <div className="flex order-last md:order-first justify-between gap-6  flex-nowrap font-semibold mr-4">
+        <div className="hidden md:flex lg:hidden order-last md:order-first justify-between gap-3  flex-nowrap font-semibold mx-4">
           <Link
             href="/market"
-            className="flex flex-col justify-center items-center"
+            className="w-16 flex flex-col justify-center items-center"
           >
             <Tooltip
               PopperProps={{
@@ -354,7 +354,7 @@ const TopBar = (props: Props) => {
               </IconButton>
             </Tooltip>
           </Link>
-        </div> */}
+        </div>
       </div>
     </>
   );
