@@ -6,7 +6,7 @@ import {
   getPlayersByTeamID,
   getAllTeams,
 } from "@/database/client";
-import Calendar from "../components/news/Calendar";
+
 
 export default async function News() {
   const { allMatches: matchesData } = await getAllMatches();
@@ -15,7 +15,10 @@ export default async function News() {
   return (
     <div className=" flex flex-col gap-3">
       {/* <pre className="text-center">{JSON.stringify(teams, null, 2)}</pre> */}
-      <Calendar matches={matchesData} allTeams={teams} gamesToShow={6} />
+      {/* <Calendar matches={matchesData} allTeams={teams} gamesToShow={6} /> */}
+      <p className="text-center text-lg font-bold">
+        NEWS Page
+      </p>
     </div>
   );
 }

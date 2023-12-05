@@ -521,12 +521,12 @@ const NewMarketUp = () => {
                             <div className="">
                               {match.visitorTeamID !==
                               selectedPlayer.playerData.teamID ? (
+                                <HomeIcon sx={{ fontSize: 18 }} />
+                              ) : (
                                 <FlightIcon
                                   sx={{ fontSize: 18 }}
                                   className="rotate-45"
                                 />
-                              ) : (
-                                <HomeIcon sx={{ fontSize: 18 }} />
                               )}
                             </div>
                           </div>

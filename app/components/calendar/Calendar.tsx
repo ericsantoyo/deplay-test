@@ -1,4 +1,4 @@
-// Calendar.tsx
+
 import HomeIcon from "@mui/icons-material/Home";
 import FlightIcon from "@mui/icons-material/Flight";
 import { Card } from "@/components/ui/card";
@@ -6,23 +6,23 @@ import { getUpcomingMatches, slugById } from "@/utils/utils"; // Make sure the p
 import Image from "next/image";
 import { Separator } from "@/components/ui/separator";
 
-interface CalendarProps {
+interface CalendarListProps {
   matches: matches[];
   allTeams: teams[];
   gamesToShow: number;
 }
 
-export default function Calendar({
+export default function CalendarList({
   matches,
   allTeams,
   gamesToShow,
-}: CalendarProps) {
+}: CalendarListProps) {
   return (
     <>
       <p className="text-center text-xl uppercase font-semibold ">
         CALENDARIO
       </p>
-      <div className="flex flex-col justify-start items-start">
+      <div className="flex flex-col justify-start items-center">
         {allTeams.map((team) => {
           // Get upcoming matches for this specific team
           const teamUpcomingMatches = getUpcomingMatches(

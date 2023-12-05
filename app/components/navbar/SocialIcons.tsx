@@ -7,6 +7,7 @@ import TwitterIcon from "@mui/icons-material/Twitter";
 import GamesIcon from "./GamesIcon";
 import { ThemeSwitcher } from "./ThemeSwitcher";
 import { Button } from "@/components/ui/button";
+import Tooltip from "@mui/material/Tooltip";
 
 interface SocialIconsProps {
   className: string;
@@ -17,34 +18,58 @@ const SocialIcons = ({ className }: SocialIconsProps) => {
     <div className={`${className} `}>
       {/* YOUTUBE LOGO */}
       <Link className="" target="_blank" href="https://www.youtube.com/">
-      <Button
-          // size="small"
-          // sx={{ boxShadow: 1 }}
-          variant="default"
-          size={"icon"}
-          className={`group transition-all bg-neutral-50 dark:bg-neutral-300 dark:hover:bg-red-600 hover:bg-red-600`}
+        <Tooltip
+          PopperProps={{
+            modifiers: [
+              {
+                name: "offset",
+                options: {
+                  offset: [0, -7],
+                },
+              },
+            ],
+          }}
+          title="YouTube"
         >
-          <YouTubeIcon
-            color="error"
-            className="group-hover:text-neutral-100 transition "
-          />
-        </Button>
+          <Button
+            variant="default"
+            size={"icon"}
+            className={`group transition-all bg-neutral-50 dark:bg-neutral-300 dark:hover:bg-red-600 hover:bg-red-600`}
+          >
+            <YouTubeIcon
+              color="error"
+              className="group-hover:text-neutral-100 transition "
+            />
+          </Button>
+        </Tooltip>
       </Link>
 
       {/* TWITTER LOGO */}
       <Link className="" target="_blank" href="https://twitter.com/home">
-        <Button
-          // size="small"
-          // sx={{ boxShadow: 1 }}
-          variant="default"
-          size={"icon"}
-          className={` group transition-all bg-neutral-50 dark:bg-neutral-300 dark:hover:bg-sky-600 hover:bg-sky-600`}
+        <Tooltip
+          PopperProps={{
+            modifiers: [
+              {
+                name: "offset",
+                options: {
+                  offset: [0, -7],
+                },
+              },
+            ],
+          }}
+          title="Twitter"
         >
-          <TwitterIcon
+          <Button
+            variant="default"
+            size={"icon"}
+            className={` group transition-all bg-neutral-50 dark:bg-neutral-300 dark:hover:bg-sky-600 hover:bg-sky-600`}
+          >
+            <TwitterIcon
             color="primary"
             className="group-hover:text-neutral-100 transition  "
           />
-        </Button>
+          </Button>
+        </Tooltip>
       </Link>
 
       {/* <ThemeSwitcher className="" /> */}
