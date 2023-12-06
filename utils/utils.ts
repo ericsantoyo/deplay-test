@@ -1,5 +1,4 @@
-import { Matches, Player, SortDirection } from "@/types";
-
+import { SortDirection } from "@/types";
 
 
 export const teams = [
@@ -109,8 +108,6 @@ export const lastChangeStyle = (lastChange: number) => {
   return "text-red-500";
 };
 
-// TEAM PAGE UTILS
-
 export const getTotalPointsOfTeam = (players: {
   [x: string]: {
     status: string;
@@ -167,12 +164,7 @@ export const getNumberOfAvailablePlayersOfTeam = (players: {
   return total;
 };
 
-interface PositionBadge {
-  abbreviation: string;
-  className: string;
-}
-
-export function getPositionBadge(positionID: number): PositionBadge {
+export function getPositionBadge(positionID: number) {
   switch (positionID) {
     case 1:
       return {
@@ -207,7 +199,7 @@ export function getPositionBadge(positionID: number): PositionBadge {
     default:
       return {
         abbreviation: "",
-        className: "", // Default case
+        className: "", 
       };
   }
 }
@@ -296,7 +288,7 @@ export const getUpcomingTeamMatches = (
   return upcomingMatches;
 };
 
-// utils.ts
+
 export const getUpcomingMatches = (
   allMatches: matches[],
   gamesToShow: number
