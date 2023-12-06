@@ -28,7 +28,7 @@ interface TeamInfoCardProps {
 
 export default async function TeamInfoCard({ teamInfo, playerInfo }: TeamInfoCardProps) {
 
-  const { data: matchesData } = await getMatchesByTeamID(teamInfo.teamID);
+  const { teamMatches: matchesData } = await getMatchesByTeamID(teamInfo.teamID);
 
   const teamMatches = matchesData;
 

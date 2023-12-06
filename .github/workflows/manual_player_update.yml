@@ -14,13 +14,13 @@ jobs:
     - name: Set up Node.js
       uses: actions/setup-node@v4.0.0
       with:
-        node-version: '18' # Specify the Node.js version
+        node-version: '18'  
 
     - name: Install dependencies
-      run: npm install # or yarn install
+      run: npm install  
 
     - name: Run the script
-      run: node app/api/cron/manualPlayers.mjs
+      run: node app/githubActions/manualPlayers.mjs
       env:
         NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
         NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}

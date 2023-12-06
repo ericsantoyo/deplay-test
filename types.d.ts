@@ -81,3 +81,6 @@ export type Matches = {
   visitorTeamID: number;
   matchState: number;
 };
+
+
+export type SortDirection = 'asc' | 'desc' | undefined;

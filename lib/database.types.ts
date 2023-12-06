@@ -36,6 +36,7 @@ export interface Database {
       };
       players: {
         Row: {
+          playerData: any;
           averagePoints: number;
           image: string;
           lastMarketChange: number;

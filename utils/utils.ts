@@ -1,4 +1,6 @@
-import { Matches, Player } from "@/types";
+import { Matches, Player, SortDirection } from "@/types";
+
+
 
 export const teams = [
   { name: "Deportivo Alavés", slug: "d-alaves", id: 21 },
@@ -315,15 +317,76 @@ export const getUpcomingMatches = (
   return upcomingMatches;
 };
 
-export const getNextThreeMatches = (matches: Matches[], selectedPlayer: players): matches[] => {
+export const getNextThreeMatches = (
+  matches: matches[],
+  selectedPlayer: players
+): matches[] => {
   const currentWeek = getCurrentWeek(matches);
   return matches
-    .filter(match => 
-      match.week >= currentWeek && match.week < currentWeek + 3 && 
-      (match.localTeamID === selectedPlayer.playerData.teamID || 
-       match.visitorTeamID === selectedPlayer.playerData.teamID)
+    .filter(
+      (match) =>
+        match.week >= currentWeek &&
+        match.week < currentWeek + 3 &&
+        (match.localTeamID === selectedPlayer.playerData.teamID ||
+          match.visitorTeamID === selectedPlayer.playerData.teamID)
     )
-    .sort((a, b) => 
-      new Date(a.matchDate).getTime() - new Date(b.matchDate).getTime()
+    .sort(
+      (a, b) =>
+        new Date(a.matchDate).getTime() - new Date(b.matchDate).getTime()
     );
 };
+
+export const createColumnDefs = (
+  cellRenderers: { [key: string]: any },
+  sortOrder: SortDirection = 'desc'
+) => {
+  return [
+  {
+    field: "playerData.playerID",
+    headerName: "",
+    minWidth: 60,
+    maxWidth: 70,
+    cellRenderer: cellRenderers.tablePlayerImg, 
+  },
+  {
+    field: "playerData.nickname",
+    headerName: "Nombre",
+    minWidth: 110,
+    cellRenderer: cellRenderers.tablePlayerNames,
+  },
+  {
+    field: "playerData.lastMarketChange",
+    headerName: "Cambio",
+    minWidth: 90,
+    sort: sortOrder,
+    headerClass: "ag-center-header",
+    cellRenderer: cellRenderers.tableSubidasBajadas,
+  },
+  {
+    field: "playerData.teamName",
+    headerName: "",
+    minWidth: 40,
+    cellRenderer: cellRenderers.tableClubLogos,
+  },
+  {
+    field: "playerData.marketValue",
+    headerName: "$ Actual",
+    minWidth: 90,
+    headerClass: "ag-center-header",
+    cellRenderer: cellRenderers.tableValues,
+  },
+  {
+    field: "playerData.previousMarketValue",
+    headerName: "$ Previo",
+    minWidth: 80,
+    cellRenderer: cellRenderers.tableValues,
+  },
+  {
+    field: "playerData.positionID",
+    headerName: "Pos",
+    minWidth: 65,
+    cellRenderer: cellRenderers.tablePositions,
+    headerClass: "ag-center-header",
+  },
+];
+}

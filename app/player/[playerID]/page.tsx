@@ -20,7 +20,7 @@ export default async function Player({ params }: { params: { playerID: number } 
   if (!playerData) {
     return notFound()
   }
-  const { data: matchesData } = await getMatchesByTeamID(
+  const { teamMatches: matchesData } = await getMatchesByTeamID(
     playerData.teamID
   );
 

@@ -105,9 +105,6 @@ async function getPlayersByTeamID(
 }
 
 async function getAllMatches(): Promise<{ allMatches: matches[] }> {
-  //imitate delay
-  // await new Promise((resolve) => setTimeout(resolve, 3000));
-
   const { data: allMatches } = await supabase
     .from("matches")
     .select("*")
@@ -116,16 +113,13 @@ async function getAllMatches(): Promise<{ allMatches: matches[] }> {
 }
 
 async function getMatchesByTeamID(teamID: number) {
-  if (!teamID)
-    return { data: null, error: "No teamID provided for getMatchesByTeamID" };
-
-  const { data, error } = await supabase
+  const { data: teamMatches } = await supabase
     .from("matches")
     .select("*")
     .or(`localTeamID.eq.${teamID}, visitorTeamID.eq.${teamID}`)
     .order("matchDate", { ascending: true });
 
-  return { data, error };
+  return { teamMatches: teamMatches as matches[] };
 }
 
 export {

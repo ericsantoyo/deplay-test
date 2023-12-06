@@ -22,6 +22,7 @@ import {
   formatMoney,
   getWeeksTotalPointsFromStats,
   getNextThreeMatches,
+  createColumnDefs,
 } from "@/utils/utils";
 // import { useTheme } from "next-themes";
 import Image from "next/image";
@@ -52,85 +53,42 @@ import { Card, CardFooter } from "@/components/ui/card";
 import ValueChart from "../player/ValueChart";
 import { Separator } from "@/components/ui/separator";
 
-interface Player {
-  averagePoints: number;
-  image: string;
-  lastMarketChange: number;
-  marketValue: number;
-  marketValues: Array<{
-    lfpId: number;
-    marketValue: number;
-    date: string;
-    bids: number;
-  }>;
-  name: string;
-  nickname: string;
-  playerID: number;
-  points: number;
-  position: string;
-  positionID: number;
-  previousMarketValue: number;
-  status: string;
-  teamID: number;
-  teamName: string;
-}
-
-interface Stat {
-  ball_recovery: [number, number];
-  effective_clearance: [number, number];
-  goal_assist: [number, number];
-  goals: [number, number];
-  goals_conceded: [number, number];
-  isInIdealFormation: boolean;
-  marca_points: [number, number];
-  mins_played: [number, number];
-  offtarget_att_assist: [number, number];
-  own_goals: [number, number];
-  pen_area_entries: [number, number];
-  penalty_conceded: [number, number];
-  penalty_failed: [number, number];
-  penalty_save: [number, number];
-  penalty_won: [number, number];
-  playerID: number;
-  poss_lost_all: [number, number];
-  red_card: [number, number];
-  saves: [number, number];
-  second_yellow_card: [number, number];
-  total_scoring_att: [number, number];
-  totalPoints: number;
-  week: number;
-  won_contest: [number, number];
-  yellow_card: [number, number];
-}
-
-interface PlayerWithStats {
-  playerData: Player;
-  stats: Stat[];
-}
-
 const NewMarketUp = () => {
-  const [rowData, setRowData] = useState<PlayerWithStats[]>();
+  const { data: playersWithStats, error } = useSWR(
+    ["getAllPlayers", "getAllStats"],
+    async () => {
+      const { allPlayers: players } = (await getAllPlayers()) as {
+        allPlayers: players[];
+      };
+      const { allStats: stats } = (await getAllStats()) as {
+        allStats: stats[];
+      };
 
-  // const { theme } = useTheme();
-
-  const [selectedPlayer, setSelectedPlayer] = useState<PlayerWithStats | null>(
-    null
+      return formatPlayersWithStats(players, stats);
+    }
   );
-  const [gridClassName, setGridClassName] = useState("");
-  const [open, setOpen] = React.useState(false);
+  const [selectedPlayer, setSelectedPlayer] = useState<players | null>(null);
+
+  const [open, setOpen] = useState(false);
+  const gridRef = useRef<AgGridReact>(null);
+
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const handlePlayerSelection = async (player: players) => {
+    if (player) {
+      const { teamMatches } = await getMatchesByTeamID(
+        player.playerData.teamID
+      );
+      if (teamMatches) {
+        setTeamMatches(teamMatches as matches[]);
+        handleOpen();
+      } else {
+        setTeamMatches([]);
+      }
+    }
+  };
 
-  // useEffect(() => {
-  //   setGridClassName(
-  //     theme === "light" ? "ag-theme-balham" : "ag-theme-balham-dark"
-  //   );
-  // }, [theme]);
-
-  function formatPlayersWithStats(
-    players: Player[],
-    stats: Stat[]
-  ): PlayerWithStats[] {
+  function formatPlayersWithStats(players: players[], stats: stats[]) {
     const formattedPlayers = [];
 
     for (const player of players) {
@@ -143,32 +101,8 @@ const NewMarketUp = () => {
     return formattedPlayers;
   }
 
-  const { data: playersWithStats, error } = useSWR(
-    ["getAllPlayers", "getAllStats"],
-    async () => {
-      const { allPlayers: players } = (await getAllPlayers()) as {
-        allPlayers: Player[];
-      };
-      const { allStats: stats } = (await getAllStats()) as { allStats: Stat[] };
-
-      return formatPlayersWithStats(players, stats);
-    }
-  );
-
-  useEffect(() => {
-    if (playersWithStats) {
-      setRowData(playersWithStats);
-    }
-  }, [playersWithStats]);
-
-  // const { data: matchesData } = useSWR("getAllMatches", async () => {
-  //   const { allMatches: matches } = await getAllMatches();
-  //   return matches;
-  // });
-
-  //playersWithStats
   const prepareValueChangesData = (playerId: number) => {
-    const playerData = rowData.find(
+    const playerData = playersWithStats?.find(
       (player) => player.playerData.playerID === playerId
     );
 
@@ -205,81 +139,21 @@ const NewMarketUp = () => {
 
   const [teamMatches, setTeamMatches] = useState<matches[]>([]);
 
-  const handlePlayerSelection = async (player: PlayerWithStats) => {
-    if (player) {
-      const { data, error } = await getMatchesByTeamID(
-        player.playerData.teamID
-      );
-
-      if (data && !error) {
-        setTeamMatches(data as matches[]); // Cast to Match[] if you're sure about the data structure.
-        handleOpen();
-      } else {
-        // Handle the case when data is null or there's an error
-        // For example, you might want to set teamMatches to an empty array or show an error message.
-        setTeamMatches([]);
-      }
-    }
+  const cellRenderers = {
+    tablePlayerImg,
+    tablePlayerNames,
+    tablePositions,
+    tableValues,
+    tableClubLogos,
+    tableSubidasBajadas,
   };
-
-  const [columnDefs, setColumnDefs] = useState([
-    {
-      field: "playerData.playerID",
-      headerName: "",
-      minWidth: 60,
-      maxWidth: 70,
-      cellRenderer: tablePlayerImg,
-    },
-    {
-      field: "playerData.nickname",
-      headerName: "Nombre",
-      minWidth: 110,
-      cellRenderer: tablePlayerNames,
-    },
-    {
-      field: "playerData.lastMarketChange",
-      headerName: "Cambio",
-      minWidth: 90,
-      sort: "desc",
-      headerClass: "ag-center-header",
-
-      cellRenderer: tableSubidasBajadas,
-    },
-    {
-      field: "playerData.teamName",
-      headerName: "",
-      minWidth: 40,
-      cellRenderer: tableClubLogos,
-    },
-    {
-      field: "playerData.marketValue",
-      headerName: "$ Actual",
-      minWidth: 90,
-      headerClass: "ag-center-header",
-      cellRenderer: tableValues,
-    },
-    {
-      field: "playerData.previousMarketValue",
-      headerName: "$ Previo",
-      minWidth: 80,
-      cellRenderer: tableValues,
-    },
-
-    {
-      field: "playerData.positionID",
-      headerName: "Pos",
-      minWidth: 65,
-      cellRenderer: tablePositions,
-      headerClass: "ag-center-header",
-    },
-  ]);
+  const columnDefs = createColumnDefs(cellRenderers, "desc");
 
   const defaultColDef = {
     resizable: false,
     sortable: false,
   };
 
-  const gridRef = useRef<AgGridReact>(null);
   const [gridApi, setGridApi] = useState(null);
   const gridApiRef = useRef<any>(null);
   const [gridColumnApi, setGridColumnApi] = useState(null);
@@ -332,10 +206,14 @@ const NewMarketUp = () => {
   );
 
   const marketValueList = selectedPlayer?.playerData?.marketValues.map(
-    (entry) => entry.marketValue
+    (entry: { marketValue: number }) => entry.marketValue
   );
 
-  const nextThreeMatches = getNextThreeMatches(teamMatches, selectedPlayer);
+  let nextThreeMatches: matches[] = [];
+
+  if (selectedPlayer) {
+    nextThreeMatches = getNextThreeMatches(teamMatches, selectedPlayer);
+  }
 
   return (
     <>
@@ -415,69 +293,70 @@ const NewMarketUp = () => {
                   <Separator className="my-2" />
                   <div className="flex flex-row justify-between items-center w-full">
                     <div className="flex flex-row items-center gap-x-1">
-                      {getWeeksTotalPointsFromStats(
-                        selectedPlayer.playerData.playerID,
-                        rowData,
-                        6
-                      ).map((point) => {
-                        const match = teamMatches?.find(
-                          (match) => match.week === point.week
-                        );
+                      {playersWithStats &&
+                        getWeeksTotalPointsFromStats(
+                          selectedPlayer.playerData.playerID,
+                          playersWithStats || [],
+                          6
+                        ).map((point) => {
+                          const match = teamMatches?.find(
+                            (match) => match.week === point.week
+                          );
 
-                        return (
-                          <div
-                            className="flex flex-col justify-center items-center "
-                            key={point.week}
-                          >
-                            <div className="flex flex-col justify-center items-center">
-                              {match &&
-                                match.localTeamID !==
-                                  selectedPlayer.playerData.teamID && (
-                                  <Image
-                                    src={`/teamLogos/${slugById(
-                                      match.localTeamID
-                                    )}.png`}
-                                    alt="opponent"
-                                    width={20}
-                                    height={20}
-                                    style={{ objectFit: "contain" }}
-                                    className="h-4 mb-1"
-                                  />
-                                )}
+                          return (
+                            <div
+                              className="flex flex-col justify-center items-center "
+                              key={point.week}
+                            >
+                              <div className="flex flex-col justify-center items-center">
+                                {match &&
+                                  match.localTeamID !==
+                                    selectedPlayer.playerData.teamID && (
+                                    <Image
+                                      src={`/teamLogos/${slugById(
+                                        match.localTeamID
+                                      )}.png`}
+                                      alt="opponent"
+                                      width={20}
+                                      height={20}
+                                      style={{ objectFit: "contain" }}
+                                      className="h-4 mb-1"
+                                    />
+                                  )}
 
-                              {match &&
-                                match.visitorTeamID !==
-                                  selectedPlayer.playerData.teamID && (
-                                  <Image
-                                    src={`/teamLogos/${slugById(
-                                      match.visitorTeamID
-                                    )}.png`}
-                                    alt="opponent"
-                                    width={20}
-                                    height={20}
-                                    style={{ objectFit: "contain" }}
-                                    className="h-4 mb-1 "
-                                  />
-                                )}
+                                {match &&
+                                  match.visitorTeamID !==
+                                    selectedPlayer.playerData.teamID && (
+                                    <Image
+                                      src={`/teamLogos/${slugById(
+                                        match.visitorTeamID
+                                      )}.png`}
+                                      alt="opponent"
+                                      width={20}
+                                      height={20}
+                                      style={{ objectFit: "contain" }}
+                                      className="h-4 mb-1 "
+                                    />
+                                  )}
 
-                              <div
-                                className={`text-center border-[0.5px] w-5 h-5 border-neutral-700 rounded-sm flex justify-center items-center ${getColor(
-                                  point.points
-                                )}`}
-                              >
-                                <p
-                                  className={`text-[12px] items-center align-middle`}
+                                <div
+                                  className={`text-center border-[0.5px] w-5 h-5 border-neutral-700 rounded-sm flex justify-center items-center ${getColor(
+                                    point.points
+                                  )}`}
                                 >
-                                  {point.points}
-                                </p>
-                              </div>
-                              <div className="text-center text-[11px]">
-                                J{point.week}
+                                  <p
+                                    className={`text-[12px] items-center align-middle`}
+                                  >
+                                    {point.points}
+                                  </p>
+                                </div>
+                                <div className="text-center text-[11px]">
+                                  J{point.week}
+                                </div>
                               </div>
                             </div>
-                          </div>
-                        );
-                      })}
+                          );
+                        })}
                     </div>
                     <div className="flex flex-col">
                       <p className="text-center text-xs font-bold pb-1 uppercase">
@@ -591,20 +470,6 @@ const NewMarketUp = () => {
                                 >
                                   {formatMoney(change.valueChange)}
                                 </div>
-                                {/* <div
-                                                          className={`ml-2
-                                          ${
-                                            change.valueChange < 0
-                                              ? "text-red-500 dark:text-red-400"
-                                              : "text-green-600 dark:text-green-400"
-                                          }`}
-                            >
-                              {change.valueChange < 0 ? (
-                                <ChevronsDown size={14} />
-                              ) : (
-                                <ChevronsUp size={14} />
-                              )}
-                            </div> */}
                               </div>
                             </TableCell>
                             <TableCell className="py-1  ">
@@ -736,8 +601,7 @@ const NewMarketUp = () => {
 
         <div id="myGrid" className={`ag-theme-balham w-full  transition-all`}>
           <AgGridReact
-            rowData={rowData}
-            // @ ts-ignore
+            rowData={playersWithStats}
             columnDefs={columnDefs}
             onGridReady={onGridReady}
             ref={gridRef}
@@ -760,5 +624,5 @@ const NewMarketUp = () => {
     </>
   );
 };
-//cjamgeeeeeee
+
 export default NewMarketUp;
