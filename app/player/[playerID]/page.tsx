@@ -8,6 +8,8 @@ import { notFound } from "next/navigation";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import MatchesStats from "@/app/components/player/MatchesStats";
+import AllValueTable from "@/app/components/player/AllValueTable";
+import PlayerStats from "@/app/components/player/PlayerStats";
 
 type Props = {
   playerData: Player;
@@ -28,6 +30,17 @@ export default async function Player({
     playerData.teamID
   );
 
+  function formatPlayerWithStats(playerData: players, playerStat: stats[]) {
+    // Filter the stats for the given player
+    const playerStats = playerStat.filter(
+      (stat) => stat.playerID === playerData.playerID
+    );
+
+    // Return the formatted player data with their stats
+    return { playerData, stats: playerStats };
+  }
+  const playerWithStats = formatPlayerWithStats(playerData, playerStat);
+
   // <div className=" grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-full"></div>
 
   return (
@@ -47,7 +60,7 @@ export default async function Player({
         </div>
       </Card>
       <Tabs defaultValue="puntos" className="grow w-full mx-auto">
-        <TabsList className="flex flex-row justify-center items-center ">
+        <TabsList className="flex flex-row justify-center items-center mt-2">
           <TabsTrigger className="w-full" value="puntos">
             Puntos
           </TabsTrigger>
@@ -62,21 +75,22 @@ export default async function Player({
           </TabsTrigger>
         </TabsList>
 
-        <TabsContent
-          value="puntos"
-          className="overflow-visible mx-auto"
-        >
-          <MatchesStats matchesData={matchesData} playerData={playerData} playerStat={playerStat} />
-
+        <TabsContent value="puntos" className="overflow-visible mx-auto">
+          <MatchesStats matchesData={matchesData} playerStat={playerStat} />
         </TabsContent>
-        <TabsContent value="valor" className="overflow-visible mx-auto">
+        <TabsContent value="valor" className="overflow-visible mx-auto ">
           {/* GRAPH */}
-          <Card className="flex flex-col justify-center items-center p-2">
-            <ValueChart fetchedPlayer={playerData} />
+          <Card className="flex flex-col justify-center items-center py-2">
+            <div className="flex w-full h-full justify-start items-center">
+              <ValueChart fetchedPlayer={playerData} />
+            </div>
+
+            <AllValueTable playerData={playerData} playerStat={playerStat} />
           </Card>
         </TabsContent>
         <TabsContent value="stats" className="overflow-visible mx-auto">
           {/* STATS */}
+          <PlayerStats matchesData={matchesData} playerStat={playerStat} playerWithStats={playerWithStats} />
         </TabsContent>
         <TabsContent
           value="noticias"

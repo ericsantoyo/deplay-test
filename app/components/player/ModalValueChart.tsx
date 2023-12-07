@@ -8,7 +8,7 @@ type Props = {
   fetchedPlayer: players;
 };
 
-const ValueChart = ({ fetchedPlayer }: Props) => {
+const ModalValueChart = ({ fetchedPlayer }: Props) => {
   const last60DaysData = fetchedPlayer.marketValues.slice(-60);
   const percentage = 0.1;
 
@@ -29,7 +29,7 @@ const ValueChart = ({ fetchedPlayer }: Props) => {
   const maxValue = Math.max(...marketValueArray) + Math.max(...marketValueArray) * percentage;
 
   return (
-    <Card className="px-2 py-0 my-0 w-full h-96 flex justify-center items-center rounded-full border-none shadow-none">
+    <Card className="px-2 py-0 my-0 w-full flex  justify-center items-center rounded-full border-none shadow-none">
       <Chart
         width={"100%"}
         height={"100%"}
@@ -61,7 +61,7 @@ const ValueChart = ({ fetchedPlayer }: Props) => {
             }
             
           },
-          chartArea: { width: "93%", height: "90%", top: 0, right: 3 },
+          chartArea: { width: "89%", height: "80%", top: 0, right: 3 },
 
           legend: "none",
 
@@ -73,4 +73,4 @@ const ValueChart = ({ fetchedPlayer }: Props) => {
   );
 };
 
-export default ValueChart;
+export default ModalValueChart;

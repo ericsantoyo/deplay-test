@@ -11,6 +11,7 @@ import tablePlayerNames from "@/app/components/market/tableProps/tablePlayerName
 import tablePlayerImg from "@/app/components/market/tableProps/tablePlayerImg";
 import HomeIcon from "@mui/icons-material/Home";
 import FlightIcon from "@mui/icons-material/Flight";
+import PersonSearchOutlinedIcon from "@mui/icons-material/PersonSearchOutlined";
 import {
   getAllPlayers,
   getAllStats,
@@ -52,6 +53,9 @@ import useSWR from "swr";
 import { Card, CardFooter } from "@/components/ui/card";
 import ValueChart from "../player/ValueChart";
 import { Separator } from "@/components/ui/separator";
+import NewValueChart from "../player/ModalValueChart";
+import ModalValueChart from "../player/ModalValueChart";
+import Link from "next/link";
 
 const NewMarketUp = () => {
   const { data: playersWithStats, error } = useSWR(
@@ -240,8 +244,8 @@ const NewMarketUp = () => {
           >
             <Card className=" w-[340px] h-fit p-4 transition-all absolute outline-none rounded-md flex flex-col justify-between ">
               <Card className="py-2 px-4 flex flex-col justify-start items-center rounded-md ">
-                <div className="flex flex-row justify-center items-center mb-2">
-                  <div className="text-lg font-bold uppercase text-center w-min 	whitespace-nowrap	 ">
+                <div className="flex flex-row justify-center items-center mb-2 w-full">
+                  <div className="text-lg font-bold uppercase text-center w-min whitespace-nowrap	 ">
                     {selectedPlayer.playerData.nickname}
                   </div>
                   <Separator orientation="vertical" className="mx-2 " />
@@ -278,17 +282,27 @@ const NewMarketUp = () => {
                         </div>
                       </div>
                     </div>
-                    <div className="flex flex-col justify-center items-center gap-y-2 w-fit">
-                      <div className="">
-                        <Image
-                          src={selectedPlayer.playerData.image}
-                          alt={selectedPlayer.playerData.nickname}
-                          width={64}
-                          height={64}
-                          className="h-16 w-auto "
-                        />
+                    <Link
+                      href={`/player/${selectedPlayer.playerData.playerID}`}
+                      className="flex flex-row justify-center items-center gap-y-2 w-fit"
+                    >
+                      <Image
+                        src={selectedPlayer.playerData.image}
+                        alt={selectedPlayer.playerData.nickname}
+                        width={64}
+                        height={64}
+                        className="h-16 w-auto "
+                      />
+
+                      <div className="flex flex-row justify-end items-center  basis-2/6">
+                        <button className="focus:outline-none">
+                          <PersonSearchOutlinedIcon
+                            className="text-gray-500 dark:text-gray-400"
+                            fontSize="medium"
+                          />
+                        </button>
                       </div>
-                    </div>
+                    </Link>
                   </div>
                   <Separator className="my-2" />
                   <div className="flex flex-row justify-between items-center w-full">
@@ -499,12 +513,17 @@ const NewMarketUp = () => {
                   </Card>{" "}
                 </TabsContent>
                 <TabsContent value="graph" className="h-fit ">
-                  <Card className="h-[330px] w-full pt-0 flex flex-col justify-start gap-4 items-center rounded-md border-none shadow-none">
-                    <ValueChart fetchedPlayer={selectedPlayer.playerData} />
+                  <Card className="h-[330px] w-full pt-0 flex flex-col justify-start items-center rounded-md border-none shadow-none">
+                    <div className="flex flex-col w-full justify-start items-start ">
+                      <ModalValueChart
+                        fetchedPlayer={selectedPlayer.playerData}
+                      />
+                    </div>
+                    <Separator className="mb-2" />
                     <div className="flex flex-col gap-4">
                       <div className="text-center">
                         <p className="text-center text-sm">Valor minimo:</p>
-                        <span className="font-bold">
+                        <span className="font-bold text-sm">
                           {marketValueList &&
                             Math.min(...marketValueList).toLocaleString(
                               "es-ES",
@@ -534,7 +553,7 @@ const NewMarketUp = () => {
 
                       <div className="text-center">
                         <p className="text-center text-sm">Valor maximo:</p>
-                        <span className="font-bold ">
+                        <span className="font-bold text-sm">
                           {marketValueList &&
                             Math.max(...marketValueList).toLocaleString(
                               "es-ES",
