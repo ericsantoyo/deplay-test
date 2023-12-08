@@ -85,15 +85,15 @@ const prepareValueChangesData = (playerWithStats: players) => {
 
   return (
     // <pre>{JSON.stringify(playersWithStats, null, 2)}</pre>
-    <Card className="h-96 pt-0 px-4 w-full flex flex-col justify-between items-center rounded-md border-none shadow-none">
+    <Card className="h-96 pt-0 px-4 md:px-8 w-full flex flex-col justify-between items-center rounded-md border-none shadow-none">
       
       <Table className="m-auto w-full  mt-1">
-        <TableHeader className="">
-          <TableRow>
-            <TableHead className="h-4 font-extrabold text-left w-full text-xs">
+        <TableHeader className=" ">
+          <TableRow className=" items-center ">
+            <TableHead className=" font-extrabold text-left w-full text-xs">
               Fecha
             </TableHead>
-            <TableHead className="ml-2 w-full flex flex-row justify-center items-center h-4 font-extrabold text-center text-xs">
+            <TableHead className="ml-2 w-full flex flex-row justify-center items-center ">
               <ChevronsDown
                 size={14}
                 className=" text-red-500 dark:text-red-400"
@@ -103,10 +103,10 @@ const prepareValueChangesData = (playerWithStats: players) => {
                 className="text-green-600 dark:text-green-400"
               />
             </TableHead>
-            <TableHead className="h-4 font-extrabold text-center text-xs w-full">
+            <TableHead className=" font-extrabold text-center text-xs w-full">
               %
             </TableHead>
-            <TableHead className="h-4 font-extrabold text-right text-xs w-full">
+            <TableHead className=" font-extrabold text-right text-xs w-full">
               $ Actual
             </TableHead>
           </TableRow>

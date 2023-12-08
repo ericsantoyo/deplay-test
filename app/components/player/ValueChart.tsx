@@ -26,10 +26,11 @@ const ValueChart = ({ fetchedPlayer }: Props) => {
   const marketValueArray = last60DaysData.map((entry) => entry.marketValue);
   const minValue =
     Math.min(...marketValueArray) - Math.min(...marketValueArray) * percentage;
-  const maxValue = Math.max(...marketValueArray) + Math.max(...marketValueArray) * percentage;
+  const maxValue =
+    Math.max(...marketValueArray) + Math.max(...marketValueArray) * percentage;
 
   return (
-    <Card className="px-2 py-0 my-0 w-full h-96 flex justify-center items-center rounded-full border-none shadow-none">
+    <Card className="px-2 py-0 my-0 w-full h-56 md:h-96 flex justify-center items-center rounded-full border-none shadow-none">
       <Chart
         width={"100%"}
         height={"100%"}
@@ -42,8 +43,8 @@ const ValueChart = ({ fetchedPlayer }: Props) => {
         }
         data={chartData}
         options={{
-          
           title: "Valor de mercado",
+          curveType: "function",
           series: {
             0: { color: "#1a202c" },
           },
@@ -54,21 +55,20 @@ const ValueChart = ({ fetchedPlayer }: Props) => {
           },
           vAxis: {
             format: "short",
-            
+
             viewWindow: {
               min: minValue,
               max: maxValue,
-            }
-            
+            },
           },
-          chartArea: { width: "93%", height: "90%", top: 0, right: 3 },
+          chartArea: { width: "80%", height: "90%", top: 0 },
+          
 
           legend: "none",
 
           titlePosition: "none",
         }}
       />
-     
     </Card>
   );
 };

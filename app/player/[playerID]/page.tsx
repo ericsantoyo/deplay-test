@@ -10,6 +10,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import MatchesStats from "@/app/components/player/MatchesStats";
 import AllValueTable from "@/app/components/player/AllValueTable";
 import PlayerStats from "@/app/components/player/PlayerStats";
+import { Separator } from "@/components/ui/separator";
 
 type Props = {
   playerData: Player;
@@ -46,6 +47,19 @@ export default async function Player({
   return (
     <div className="">
       <Card className="flex flex-col justify-center items-center bg-white shadow-md rounded-lg overflow-hidden">
+        <div className="flex">
+          <div className="flex flex-col justify-center items-center w-1/2">
+            <p className="text-xs uppercase font-medium">Partidos jugados</p>
+            <p className="text-4xl font-bold">
+              {/* {playerData.matchesPlayed[0]} */}
+            </p>
+          </div>
+          <div className="flex flex-col justify-center items-center w-1/2">
+            <p className="text-xs uppercase font-medium">Goles</p>
+            {/* <p className="text-4xl font-bold">{playerData.goals[0]}</p> */}
+          </div>
+        </div>
+        
         {/* IMAGE & NAME */}
         <Image
           src={playerData.image}
@@ -56,7 +70,7 @@ export default async function Player({
           className="h-48"
         />
         <div className="p-4">
-          <h3 className="font-bold text-xl mx-auto">{playerData.nickname}</h3>
+          <h3 className="font-bold text-xl mx-auto">{playerData.name}</h3>
         </div>
       </Card>
       <Tabs defaultValue="puntos" className="grow w-full mx-auto">
@@ -84,13 +98,17 @@ export default async function Player({
             <div className="flex w-full h-full justify-start items-center">
               <ValueChart fetchedPlayer={playerData} />
             </div>
-
+            <Separator className="w-full mb-2" />
             <AllValueTable playerData={playerData} playerStat={playerStat} />
           </Card>
         </TabsContent>
         <TabsContent value="stats" className="overflow-visible mx-auto">
           {/* STATS */}
-          <PlayerStats matchesData={matchesData} playerStat={playerStat} playerWithStats={playerWithStats} />
+          <PlayerStats
+            matchesData={matchesData}
+            playerStat={playerStat}
+            playerWithStats={playerWithStats}
+          />
         </TabsContent>
         <TabsContent
           value="noticias"
