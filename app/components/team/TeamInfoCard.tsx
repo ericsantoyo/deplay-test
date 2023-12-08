@@ -41,7 +41,7 @@ export default async function TeamInfoCard({ teamInfo, playerInfo }: TeamInfoCar
   return (
     <>
       <Card className="transition-all flex flex-row justify-between items-center gap-6 md:gap-8 md:px-6 px-4 py-4 text-xs md:text-sm rounded-sm">
-        <NextMatches matches={teamMatches} selectedTeam={teamInfo.teamID} />
+        <NextMatches matches={teamMatches} selectedTeam={teamInfo.teamID} dateClass="" howMany={3}/>
         {/* <pre className="text-center">{JSON.stringify(teamMatches, null, 2)}</pre> */}
         <div className="order-first md:order-none flex flex-col justify-betweem items-center flex-initial  md:flex-none  w-max	">
           <Image

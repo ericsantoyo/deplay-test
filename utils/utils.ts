@@ -2,32 +2,39 @@ import { SortDirection } from "@/types";
 
 
 export const teams = [
-  { name: "Deportivo Alavés", slug: "d-alaves", id: 21 },
-  { name: "UD Almería", slug: "ud-almeria", id: 1 },
-  { name: "Athletic Club", slug: "athletic-club", id: 3 },
-  { name: "Atlético de Madrid", slug: "atletico-de-madrid", id: 2 },
-  { name: "FC Barcelona", slug: "fc-barcelona", id: 4 },
-  { name: "Real Betis", slug: "real-betis", id: 5 },
-  { name: "Cádiz CF", slug: "cadiz-cf", id: 162 },
-  { name: "RC Celta", slug: "rc-celta", id: 6 },
-  { name: "Getafe CF", slug: "getafe-cf", id: 9 },
-  { name: "Girona FC", slug: "girona-fc", id: 28 },
-  { name: "Granada CF", slug: "granada-cf", id: 10 },
-  { name: "UD Las Palmas", slug: "ud-las-palmas", id: 31 },
-  { name: "RCD Mallorca", slug: "rcd-mallorca", id: 33 },
-  { name: "C.A. Osasuna", slug: "c-a-osasuna", id: 13 },
-  { name: "Rayo Vallecano", slug: "rayo-vallecano", id: 14 },
-  { name: "Real Madrid", slug: "real-madrid", id: 15 },
-  { name: "Real Sociedad", slug: "real-sociedad", id: 16 },
-  { name: "Sevilla FC", slug: "sevilla-fc", id: 17 },
-  { name: "Valencia CF", slug: "valencia-cf", id: 18 },
-  { name: "Villarreal CF", slug: "villarreal-cf", id: 20 },
+  { name: "Deportivo Alavés", slug: "d-alaves", nickname: "ALA", id: 21 },
+  { name: "UD Almería", slug: "ud-almeria", nickname: "ALM", id: 1 },
+  { name: "Athletic Club", slug: "athletic-club", nickname: "ATH", id: 3 },
+  { name: "Atlético de Madrid", slug: "atletico-de-madrid", nickname: "ATM", id: 2 },
+  { name: "FC Barcelona", slug: "fc-barcelona", nickname: "BAR", id: 4 },
+  { name: "Real Betis", slug: "real-betis", nickname: "BET", id: 5 },
+  { name: "Cádiz CF", slug: "cadiz-cf", nickname: "CAD", id: 162 },
+  { name: "RC Celta", slug: "rc-celta", nickname: "CEL", id: 6 },
+  { name: "Getafe CF", slug: "getafe-cf", nickname: "GET", id: 9 },
+  { name: "Girona FC", slug: "girona-fc", nickname: "GIR", id: 28 },
+  { name: "Granada CF", slug: "granada-cf", nickname: "GRA", id: 10 },
+  { name: "UD Las Palmas", slug: "ud-las-palmas", nickname: "LPA", id: 31 },
+  { name: "RCD Mallorca", slug: "rcd-mallorca", nickname: "MLL", id: 33 },
+  { name: "C.A. Osasuna", slug: "c-a-osasuna", nickname: "OSA", id: 13 },
+  { name: "Rayo Vallecano", slug: "rayo-vallecano", nickname: "RAY", id: 14 },
+  { name: "Real Madrid", slug: "real-madrid", nickname: "RMA", id: 15 },
+  { name: "Real Sociedad", slug: "real-sociedad", nickname: "RSO", id: 16 },
+  { name: "Sevilla FC", slug: "sevilla-fc", nickname: "SEV", id: 17 },
+  { name: "Valencia CF", slug: "valencia-cf", nickname: "VAL", id: 18 },
+  { name: "Villarreal CF", slug: "villarreal-cf", nickname: "VIL", id: 20 },
 ];
+
 
 export function slugById(teamID: number) {
   const team = teams.find((team) => team.id === teamID);
   const slug = team ? team.slug : "Not Found";
   return slug;
+}
+
+export function nicknameById(teamID: number) {
+  const team = teams.find((team) => team.id === teamID);
+  const nickname = team ? team.nickname : "Not Found";
+  return nickname;
 }
 
 export function slugByName({ name }: { name: string }) {
@@ -100,6 +107,47 @@ export function getWeeksTotalPointsFromStats(
 
   return points;
 }
+
+export function getWeeksTotalPointsFromSinglePlayer(
+  playerWithStats: any,
+  maxWeeks: number
+) {
+  const player = playerWithStats.playerData;
+  const stats = playerWithStats.stats;
+
+  let points = [];
+
+  // Create a map to store points by week
+  const pointsByWeek = new Map();
+
+  // Calculate points for each week from the player's stats
+  for (const stat of stats) {
+    const week = stat.week;
+    const totalPoints = stat.totalPoints;
+
+    // Update the points for the corresponding week
+    pointsByWeek.set(week, totalPoints);
+  }
+
+  // Determine the maximum week
+  let maxWeek = Math.max(...stats.map(stat => stat.week));
+
+  // Get the last N weeks (or fewer if less than N weeks of data)
+  for (let i = maxWeek; i > maxWeek - maxWeeks && i >= 1; i--) {
+    points.push({
+      week: i,
+      points: pointsByWeek.get(i) || 0, // Use 0 if there are no stats for the week
+    });
+  }
+
+  // Sort points by week in ascending order
+  points.sort((a, b) => a.week - b.week);
+
+  return points;
+}
+
+
+
 
 export const formatter = new Intl.NumberFormat("en-GB", {});
 
