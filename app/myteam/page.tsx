@@ -1,29 +1,16 @@
-import {
-  getAllPlayers,
-  getAllMatches,
-  getAllStats,
-  getTeamByTeamID,
-  getPlayersByTeamID,
-  getAllTeams
-} from "@/database/client";
-
-
-
+import { getLiveMatches } from "@/api";
 
 export default async function MyTeam() {
-
-  const { allMatches: matchesData } = await getAllMatches();
-  const { allTeams: teams } = await getAllTeams();
-
-
-
+  const matchData = await getLiveMatches();
+  
   return (
-    <div className=" flex flex-col gap-3">
-      {/* <pre className="text-center">{JSON.stringify(teams, null, 2)}</pre> */}
-      {/* <Calendar matches={matchesData} allTeams={teams} gamesToShow={6} /> */}
-      <p className="text-center text-lg font-bold">
-        MYTEAM Page
-      </p>
-    </div>
+    
+      <div className="bg-white shadow-lg rounded-lg p-4 max-w-2xl mx-auto w-full">
+        <h2 className="text-xl font-bold text-center">MyTEAM page</h2>
+        
+       
+      </div>
+      
+  
   );
 }

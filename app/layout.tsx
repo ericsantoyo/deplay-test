@@ -6,6 +6,8 @@ import { Main } from "next/document";
 import StyledJsxRegistry from "./registry";
 import Footer from "./components/footer/Footer";
 import BottomMenu from "./components/BottomMenu";
+import { Analytics } from '@vercel/analytics/react';
+
 // import { ThemeProvider } from "./theme-provider";
 // import ThemeRegistry from "./ThemeRegistry";
 
@@ -49,7 +51,7 @@ export default function RootLayout({
        {children}
         {/* </ThemeRegistry> */}
         {/* </ThemeProvider> */}
-
+        <Analytics />
         </main>
         <Footer />
         <BottomMenu />

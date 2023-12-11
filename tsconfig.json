@@ -29,6 +29,6 @@
     ".next/types/**/*.ts",
     "app/stats/loading.js",
     "app/components/api/getAllMatches.ts"
-  ],
+, "typeforAPI.js"  ],
   "exclude": ["node_modules"]
 }
