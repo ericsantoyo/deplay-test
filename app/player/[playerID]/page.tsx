@@ -98,19 +98,32 @@ export default async function Player({
 
           <div className="flex flex-col justify-between items-center ">
             <div className="flex flex-col justify-center items-center">
-              <p className="text-xs uppercase font-medium">Puntos</p>
-              <p className="text-xl md:text-2xl font-bold">
-                {playerData.points}
-              </p>
+              <div className="flex justify-center items-center gap-2">
+                <div className="flex flex-col justify-center items-center">
+                  <p className="text-xs uppercase font-medium">Puntos</p>
+                  <div className="flex justify-center items-center ">
+                    <p className="text-xl md:text-2xl font-bold">
+                      {playerData.points}
+                    </p>
+                    <div className="mx-2 h-6 border-l border-neutral-300"></div>
+                    <div className="flex flex-col justify-center items-center">
+                      <p className="text-md font-bold">
+                        {playerData.averagePoints.toFixed(2)}
+                      </p>
+                      <p className="text-xs font-medium">Media</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
             {/* <Separator className="w-28 my-1" /> */}
             <div className="my-1 w-24 border-b border-neutral-300"></div>
             <div className="flex flex-row justify-center items-center">
               <div className="flex flex-col justify-center items-center ">
-                <p className="text-lg font-bold">{totalLocalPoints}</p>
                 <HomeIcon fontSize="small" />
+                <p className="text-lg font-bold">{totalLocalPoints}</p>
                 <Separator className="w-full my-1" />
-                <p className="text-xs font-bold">Media</p>
+                <p className="text-xs font-medium">Media</p>
                 <p className="text-md font-bold">
                   {averageLocalPoints.toFixed(2)}
                 </p>
@@ -118,10 +131,10 @@ export default async function Player({
               {/* <Separator orientation="vertical" className="mx-2 " /> */}
               <div className="mx-2 h-24 border-l border-neutral-300"></div>
               <div className="flex flex-col justify-center items-center">
-                <p className="text-lg font-bold">{totalVisitorPoints}</p>
                 <FlightIcon fontSize="small" className="rotate-45" />
+                <p className="text-lg font-bold">{totalVisitorPoints}</p>
                 <Separator className="w-full my-1" />
-                <p className="text-xs font-bold">Media</p>
+                <p className="text-xs font-medium">Media</p>
                 <p className="text-md font-bold">
                   {averageVisitorPoints.toFixed(2)}
                 </p>
