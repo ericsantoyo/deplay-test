@@ -1,4 +1,4 @@
-import CommingWeek from "../CommingWeek";
+import CommingWeek from "./CommingWeek";
 import GamesSheet from "../GamesSheet";
 import Logo from "../navbar/Logo";
 import SocialIcons from "../navbar/SocialIcons";

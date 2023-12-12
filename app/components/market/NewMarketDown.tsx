@@ -284,7 +284,7 @@ const NewMarketDown = () => {
                     </div>
                     <Link
                       href={`/player/${selectedPlayer.playerData.playerID}`}
-                      className="flex flex-row justify-center items-center gap-y-2 w-fit"
+                      className="flex flex-row justify-center items-end gap-y-2 w-fit"
                     >
                       <Image
                         src={selectedPlayer.playerData.image}
@@ -294,13 +294,14 @@ const NewMarketDown = () => {
                         className="h-16 w-auto "
                       />
 
-                      <div className="flex flex-row justify-end items-center  basis-2/6">
-                        <button className="focus:outline-none">
-                          <PersonSearchOutlinedIcon
-                            className="text-gray-500 dark:text-gray-400"
-                            fontSize="medium"
-                          />
-                        </button>
+                      <div className="flex flex-col justify-center items-center ml-2">
+                        <PersonSearchOutlinedIcon
+                          className="text-gray-500 dark:text-gray-400"
+                          fontSize="medium"
+                        />
+                        <p className="text-xs text-gray-500 dark:text-gray-400">
+                          Ver+
+                        </p>
                       </div>
                     </Link>
                   </div>
