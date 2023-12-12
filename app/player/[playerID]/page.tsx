@@ -21,6 +21,7 @@ import { Separator } from "@/components/ui/separator";
 import HomeIcon from "@mui/icons-material/Home";
 import FlightIcon from "@mui/icons-material/Flight";
 import NextMatches from "@/app/components/team/NextMatches";
+import MatchList from "@/app/components/player/MatchList";
 
 type Props = {
   playerData: Player;
@@ -290,7 +291,11 @@ export default async function Player({
         <TabsContent
           value="noticias"
           className="overflow-visible mx-auto"
-        ></TabsContent>
+        >
+          {/* <pre>{JSON.stringify(matchesData, null, 2)}</pre> */}
+          <MatchList matchesData={matchesData} fetchedPlayer={playerData} />
+          {/* <MatchList matchesData={matchesData} /> */}
+        </TabsContent>
       </Tabs>
 
       {/* <pre>{JSON.stringify(playerStat, null, 2)}</pre> */}
