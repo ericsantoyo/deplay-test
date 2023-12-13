@@ -1,16 +1,15 @@
-import { createClient } from '@supabase/supabase-js';
+import { createClient } from "@supabase/supabase-js";
 
 // Initialize the Supabase client directly here
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
 if (!supabaseUrl || !supabaseAnonKey) {
-  console.error('Supabase environment variables are not set');
+  console.error("Supabase environment variables are not set");
   process.exit(1); // Exit the process if the environment variables are not set
 }
 
 const supabase = createClient(supabaseUrl, supabaseAnonKey);
-
 
 async function addPlayers(players) {
   const { error } = await supabase.from("players").upsert(players);
@@ -152,10 +151,20 @@ function splitPlayersData(data) {
     }
 
     // Calculate lastMarketChange
+
+    // Calculate lastMarketChange
+    const lastMarketValueIndex =
+      marketValues && marketValues.length > 0 ? marketValues.length - 1 : -1;
     const lastMarketValue =
-      marketValues[marketValues.length - 1]?.marketValue || 0;
+      lastMarketValueIndex >= 0
+        ? marketValues[lastMarketValueIndex]?.marketValue || 0
+        : 0;
+    const secondToLastMarketValueIndex =
+      lastMarketValueIndex > 0 ? lastMarketValueIndex - 1 : -1;
     const secondToLastMarketValue =
-      marketValues[marketValues.length - 2]?.marketValue || 0;
+      secondToLastMarketValueIndex >= 0
+        ? marketValues[secondToLastMarketValueIndex]?.marketValue || 0
+        : 0;
     const lastMarketChange = lastMarketValue - secondToLastMarketValue;
 
     const player = {
@@ -220,7 +229,7 @@ async function fetchMarketValues(playerId) {
 
 async function main() {
   const startingIndex = 0;
-  const endingIndex = 1850;
+  const endingIndex = 1900;
   let players = [];
   const promises = [];
 
@@ -271,17 +280,17 @@ async function main() {
   }
 
   try {
-    const { players: playersData, stats: statsData } = splitPlayersData(players);
+    const { players: playersData, stats: statsData } =
+      splitPlayersData(players);
     await addPlayers(playersData);
     await addStats(statsData);
-    console.log('Update successful');
+    console.log("Update successful");
     process.exit(0); // Exit with a success status code
   } catch (error) {
-    console.error('Error updating Supabase:', error);
+    console.error("Error updating Supabase:", error);
     process.exit(1); // Exit with an error status code
   }
 }
 
 // Execute the main function when the script is run
 main();
-

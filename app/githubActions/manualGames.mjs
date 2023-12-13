@@ -36,8 +36,6 @@ function formatMatches(matches, week) {
   return formattedMatches;
 }
 
-
-
 async function fetchMatchData(weekID) {
   const baseUrl = "https://api-fantasy.llt-services.com/stats";
   const endpoint = `/v1/stats/week/${weekID}?x-lang=en`;
@@ -58,7 +56,6 @@ async function main() {
   const matches = [];
   const startingIndex = 0;
   const endingIndex = 40;
-  
 
   for (let weekID = startingIndex; weekID <= endingIndex; weekID++) {
     const matchData = await fetchMatchData(weekID);
@@ -70,10 +67,10 @@ async function main() {
 
   try {
     await addMatches(matches);
-    console.log('Schedules update successful');
+    console.log("Schedules update successful");
     process.exit(0);
   } catch (error) {
-    console.error('Error updating schedules in Supabase:', error);
+    console.error("Error updating schedules in Supabase:", error);
     process.exit(1);
   }
 }
