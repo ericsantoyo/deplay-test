@@ -124,23 +124,27 @@ function splitPlayersData(data) {
   let allStatistics = [];
 
   for (let i = 0; i < data.length; i++) {
-    if (!data[i]) continue; // Skip if the player data is null or undefined
-    let playerID = parseInt(data[i].id);
-    let averagePoints = data[i].averagePoints;
-    let marketValue = data[i].marketValue;
-    let name = data[i].name;
-    let nickname = data[i].nickname;
+    let playerData = data[i];
+
+    // Skip if player data is null or undefined
+    if (!playerData) continue;
+
+    let playerID = parseInt(playerData.id);
+    let averagePoints = playerData.averagePoints;
+    let marketValue = playerData.marketValue;
+    let name = playerData.name;
+    let nickname = playerData.nickname;
     if (typeof nickname === "string") {
       nickname = capitalizeWords(nickname);
     }
-    let position = data[i].position;
-    let positionID = data[i].positionId;
-    let status = data[i].playerStatus;
-    let teamID = data[i].team?.id ? parseInt(data[i].team.id) : null;
-    let teamName = data[i].team?.name ? data[i].team.name : null;
+    let position = playerData.position;
+    let positionID = playerData.positionId;
+    let status = playerData.playerStatus;
+    let teamID = playerData.team?.id ? parseInt(playerData.team.id) : null;
+    let teamName = playerData.team?.name ? playerData.team.name : null;
     let image = "/playerImages/" + playerID + ".png";
-    let points = data[i].points;
-    let marketValues = data[i].marketValues;
+    let points = playerData.points;
+    let marketValues = playerData.marketValues || [];
 
     if (status === "out_of_league") {
       continue;
@@ -185,9 +189,7 @@ function splitPlayersData(data) {
       previousMarketValue: secondToLastMarketValue,
     };
 
-    const stats = data[i].playerStats
-      ? formatPlayerStats(data[i].playerStats, playerID)
-      : [];
+    const stats = playerData.playerStats ? formatPlayerStats(playerData.playerStats, playerID) : [];
     players.push(player);
     allStatistics.push(...stats);
   }
