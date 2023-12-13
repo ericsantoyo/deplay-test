@@ -124,6 +124,7 @@ function splitPlayersData(data) {
   let allStatistics = [];
 
   for (let i = 0; i < data.length; i++) {
+    if (!data[i]) continue; // Skip if the player data is null or undefined
     let playerID = parseInt(data[i].id);
     let averagePoints = data[i].averagePoints;
     let marketValue = data[i].marketValue;
@@ -151,8 +152,9 @@ function splitPlayersData(data) {
     }
 
     // Calculate lastMarketChange
+    // Handle null or empty marketValues array
     const lastMarketValueIndex =
-      marketValues && marketValues.length > 0 ? marketValues.length - 1 : -1;
+      marketValues?.length > 0 ? marketValues.length - 1 : -1;
     const lastMarketValue =
       lastMarketValueIndex >= 0
         ? marketValues[lastMarketValueIndex]?.marketValue || 0
@@ -183,8 +185,9 @@ function splitPlayersData(data) {
       previousMarketValue: secondToLastMarketValue,
     };
 
-    const stats = formatPlayerStats(data[i].playerStats, playerID);
-
+    const stats = data[i].playerStats
+      ? formatPlayerStats(data[i].playerStats, playerID)
+      : [];
     players.push(player);
     allStatistics.push(...stats);
   }
@@ -236,7 +239,7 @@ async function main() {
   for (let playerId = startingIndex; playerId <= endingIndex; playerId++) {
     promises.push(fetchData(playerId));
 
-    if (promises.length >= 70) {
+    if (promises.length >= 75) {
       // MAX_CONCURRENT_REQUESTS
       const playerDataArray = await Promise.all(promises);
       promises.length = 0; // Reset the promises array
