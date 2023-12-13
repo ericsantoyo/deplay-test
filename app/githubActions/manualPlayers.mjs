@@ -150,7 +150,7 @@ function splitPlayersData(data) {
       nickname = capitalizeWords(nickname);
     }
 
-    // Calculate lastMarketChange
+
 
     // Calculate lastMarketChange
     const lastMarketValueIndex =
@@ -217,15 +217,20 @@ async function fetchMarketValues(playerId) {
   const endpoint = `/api/v3/player/${playerId}/market-value?x-lang=en`;
   try {
     const response = await fetch(`${baseUrl}${endpoint}`);
-    if (response.status === 404 || !response.ok) {
-      return null;
+    if (!response.ok) {
+      // Handle non-200 responses, including 404
+      return []; // Return an empty array to indicate no data for this player
     }
-    return await response.json();
+    const marketValues = await response.json();
+    return marketValues || [];
   } catch (error) {
     console.error("Fetch market values error:", error);
-    return null;
+    return []; // Return an empty array in case of network or other errors
   }
 }
+
+
+
 
 async function main() {
   const startingIndex = 0;

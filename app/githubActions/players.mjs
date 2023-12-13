@@ -1,16 +1,15 @@
-import { createClient } from '@supabase/supabase-js';
+import { createClient } from "@supabase/supabase-js";
 
 // Initialize the Supabase client directly here
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
 if (!supabaseUrl || !supabaseAnonKey) {
-  console.error('Supabase environment variables are not set');
+  console.error("Supabase environment variables are not set");
   process.exit(1); // Exit the process if the environment variables are not set
 }
 
 const supabase = createClient(supabaseUrl, supabaseAnonKey);
-
 
 async function addPlayers(players) {
   const { error } = await supabase.from("players").upsert(players);
@@ -152,10 +151,18 @@ function splitPlayersData(data) {
     }
 
     // Calculate lastMarketChange
+    const lastMarketValueIndex =
+      marketValues && marketValues.length > 0 ? marketValues.length - 1 : -1;
     const lastMarketValue =
-      marketValues[marketValues.length - 1]?.marketValue || 0;
+      lastMarketValueIndex >= 0
+        ? marketValues[lastMarketValueIndex]?.marketValue || 0
+        : 0;
+    const secondToLastMarketValueIndex =
+      lastMarketValueIndex > 0 ? lastMarketValueIndex - 1 : -1;
     const secondToLastMarketValue =
-      marketValues[marketValues.length - 2]?.marketValue || 0;
+      secondToLastMarketValueIndex >= 0
+        ? marketValues[secondToLastMarketValueIndex]?.marketValue || 0
+        : 0;
     const lastMarketChange = lastMarketValue - secondToLastMarketValue;
 
     const player = {
@@ -208,13 +215,15 @@ async function fetchMarketValues(playerId) {
   const endpoint = `/api/v3/player/${playerId}/market-value?x-lang=en`;
   try {
     const response = await fetch(`${baseUrl}${endpoint}`);
-    if (response.status === 404 || !response.ok) {
-      return null;
+    if (!response.ok) {
+      // Handle non-200 responses, including 404
+      return []; // Return an empty array to indicate no data for this player
     }
-    return await response.json();
+    const marketValues = await response.json();
+    return marketValues || [];
   } catch (error) {
     console.error("Fetch market values error:", error);
-    return null;
+    return []; // Return an empty array in case of network or other errors
   }
 }
 
@@ -271,17 +280,17 @@ async function main() {
   }
 
   try {
-    const { players: playersData, stats: statsData } = splitPlayersData(players);
+    const { players: playersData, stats: statsData } =
+      splitPlayersData(players);
     await addPlayers(playersData);
     await addStats(statsData);
-    console.log('Update successful');
+    console.log("Update successful");
     process.exit(0); // Exit with a success status code
   } catch (error) {
-    console.error('Error updating Supabase:', error);
+    console.error("Error updating Supabase:", error);
     process.exit(1); // Exit with an error status code
   }
 }
 
 // Execute the main function when the script is run
 main();
-
