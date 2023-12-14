@@ -1,6 +1,6 @@
 import {
   getAllPlayers,
-  getAllMatches,
+  getMatchesByTeamID,
   getAllStats,
   getTeamByTeamID,
   getPlayersByTeamID,
@@ -12,6 +12,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { notFound } from "next/navigation";
 import TeamLineup from "@/app/components/team/Lineup";
 import TeamRoster from "@/app/components/team/TeamRoster";
+import MatchList from "@/app/components/player/MatchList";
+import TeamMatchList from "@/app/components/team/TeamMatchList";
 
 export const revalidate = 0;
 
@@ -23,7 +25,7 @@ export default async function Team({ params }: { params: { teamID: number } }) {
   const team = teamData[0];
   const { data: playersData } = await getPlayersByTeamID(params.teamID);
   const players = playersData;
-  const { allMatches: matchesData } = await getAllMatches();
+  const { teamMatches: matchesData } = await getMatchesByTeamID(params.teamID);
   const matches = matchesData;
   const { allStats: fetchedStats } = await getAllStats();
   // const stats = fetchedStats;
@@ -69,6 +71,9 @@ export default async function Team({ params }: { params: { teamID: number } }) {
             <TabsTrigger className="w-full" value="plantilla">
               Plantilla
             </TabsTrigger>
+            <TabsTrigger className="w-full" value="partidos">
+              Partidos
+            </TabsTrigger>
           </TabsList>
           <TabsContent value="alineacion" className="overflow-visible mx-auto">
             <TeamLineup
@@ -81,6 +86,9 @@ export default async function Team({ params }: { params: { teamID: number } }) {
               teamPlayers={sortedPlayers}
               playerStats={playersWithStats}
             />
+          </TabsContent>
+          <TabsContent value="partidos" className="overflow-visible mx-auto">
+            <TeamMatchList matchesData={matchesData} teamselected={team.teamID} />
           </TabsContent>
         </Tabs>
       </div>

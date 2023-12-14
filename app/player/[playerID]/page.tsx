@@ -23,6 +23,8 @@ import FlightIcon from "@mui/icons-material/Flight";
 import NextMatches from "@/app/components/NextMatches";
 import MatchList from "@/app/components/player/MatchList";
 import PreviousMatches from "@/app/components/PreviousMatches";
+import TeamMatchList from "@/app/components/team/TeamMatchList";
+import FantasyStat from "@/app/components/player/FantasyStat";
 
 type Props = {
   playerData: Player;
@@ -226,16 +228,14 @@ export default async function Player({
         </TabsContent>
         <TabsContent value="stats" className="overflow-visible mx-auto">
           {/* STATS */}
-          <PlayerStats
+          <FantasyStat
             matchesData={matchesData}
             playerStat={playerStat}
             playerWithStats={playerWithStats}
           />
         </TabsContent>
         <TabsContent value="noticias" className="overflow-visible mx-auto">
-          {/* <pre>{JSON.stringify(matchesData, null, 2)}</pre> */}
           <MatchList matchesData={matchesData} fetchedPlayer={playerData} />
-          {/* <MatchList matchesData={matchesData} /> */}
         </TabsContent>
       </Tabs>
 
