@@ -14,7 +14,7 @@ import {
   getNumberOfAvailablePlayersOfTeam,
 } from "@/utils/utils";
 import { getMatchesByTeamID } from "@/database/client";
-import NextMatches from "./NextMatches";
+import NextMatches from "../NextMatches";
 
 interface PlayerStats {
   statType: string;
@@ -22,13 +22,17 @@ interface PlayerStats {
 }
 
 interface TeamInfoCardProps {
-  teamInfo: teams; 
-  playerInfo: players[] | null; 
+  teamInfo: teams;
+  playerInfo: players[] | null;
 }
 
-export default async function TeamInfoCard({ teamInfo, playerInfo }: TeamInfoCardProps) {
-
-  const { teamMatches: matchesData } = await getMatchesByTeamID(teamInfo.teamID);
+export default async function TeamInfoCard({
+  teamInfo,
+  playerInfo,
+}: TeamInfoCardProps) {
+  const { teamMatches: matchesData } = await getMatchesByTeamID(
+    teamInfo.teamID
+  );
 
   const teamMatches = matchesData;
 
@@ -41,7 +45,13 @@ export default async function TeamInfoCard({ teamInfo, playerInfo }: TeamInfoCar
   return (
     <>
       <Card className="transition-all flex flex-row justify-between items-center gap-6 md:gap-8 md:px-6 px-4 py-4 text-xs md:text-sm rounded-sm">
-        <NextMatches matches={teamMatches} selectedTeam={teamInfo.teamID} dateClass="" howMany={3} pClass="" />
+        <NextMatches
+          matches={teamMatches}
+          selectedTeam={teamInfo.teamID}
+          dateClass=""
+          howMany={3}
+          pClass=""
+        />
         {/* <pre className="text-center">{JSON.stringify(teamMatches, null, 2)}</pre> */}
         <div className="order-first md:order-none flex flex-col justify-betweem items-center flex-initial  md:flex-none  w-max	">
           <Image

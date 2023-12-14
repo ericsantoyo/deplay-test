@@ -20,8 +20,9 @@ import PlayerStats from "@/app/components/player/PlayerStats";
 import { Separator } from "@/components/ui/separator";
 import HomeIcon from "@mui/icons-material/Home";
 import FlightIcon from "@mui/icons-material/Flight";
-import NextMatches from "@/app/components/team/NextMatches";
+import NextMatches from "@/app/components/NextMatches";
 import MatchList from "@/app/components/player/MatchList";
+import PreviousMatches from "@/app/components/PreviousMatches";
 
 type Props = {
   playerData: Player;
@@ -163,78 +164,21 @@ export default async function Player({
           </div>
         </div>
 
-        {/* LAST MATCHES */}
         <div className="flex flex-col md:flex-row justify-center items-stretch w-1/3">
+          {/* LAST MATCHES */}
           <div className="flex flex-col justify-start items-center h-full">
             <p className="text-xs uppercase font-bold pb-1 text-center">
               Últimos partidos
             </p>
-            <div className="flex flex-row justify-between items-center w-full">
-              <div className="flex flex-row justify-center items-center gap-2 md:gap-x-4 w-full">
-                {playerWithStats &&
-                  getWeeksTotalPointsFromSinglePlayer(playerWithStats, 3).map(
-                    (point) => {
-                      const match = matchesData?.find(
-                        (match) => match.week === point.week
-                      );
-
-                      return (
-                        <div
-                          className="flex flex-col justify-center items-center "
-                          key={point.week}
-                        >
-                          <div className="flex flex-col justify-center items-center gap-1">
-                            {match &&
-                              match.localTeamID !== playerData.teamID && (
-                                <Image
-                                  src={`/teamLogos/${slugById(
-                                    match.localTeamID
-                                  )}.png`}
-                                  alt="opponent"
-                                  width={20}
-                                  height={20}
-                                  style={{ objectFit: "contain" }}
-                                  className="h-5 mb-1"
-                                />
-                              )}
-
-                            {match &&
-                              match.visitorTeamID !== playerData.teamID && (
-                                <Image
-                                  src={`/teamLogos/${slugById(
-                                    match.visitorTeamID
-                                  )}.png`}
-                                  alt="opponent"
-                                  width={20}
-                                  height={20}
-                                  style={{ objectFit: "contain" }}
-                                  className="h-5 mb-1 "
-                                />
-                              )}
-
-                            <div
-                              className={`text-center border-[0.5px] w-5 h-5 border-neutral-700 rounded-sm flex justify-center items-center ${getColor(
-                                point.points
-                              )}`}
-                            >
-                              <p
-                                className={`text-[12px] items-center align-middle`}
-                              >
-                                {point.points}
-                              </p>
-                            </div>
-                            <div className="text-center text-[11px] md:order-first	">
-                              J{point.week}
-                            </div>
-                          </div>
-                        </div>
-                      );
-                    }
-                  )}
-              </div>
-            </div>
+            <PreviousMatches
+              matchesData={matchesData}
+              playerWithStats={playerWithStats}
+              fetchedPlayer={playerData}
+            />
           </div>
+
           <div className="my-2 md:mx-2 w-24 md:w-0 md:h-20 md:border-l border-b border-neutral-300"></div>
+          {/* NEXT MATCHES */}
           <div className="flex flex-col justify-start items-center h-full">
             <p className="text-xs uppercase font-bold pb-1 text-center">
               Próximos partidos
@@ -288,10 +232,7 @@ export default async function Player({
             playerWithStats={playerWithStats}
           />
         </TabsContent>
-        <TabsContent
-          value="noticias"
-          className="overflow-visible mx-auto"
-        >
+        <TabsContent value="noticias" className="overflow-visible mx-auto">
           {/* <pre>{JSON.stringify(matchesData, null, 2)}</pre> */}
           <MatchList matchesData={matchesData} fetchedPlayer={playerData} />
           {/* <MatchList matchesData={matchesData} /> */}
