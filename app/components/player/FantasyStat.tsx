@@ -1,5 +1,9 @@
 "use client";
-import { getColor, getWeeksTotalPointsFromSinglePlayer, slugById } from "@/utils/utils";
+import {
+  getColor,
+  getWeeksTotalPointsFromSinglePlayer,
+  slugById,
+} from "@/utils/utils";
 import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
 // matchesData = { matchesData };
@@ -20,18 +24,19 @@ export default function FantasyStat({
 
   // Set the default week and scroll to it
   useEffect(() => {
-    const maxWeek = Math.max(...playerWithStats.stats.map(stat => stat.week));
+    const maxWeek = Math.max(...playerWithStats.stats.map((stat) => stat.week));
     setSelectedWeek(maxWeek);
   }, [playerWithStats.stats]);
 
   // Scroll to the selected week button
   useEffect(() => {
     if (weekContainerRef.current && selectedWeek !== null) {
-      const selectedButton = weekContainerRef.current?.querySelector(`button[data-week='${selectedWeek}']`) as HTMLElement;
-      selectedButton?.scrollIntoView({ behavior: 'smooth', inline: 'end' });
+      const selectedButton = weekContainerRef.current?.querySelector(
+        `button[data-week='${selectedWeek}']`
+      ) as HTMLElement;
+      selectedButton?.scrollIntoView({ behavior: "smooth", inline: "end" });
     }
   }, [selectedWeek]);
-
 
   const handleWeekSelection = (weekNumber: number) => {
     setSelectedWeek(weekNumber);
@@ -48,19 +53,23 @@ export default function FantasyStat({
   return (
     <div>
       {/* <pre>{JSON.stringify(playerWithStats, null, 2)}</pre> */}
-      <div className="flex overflow-x-auto whitespace-nowrap py-1  max-w-xl mx-auto gap-3" ref={weekContainerRef}>
+      <div
+        className="flex overflow-x-auto whitespace-nowrap py-1  max-w-xl mx-auto gap-3"
+        ref={weekContainerRef}
+      >
         {playerWithStats.stats.map((stats) => (
           <button
             key={stats.week}
             data-week={stats.week}
             onClick={() => setSelectedWeek(stats.week)}
-            className={`p-1 ${selectedWeek === stats.week ? 'bg-neutral-300 text-neutral-900 font-bold border border-neutral-500 rounded-md' : ''}`}
+            className={`p-1 ${
+              selectedWeek === stats.week
+                ? "bg-neutral-300 text-neutral-900 font-bold border border-neutral-500 rounded-md"
+                : ""
+            }`}
           >
             <div className="flex flex-col justify-center items-center">
-              <div className="text-center">
-              J{stats.week}
-
-              </div>
+              <div className="text-center">J{stats.week}</div>
               <div
                 className={`text-center border-[0.5px] w-6 h-6 border-neutral-700 rounded-sm flex justify-center items-center ${getColor(
                   stats.totalPoints
@@ -75,18 +84,21 @@ export default function FantasyStat({
               {matchesData &&
                 matchesData
                   .filter((match) => match.week === stats.week)
-                  .map((match) => {
-                    if (match.localTeamID !== playerWithStats.playerData.teamID) {
+                  .map((match, index) => {
+                    if (
+                      match.localTeamID !== playerWithStats.playerData.teamID
+                    ) {
                       return (
                         <Image
-                          src={`/teamLogos/${slugById(
-                            match.localTeamID
-                          )}.png`}
+                          src={`/teamLogos/${slugById(match.localTeamID)}.png`}
                           alt="opponent"
                           width={20}
                           height={20}
                           style={{ objectFit: "contain" }}
                           className="h-5 mb-1"
+                          key={`week-${stats.week}-team-${
+                            match.localTeamID || match.visitorTeamID
+                          }-index-${index}`}
                         />
                       );
                     } else if (
@@ -102,6 +114,9 @@ export default function FantasyStat({
                           height={20}
                           style={{ objectFit: "contain" }}
                           className="h-5 mb-1 "
+                          key={`week-${stats.week}-team-${
+                            match.localTeamID || match.visitorTeamID
+                          }-index-${index}`}
                         />
                       );
                     }
@@ -110,12 +125,6 @@ export default function FantasyStat({
           </button>
         ))}
       </div>
-     
-      
-
-            
-
-
 
       {selectedWeek && (
         <div className="flex flex-col max-w-xl text-center  mx-auto">
@@ -124,7 +133,8 @@ export default function FantasyStat({
             {playerWithStats.stats
               .filter((stats) => stats.week === selectedWeek)
               .map((stats) => (
-                <div key={stats.week}>
+                <div key={`stats-${stats.week}`}>
+                  {" "}
                   {/* List the stats you want to show explicitly */}
                   {[
                     ["mins_played", "Minutos jugados"],
@@ -135,7 +145,7 @@ export default function FantasyStat({
                     ["penalty_won", "Penaltis provocados"],
                     ["penalty_save", "Penaltis parados"],
                     ["saves", "Paradas"],
-                    ["offtarget_att_assist", "Despejes"],
+                    ["effective_clearance", "Despejes"],
                     ["penalty_failed", "Penaltis fallados"],
                     ["own_goals", "Goles en propia puerta"],
                     ["goals_conceded", "Goles en contra"],
@@ -150,22 +160,28 @@ export default function FantasyStat({
                   ].map(([statKey, label]) => {
                     const value = stats[statKey];
                     const isHighlighted = isStatHighlighted(value);
+                    const uniqueKey = `week-${stats.week}-stat-${statKey}`;
 
                     return (
                       <div
+                        key={uniqueKey}
                         className={`flex justify-between items-center border-b-2 px-2 py-1 max-w-xl mx-auto ${
-                          isHighlighted ? "bg-gray-100" : ""
+                          isHighlighted ? "bg-gray-100 text-center" : ""
                         }`}
                       >
-                        <p className="font-bold">{Array.isArray(value) ? value[0] : value}</p>
+                        <p className="font-bold">
+                          {Array.isArray(value) ? value[0] : value}
+                        </p>
                         <h3>{label}</h3>
-                        <p className="font-bold">{Array.isArray(value) && value[1]}</p>
+                        <p className="font-bold">
+                          {Array.isArray(value) && value[1]}
+                        </p>
                       </div>
                     );
                   })}
-
                   {/* Render marca_points and totalPoints separately */}
                   <div
+                    key={`week-${stats.week}-marca_points`}
                     className={`flex justify-between items-center border-b-2 px-2 py-1 max-w-xl mx-auto ${
                       stats.marca_points[1] > 0 ? "bg-gray-100" : ""
                     }`}
@@ -175,6 +191,7 @@ export default function FantasyStat({
                     <p>{stats.marca_points[1]}</p>
                   </div>
                   <div
+                    key={`week-${stats.week}-totalPoints`}
                     className={`flex justify-between items-center border-b-2 px-2 py-1 max-w-xl mx-auto ${
                       stats.totalPoints > 0 ? "bg-gray-100" : ""
                     }`}
