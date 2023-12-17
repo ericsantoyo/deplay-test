@@ -30,6 +30,8 @@ type Props = {
   playerData: Player;
 };
 
+export const revalidate=0
+
 export default async function Player({
   params,
 }: {
@@ -235,7 +237,7 @@ export default async function Player({
           />
         </TabsContent>
         <TabsContent value="noticias" className="overflow-visible mx-auto">
-          <MatchList matchesData={matchesData} fetchedPlayer={playerData} />
+          {/* <MatchList matchesData={matchesData} fetchedPlayer={playerData} /> */}
         </TabsContent>
       </Tabs>
 
