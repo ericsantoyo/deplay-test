@@ -15,8 +15,6 @@ import TeamRoster from "@/app/components/team/TeamRoster";
 import MatchList from "@/app/components/player/MatchList";
 import TeamMatchList from "@/app/components/team/TeamMatchList";
 
-export const revalidate = 0;
-
 export default async function Team({ params }: { params: { teamID: number } }) {
   const { data: teamData } = await getTeamByTeamID(params.teamID);
   if (!teamData) {

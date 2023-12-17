@@ -16,8 +16,6 @@ import {
   getPositionBadge,
 } from "@/utils/utils";
 
-export const revalidate = 0;
-
 type Props = {};
 
 const getColor = (points: number) => {
