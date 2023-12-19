@@ -66,7 +66,7 @@ const SearchFilters = ({ search }: Props) => {
 
   useEffect(() => {
     async function fetchTeams() {
-      const { allTeams: fetchedTeams }: { allTeams: Team[] } =
+      const { allTeams: fetchedTeams }: { allTeams: teams[] } =
         await getAllTeams();
 
       setTeams(fetchedTeams);

@@ -104,7 +104,7 @@ export default function GamesList() {
           {/* Display matches for the selected week */}
           {Array.from({ length: 10 }, (_, index) => (
             <div key={index}>
-              <Card className="flex flex-col justify-between items-center w-[155px] h-full py-[6px] text-center rounded-md">
+              <Card className="flex flex-col justify-between items-center w-[155px] h-full py-[6px] text-center ">
                 <Skeleton className="h-[8px] w-7 mb-2" />
                 <div className="flex flex-row justify-between w-full items-center ">
                   <Skeleton className="h-7 ml-3 w-7 rounded-full" />
@@ -171,8 +171,11 @@ export default function GamesList() {
                 new Date(b.matchDate).getTime()
             )
             .map((match) => (
-              <div key={match.matchID} className="flex justify-center items-center grow mx-auto">
-                <Card className="flex flex-col justify-between items-center w-[155px] h-full py-[6px] text-center rounded-md">
+              <div
+                key={match.matchID}
+                className="flex justify-center items-center grow mx-auto"
+              >
+                <Card className="flex flex-col justify-between items-center w-[155px] h-full py-[6px] text-center   ">
                   <p className="text-[10px] uppercase font-medium text-center">
                     {new Date(match.matchDate).toLocaleDateString("es-EU", {
                       weekday: "short",

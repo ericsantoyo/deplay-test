@@ -130,7 +130,7 @@ export function getWeeksTotalPointsFromSinglePlayer(
   }
 
   // Determine the maximum week
-  let maxWeek = Math.max(...stats.map(stat => stat.week));
+  let maxWeek = Math.max(...stats.map((stat: { week: number; }) => stat.week));
 
   // Get the last N weeks (or fewer if less than N weeks of data)
   for (let i = maxWeek; i > maxWeek - maxWeeks && i >= 1; i--) {

@@ -40,7 +40,7 @@ const NextMatches = ({
           .sort((a, b) => new Date(a.matchDate) - new Date(b.matchDate))
           .map((match) => (
             <div key={match.matchID}>
-              <Card className="flex flex-col justify-between items-center border-none shadow-none h-full text-xs text-center rounded-md gap-1">
+              <Card className="flex flex-col justify-between items-center border-none shadow-none h-full text-xs text-center  gap-1  ">
                 <div className="text-center text-[11px]">J{match.week}</div>
                 {match.localTeamID !== selectedTeam && (
                   <Image

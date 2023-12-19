@@ -21,16 +21,15 @@ import { Separator } from "@/components/ui/separator";
 import HomeIcon from "@mui/icons-material/Home";
 import FlightIcon from "@mui/icons-material/Flight";
 import NextMatches from "@/app/components/NextMatches";
-import MatchList from "@/app/components/player/MatchList";
+
 import PreviousMatches from "@/app/components/PreviousMatches";
-import TeamMatchList from "@/app/components/team/TeamMatchList";
 import FantasyStat from "@/app/components/player/FantasyStat";
 
 type Props = {
   playerData: Player;
 };
 
-export const revalidate=0
+export const revalidate = 0;
 
 export default async function Player({
   params,
@@ -58,7 +57,7 @@ export default async function Player({
   }
   const playerWithStats = formatPlayerWithStats(playerData, playerStat);
 
-  // <div className=" grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-full"></div>
+
 
   let totalLocalPoints = 0;
   let totalVisitorPoints = 0;
@@ -84,7 +83,7 @@ export default async function Player({
 
   return (
     <div className="w-full">
-      <Card className="flex flex-row justify-between items-center rounded-lg w-full py-4 px-2 md:p-[18px] gap-x-3">
+      <Card className="flex flex-row justify-between items-center w-full py-4 px-2 md:p-[18px] gap-x-3  ">
         {/* POINTS INFO */}
         <div className="flex flex-col justify-between items-center  w-1/3">
           <div className="flex flex-row justify-center items-center  w-full">
@@ -237,11 +236,10 @@ export default async function Player({
           />
         </TabsContent>
         <TabsContent value="noticias" className="overflow-visible mx-auto">
-          {/* <MatchList matchesData={matchesData} fetchedPlayer={playerData} /> */}
+         
         </TabsContent>
       </Tabs>
 
-      {/* <pre>{JSON.stringify(playerStat, null, 2)}</pre> */}
     </div>
   );
 }

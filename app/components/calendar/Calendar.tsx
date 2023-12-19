@@ -53,7 +53,7 @@ export default function CalendarList({
                 </div>
                 {teamUpcomingMatches.map((match) => (
                   <div key={match.matchID}>
-                    <Card className="flex flex-col justify-between items-center border-none shadow-none text-xs text-center rounded-md w-12 h-full">
+                    <Card className="flex flex-col justify-between items-center border-none shadow-none text-xs text-center  w-12 h-full ">
                       {team.teamID !== match.localTeamID && (
                         <Image
                           src={`/teamLogos/${slugById(match.localTeamID)}.png`}

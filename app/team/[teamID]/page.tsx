@@ -12,7 +12,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { notFound } from "next/navigation";
 import TeamLineup from "@/app/components/team/Lineup";
 import TeamRoster from "@/app/components/team/TeamRoster";
-import MatchList from "@/app/components/player/MatchList";
+
 import TeamMatchList from "@/app/components/team/TeamMatchList";
 
 export const revalidate=0
@@ -93,13 +93,7 @@ export default async function Team({ params }: { params: { teamID: number } }) {
           </TabsContent>
         </Tabs>
       </div>
-      {/* <div className="hidden  md:flex md:flex-row md:justify-between md:gap-4 md:container mx-auto	 ">
-        <TeamLineup teamselected={team.teamID} teamPlayers={sortedPlayers} />
-        <TeamRoster
-          teamPlayers={sortedPlayers}
-          playerStats={playersWithStats}
-        />
-      </div> */}
+     
     </div>
   );
 }

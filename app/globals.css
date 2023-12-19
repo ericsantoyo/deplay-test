@@ -4,8 +4,7 @@
 
 @layer components {
   .themedarklight {
-    @apply 
-      /* bg-[#fff] 
+    @apply /* bg-[#fff] 
       dark:bg-[#121212]
       text-neutral-800 
       dark:text-[#fff]  */
@@ -13,19 +12,20 @@
       dark:bg-neutral-600 
       text-neutral-800 
       dark:text-neutral-100  */
-      transition-all ;
+      transition-all;
   }
 
   .portero {
-    @apply 
-      bg-[#fff] 
+    @apply bg-[#fff] 
       dark:bg-[#121212]
       text-neutral-800 
       dark:text-[#fff] 
-      transition-all ;
+      transition-all;
   }
+
+  
 }
- 
+
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -33,63 +33,63 @@
 
     --card: 0 0% 100%;
     --card-foreground: 0 0% 3.9%;
- 
+
     --popover: 0 0% 100%;
     --popover-foreground: 0 0% 3.9%;
- 
+
     --primary: 0 0% 9%;
     --primary-foreground: 0 0% 98%;
- 
+
     --secondary: 0 0% 96.1%;
     --secondary-foreground: 0 0% 9%;
- 
+
     --muted: 0 0% 96.1%;
     --muted-foreground: 0 0% 45.1%;
- 
+
     --accent: 0 0% 96.1%;
     --accent-foreground: 0 0% 9%;
- 
+
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
 
     --border: 0 0% 89.8%;
     --input: 0 0% 89.8%;
     --ring: 0 0% 3.9%;
- 
+
     --radius: 0.5rem;
   }
- 
+
   .dark {
     --background: 0 0% 3.9%;
     --foreground: 0 0% 98%;
- 
+
     --card: 0 0% 3.9%;
     --card-foreground: 0 0% 98%;
- 
+
     --popover: 0 0% 3.9%;
     --popover-foreground: 0 0% 98%;
- 
+
     --primary: 0 0% 98%;
     --primary-foreground: 0 0% 9%;
- 
+
     --secondary: 0 0% 14.9%;
     --secondary-foreground: 0 0% 98%;
- 
+
     --muted: 0 0% 14.9%;
     --muted-foreground: 0 0% 63.9%;
- 
+
     --accent: 0 0% 14.9%;
     --accent-foreground: 0 0% 98%;
- 
+
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
- 
+
     --border: 0 0% 14.9%;
     --input: 0 0% 14.9%;
     --ring: 0 0% 83.1%;
   }
 }
- 
+
 @layer base {
   * {
     @apply border-border;
@@ -99,20 +99,18 @@
   }
 }
 
-
-
-.ag-root-wrapper  {
+.ag-root-wrapper {
   --ag-header-column-separator-display: none;
   --ag-borders: none;
-  border-radius: 5px
+  border-radius: 5px;
 }
 
- /* .ag-header-cell-label {
+/* .ag-header-cell-label {
   display: flex;
   align-items: center;
   justify-content: center;
  } */
 
- .ag-center-header .ag-header-cell-label {
+.ag-center-header .ag-header-cell-label {
   justify-content: center;
 }

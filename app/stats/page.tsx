@@ -60,7 +60,7 @@ export default async function StatsPage({
 
   const { allTeams: fetchedTeams } = await getAllTeams();
 
-  function formatPlayersWithStats(players, stats) {
+  function formatPlayersWithStats(players: players[], stats: stats[]) {
     const formattedPlayers = [];
 
     for (const player of players) {
@@ -188,11 +188,11 @@ export default async function StatsPage({
           <Link
             className="flex-none"
             href={
-              `/stats?page=1` + (team && team !== "-1" ? `&team=${team}` : "")
+              `/stats?page=1` + (team && team !== -1 ? `&team=${team}` : "")
             }
           >
             <Button
-              variant="stardard"
+              variant="outline"
               size="default"
               className={`transition-all w-14`}
             >
@@ -206,12 +206,12 @@ export default async function StatsPage({
           <Link
             href={
               `/stats?page=${page > 1 ? page - 1 : 1}` +
-              (team && team !== "-1" ? `&team=${team}` : "")
+              (team && team !== -1 ? `&team=${team}` : "")
             }
             className={`${page ? "" : ""}`}
           >
             <Button
-              variant="stardard"
+              variant="outline"
               size="default"
               className={` transition-all w-24 uppercase`}
             >
@@ -224,12 +224,12 @@ export default async function StatsPage({
             href={
               `/stats?page=${
                 playersWithStats.length === limit ? page + 1 : page
-              }` + (team && team !== "-1" ? `&team=${team}` : "")
+              }` + (team && team !== -1 ? `&team=${team}` : "")
             }
             className={`${page ? "" : ""}`}
           >
             <Button
-              variant="stardard"
+              variant="outline"
               size="default"
               className={` transition-all w-24 uppercase `}
             >

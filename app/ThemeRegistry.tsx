@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
 // import theme from '/path/to/your/theme';
 
-export default function ThemeRegistry(props) {
+export default function ThemeRegistry(props: { options: any; children: any; }) {
   const { options, children } = props;
 
   const [{ cache, flush }] = useState(() => {

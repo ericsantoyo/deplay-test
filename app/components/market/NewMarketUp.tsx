@@ -242,8 +242,8 @@ const NewMarketUp = () => {
             // timeout={{ enter: 100, exit: 100 }}
             // style={{ transitionDelay: open ? "0ms" : "0ms" }} // Adjust this value
           >
-            <Card className=" w-[340px] h-fit p-4 transition-all absolute outline-none rounded-md flex flex-col justify-between ">
-              <Card className="py-2 px-4 flex flex-col justify-start items-center rounded-md ">
+            <Card className=" w-[340px] h-fit p-4 transition-all absolute outline-none  flex flex-col justify-between  ">
+              <Card className="py-2 px-4 flex flex-col justify-start items-center   ">
                 <div className="flex flex-row justify-center items-center mb-2 w-full">
                   <div className="text-lg font-bold uppercase text-center w-min whitespace-nowrap	 ">
                     {selectedPlayer.playerData.nickname}
@@ -440,7 +440,7 @@ const NewMarketUp = () => {
                   </TabsTrigger>
                 </TabsList>
                 <TabsContent value="table">
-                  <Card className="h-[330px] pt-0 flex flex-col justify-between items-center rounded-md border-none shadow-none">
+                  <Card className="h-[330px] pt-0 flex flex-col justify-between items-center  border-none shadow-none">
                     <Table className="m-auto w-auto mt-1">
                       <TableHeader>
                         <TableRow>
@@ -514,7 +514,7 @@ const NewMarketUp = () => {
                   </Card>{" "}
                 </TabsContent>
                 <TabsContent value="graph" className="h-fit ">
-                  <Card className="h-[330px] w-full pt-0 flex flex-col justify-start items-center rounded-md border-none shadow-none">
+                  <Card className="h-[330px] w-full pt-0 flex flex-col justify-start items-center  border-none shadow-none">
                     <div className="flex flex-col w-full justify-start items-start ">
                       <ModalValueChart
                         fetchedPlayer={selectedPlayer.playerData}
@@ -592,7 +592,7 @@ const NewMarketUp = () => {
       <Card
         id="grid-wrapper"
         className={
-          "h-auto flex flex-col justify-start items-center transition-all rounded"
+          "h-auto flex flex-col justify-start items-center transition-all rounded  "
         }
       >
         {/* Search Bar */}

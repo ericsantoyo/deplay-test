@@ -150,7 +150,7 @@ const TeamRoster: React.FC<TeamRosterProps> = ({
                     key={point.week}
                   >
                     <div
-                      className={`flex justify-center items-center text-center border-[0.5px] md:w-5 md:h-5 w-[18px] h-[18px] border-neutral-700   rounded-sm   ${getColor(
+                      className={`flex justify-center items-center text-center border-[0.5px] md:w-5 md:h-5 w-[18px] h-[18px] border-neutral-700     ${getColor(
                         point.points
                       )}`}
                     >

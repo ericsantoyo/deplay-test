@@ -2,23 +2,15 @@ import GamesIcon from "@/app/components/navbar/GamesIcon";
 import Logo from "@/app/components/navbar/Logo";
 import SearchBox from "@/app/components/navbar/SearchBox";
 import SocialIcons from "@/app/components/navbar/SocialIcons";
-import TextItems from "@/app/components/navbar/TextItems";
-import Hamburger from "@/app/components/navbar/Hamburger";
-import DeleteIcon from "@mui/icons-material/Delete";
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
-import PriceChangeIcon from "@mui/icons-material/PriceChange";
-import GroupsTwoToneIcon from "@mui/icons-material/GroupsTwoTone";
 import AssignmentIndIcon from "@mui/icons-material/AssignmentInd";
 import NewspaperIcon from "@mui/icons-material/Newspaper";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
-import SportsSoccerIcon from "@mui/icons-material/SportsSoccer";
 import QueryStatsIcon from "@mui/icons-material/QueryStats";
-import SportsIcon from "@mui/icons-material/Sports";
 import Link from "next/link";
 import TroubleshootIcon from "@mui/icons-material/Troubleshoot";
-import SavedSearchIcon from "@mui/icons-material/SavedSearch";
-import PersonSearchIcon from "@mui/icons-material/PersonSearch";
+
 
 import { getAllMatches } from "@/database/client";
 
@@ -65,7 +57,7 @@ const TopBar = (props: Props) => {
             <SheetTrigger asChild>
               <GamesIcon className="" />
             </SheetTrigger>
-            <SheetContent className=" w-[350px] h-full p-0 flex flex-col bg-neutral-50  shadow-lg shadow-neutral-500">
+            <SheetContent className=" w-[350px] h-full p-0 flex flex-col bg-neutral-50  shadow-lg shadow-neutral-300">
               <GamesSheet />
             </SheetContent>
           </Sheet>
@@ -101,7 +93,9 @@ const TopBar = (props: Props) => {
             side={"top"}
             className=" flex flex-row justify-between items-center pr-14"
           >
-            <SearchBox className={``} onSearch={handleSearch} />
+            <SearchBox className={``} 
+            // onSearch={handleSearch} 
+            />
             <SocialIcons className=" shrink-0 flex justify-between items-center space-x-3" />
           </SheetContent>
         </Sheet>
@@ -116,7 +110,9 @@ const TopBar = (props: Props) => {
             className={`transition-all flex flex-row justify-between items-center w-full space-x-3 py-4  `}
           >
             {/* SEARCHBOX */}
-            <SearchBox className={`grow `} onSearch={handleSearch} />
+            <SearchBox className={`grow `} 
+            // onSearch={handleSearch} 
+            />
             {/* SOCIALS */}
             <SocialIcons className=" shrink-0 flex justify-between items-center space-x-3" />
             {/* THEMETOGGLE */}
@@ -137,13 +133,7 @@ const TopBar = (props: Props) => {
             </SignedIn> */}
           </div>
 
-          {/* TEXT MENU */}
-          {/* <TextItems
-            classNameDiv={`order-last md:order-first   flex-nowrap font-semibold 
-            }`}
-            classNameUL={""}
-            classNameLI={""}
-          /> */}
+      
           <div className="hidden lg:flex order-last md:order-first justify-between items-center  md:gap-2 lg:gap-8  flex-nowrap font-semibold mr-4">
             {/* MARKET BUTTON */}
             <Link

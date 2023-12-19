@@ -11,7 +11,7 @@ export type SearchProps = {
 };
 
 const SearchBox = (props: SearchProps) => {
-  const { onSearch } = props;
+  // const { onSearch } = props;
   // const [value, setValue] = useState("");
 
   // const searchHandler = (event: ChangeEvent<HTMLInputElement>) => {

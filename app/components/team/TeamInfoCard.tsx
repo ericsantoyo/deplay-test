@@ -21,15 +21,7 @@ interface PlayerStats {
   value: number;
 }
 
-interface TeamInfoCardProps {
-  teamInfo: teams;
-  playerInfo: players[] | null;
-}
-
-export default async function TeamInfoCard({
-  teamInfo,
-  playerInfo,
-}: TeamInfoCardProps) {
+export default async function TeamInfoCard({ teamInfo, playerInfo }) {
   const { teamMatches: matchesData } = await getMatchesByTeamID(
     teamInfo.teamID
   );
@@ -44,7 +36,7 @@ export default async function TeamInfoCard({
 
   return (
     <>
-      <Card className="transition-all flex flex-row justify-between items-center gap-6 md:gap-8 md:px-6 px-4 py-4 text-xs md:text-sm rounded-sm">
+      <Card className="transition-all flex flex-row justify-between items-center gap-6 md:gap-8 md:px-6 px-4 py-4 text-xs md:text-sm rounded  ">
         <NextMatches
           matches={teamMatches}
           selectedTeam={teamInfo.teamID}

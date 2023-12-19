@@ -57,7 +57,7 @@ export default function TeamMatchList({
           {finishedMatches.map((match) => (
             <div className="w-full" key={match.matchID}>
               <Card
-                className={`flex flex-col justify-between items-center min-w-[130px] w-full p-3 h-12 py-2.5 text-center rounded-sm shadow-none ${getBackgroundColor(
+                className={`flex flex-col justify-between items-center min-w-[130px] w-full p-3 h-12 py-2.5 text-center  shadow-none ${getBackgroundColor(
                   match,
                   teamselected
                 )}`}
@@ -112,7 +112,7 @@ export default function TeamMatchList({
         <div className="flex flex-col justify-start items-center gap-1 w-full">
           {upcomingMatches.map((match) => (
             <div className="w-full" key={match.matchID}>
-              <Card className="flex flex-col justify-between items-center min-w-[130px]	h-12 p-3 py-2.5 text-center rounded-sm shadow-none">
+              <Card className="flex flex-col justify-between items-center min-w-[130px]	h-12 p-3 py-2.5 text-center  shadow-none">
                 <div className="flex flex-row justify-between items-center text-center h-full w-full ">
                   <Image
                     src={`/teamLogos/${slugById(match.localTeamID)}.png`}

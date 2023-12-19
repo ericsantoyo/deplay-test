@@ -12,24 +12,24 @@ export interface ClubIcon {
   dspId: number; 
 }
 
-export const navLinks: NavLink[] = [
-  // {
-  //   id: "/partidos",
-  //   title: "PARTIDOS",
-  // },
-  {
-    id: "/market",
-    title: "MERCADO",
-  },
-  {
-    id: "/stats",
-    title: "ESTADÍSTICAS",
-  },
-  {
-    id: "/news",
-    title: "NOTICIAS",
-  },
-];
+// export const navLinks: NavLink[] = [
+//   {
+//     id: "/partidos",
+//     title: "PARTIDOS",
+//   },
+//   {
+//     id: "/market",
+//     title: "MERCADO",
+//   },
+//   {
+//     id: "/stats",
+//     title: "ESTADÍSTICAS",
+//   },
+//   {
+//     id: "/news",
+//     title: "NOTICIAS",
+//   },
+// ];
 
 export const clubIcons: ClubIcon[] = [
   {

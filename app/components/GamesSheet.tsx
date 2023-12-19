@@ -105,7 +105,7 @@ export default function GamesSheet() {
           {/* Display matches for the selected week */}
           {Array.from({ length: 10 }, (_, index) => (
             <div key={index}>
-              <Card className="flex flex-col justify-between items-center w-[155px] h-full py-[6px] text-center rounded-md">
+              <Card className="flex flex-col justify-between items-center w-[155px] h-full py-[6px] text-center ">
                 <Skeleton className="h-[8px] w-7 mb-2" />
                 <div className="flex flex-row justify-between w-full items-center ">
                   <Skeleton className="h-7 ml-3 w-7 rounded-full" />
@@ -174,7 +174,7 @@ export default function GamesSheet() {
             )
             .map((match) => (
               <div key={match.matchID}>
-                <Card className="flex flex-col justify-between items-center w-[155px] h-full py-[6px] text-center rounded-md">
+                <Card className="flex flex-col justify-between items-center w-[155px] h-full py-[6px] text-center   ">
                   <p className="text-[10px] uppercase font-medium text-center">
                     <span className="font-bold">
                       {new Date(match.matchDate).toLocaleDateString("es-EU", {

@@ -85,7 +85,7 @@ const prepareValueChangesData = (playerWithStats: players) => {
 
   return (
     // <pre>{JSON.stringify(playersWithStats, null, 2)}</pre>
-    <Card className="h-96 pt-0 px-4 md:px-8 w-full flex flex-col justify-between items-center rounded-md border-none shadow-none">
+    <Card className="h-96 pt-0 px-4 md:px-8 w-full flex flex-col justify-between items-center  border-none shadow-none">
       
       <Table className="m-auto w-full  mt-1">
         <TableHeader className=" ">

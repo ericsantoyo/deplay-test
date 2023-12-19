@@ -75,7 +75,7 @@ export default function CommingWeek() {
           {/* Display matches for the selected week */}
           {matchesForSelectedWeek.map((match) => (
             <div key={match.matchID}>
-              <Card className="flex flex-col justify-between items-center w-full  h-full py-[6px] text-center rounded-md">
+              <Card className="flex flex-col justify-between items-center w-full  h-full py-[6px] text-center ">
                 {/* <p className="text-[10px] uppercase font-medium text-center">
                     {new Date(match.matchDate).toLocaleDateString("es-EU", {
                       weekday: "short",

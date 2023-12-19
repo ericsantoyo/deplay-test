@@ -14,11 +14,11 @@ import React from "react";
 
 export default function MatchesStats({
   matchesData,
-  
+
   playerStat,
 }: {
   matchesData: matches[];
-  
+
   playerStat: stats[];
 }) {
   const renderPerformanceIcons = (matchWeek: number, matchState: number) => {
@@ -135,7 +135,7 @@ export default function MatchesStats({
   };
 
   return (
-    <Card className="flex flex-col justify-start items-start p-2 w-full">
+    <Card className="flex flex-col justify-start items-start p-2 w-full  ">
       <h3 className="font-bold text-xl mx-auto">Partidos</h3>
       {/* <pre>{JSON.stringify(matchesData, null, 2)}</pre> */}
       <ul className="list-none w-full flex flex-col justify-start items-start">
@@ -145,7 +145,7 @@ export default function MatchesStats({
               <p className="text-[10px] uppercase font-semibold text-center whitespace-nowrap	w-8">
                 J-{match.week}
               </p>
-              
+
               <div className="flex flex-col justify-between items-center w-[100px] py-[6px] text-center rounded-md px-2">
                 <div className="flex flex-row justify-between items-center text-center w-full ">
                   <Image

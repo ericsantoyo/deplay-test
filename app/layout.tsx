@@ -2,8 +2,6 @@ import type { Metadata } from "next";
 import { Inter, Roboto, Poppins } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/app/components/navbar/Navbar";
-import { Main } from "next/document";
-import StyledJsxRegistry from "./registry";
 import Footer from "./components/footer/Footer";
 import BottomMenu from "./components/BottomMenu";
 import { Analytics } from "@vercel/analytics/react";

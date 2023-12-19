@@ -47,7 +47,7 @@ const TeamLineup: React.FC<Props> = ({ teamselected, teamPlayers }) => {
     ],
   };
 
-  const renderPlayers = (players, positionType) => {
+  const renderPlayers = (players: any[], positionType: string) => {
     return players.map((player, index) => (
       <div
         key={player.playerID}

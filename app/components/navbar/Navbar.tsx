@@ -1,7 +1,8 @@
 import TopBar from "./TopBar";
 import ClubIcons from "./ClubIcons";
 import { Paper } from "@mui/material";
-import TextItems from "./TextItems";
+
+import { Card } from "@/components/ui/card";
 
 type Props = {};
 
@@ -10,16 +11,15 @@ const Navbar = (props: Props) => {
 
   return (
   
-      <Paper
-        elevation={3}
-        className="w-full transition-all pt-2 mb-5"
+      <Card
+       
+        className="w-full transition-all pt-2 mb-5 border-none rounded shadow-md shadow-neutral-300"
       >
         {/* NAVBAR - TOP ROW */}
         <TopBar />
-        <TextItems classNameDiv={"md:hidden font-semibold "} classNameUL={""}  classNameLI={""}/>
         {/* NAVBAR - BOTTOM ROW */}
         <ClubIcons />
-      </Paper>
+      </Card>
   
   );
 };
