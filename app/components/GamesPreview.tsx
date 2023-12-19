@@ -105,8 +105,8 @@ export default function GamesPreview() {
       </div>
       {/* <div className="mb-4 w-full border-t border-neutral-300"></div> */}
       {/* <Separator className=" mb-4" /> */}
-      <div className="flex flex-row justify-between items-center w-full">
-        <div className=" grid grid-cols-2 md:grid-cols-5 gap-x-3 gap-y-2 mx-auto w-full">
+      <div className="flex flex-row justify-between items-center w-full p-1">
+        <div className=" grid grid-cols-2 md:grid-cols-5 gap-x-3 gap-y-2 mx-auto w-full ">
           {/* Display matches for the selected week */}
           {matches &&
             matches.allMatches
@@ -141,9 +141,9 @@ export default function GamesPreview() {
                 }
 
                 return (
-                  <div key={match.matchID}>
-                    <Card className="flex flex-row justify-between items-center w-full h-full px-4 text-center rounded-md">
-                      <div className="flex flex-col justify-center items-center">
+                  <div className="" key={match.matchID}>
+                    <Card className="flex flex-row justify-between items-center w-full h-full px-4 text-center rounded">
+                      <div className="flex flex-col justify-center items-center rounded">
                         <Image
                           src={`/teamLogos/${slugById(match.localTeamID)}.png`}
                           alt="home team"

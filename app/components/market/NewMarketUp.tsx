@@ -589,11 +589,10 @@ const NewMarketUp = () => {
           </Fade>
         </Modal>
       )}
-      <Paper
-        elevation={4}
+      <Card
         id="grid-wrapper"
         className={
-          "h-auto flex flex-col justify-start items-center transition-all"
+          "h-auto flex flex-col justify-start items-center transition-all rounded"
         }
       >
         {/* Search Bar */}
@@ -640,7 +639,7 @@ const NewMarketUp = () => {
             }}
           ></AgGridReact>
         </div>
-      </Paper>
+      </Card>
     </>
   );
 };
