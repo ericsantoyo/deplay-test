@@ -43,6 +43,11 @@ export type Match = {
   matchState: number;
 };
 
+export type PlayerWithStats = {
+  playerData: Player;
+  stats: PlayerStats[];
+};
+
 export type PlayerStats = {
   playerID: number;
   ball_recovery: [number, number];

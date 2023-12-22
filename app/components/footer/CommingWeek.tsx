@@ -14,7 +14,7 @@ export default function CommingWeek() {
   const { data: matches, error } = useSWR("/api/user", getAllMatches);
 
   useEffect(() => {
-    if (matches?.allMatches) {
+    if (matches && matches.allMatches) {
       const initialWeek = getCurrentWeek(matches.allMatches);
       setSelectedWeek(initialWeek);
     }
@@ -33,13 +33,18 @@ export default function CommingWeek() {
   };
 
   if (error) return <div>Error fetching matches</div>;
-  if (!matches) return <div>
-    <Skeleton className="w-full h-10" />
-  </div>; 
+  if (!matches || !matches.allMatches)
+    return <Skeleton className="w-full h-10" />;
 
-  const matchesForSelectedWeek = matches.allMatches
-    .filter((match) => match.week === selectedWeek)
-    .sort((a, b) => new Date(a.matchDate).getTime() - new Date(b.matchDate).getTime());
+  const matchesForSelectedWeek =
+    matches && matches.allMatches
+      ? matches.allMatches
+          .filter((match) => match.week === selectedWeek)
+          .sort(
+            (a, b) =>
+              new Date(a.matchDate).getTime() - new Date(b.matchDate).getTime()
+          )
+      : [];
 
   return (
     <div className="flex flex-col justify-start items-center w-full h-full overflow-y-auto grow">
