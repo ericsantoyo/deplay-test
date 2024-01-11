@@ -254,79 +254,69 @@ const formationPlayerCounts = {
 
 const MyTeamLineup = ({ teamPlayers }: { teamPlayers: PlayerWithStats[] }) => {
   const [formation, setFormation] = useState("5-4-1");
-  const renderPlayers = (players: PlayerWithStats[], positionType: string) => {
-    const positions = formationPositions[formation][positionType];
-    return players.map((player, index) => {
-      if (index >= positions.length) {
-        // This check prevents trying to access a position that doesn't exist
-        return null;
-      }
 
-      return (
-        <div
-          key={player.playerID}
-          className="player flex flex-col items-center justify-center"
-          style={{
-            position: "absolute",
-            top: positions[index].top,
-            left: positions[index].left,
-            transform: "translate(-50%, -50%)",
-            width: "84px",
-            height: "84px",
-          }}
-        >
-          <div
-            className="image-container"
-            style={{ position: "relative", width: "100%", height: "100%" }}
-          >
-            <Link href={`/player/${player.playerData.playerID}`}>
-              <Image
-                src={player.playerData.image}
-                alt={player.playerData.name}
-                width={84}
-                height={84}
-                // fill={true}
-                // style={{ objectFit: "contain" }}
-                priority
-              />
-            </Link>
-          </div>
-          <Link href={`/player/${player.playerData.playerID}`}>
-            <Card className="font-semibold text-center min-w-[72px] px-2 border-none rounded-xs text-base shadow-md shadow-neutral-800 text-neutral-800 backdrop-blur-xl bg-white/50 whitespace-nowrap	">
-              {player.playerData.nickname.split(" ").slice(-1).join(" ")}
-            </Card>
-          </Link>
-          <p className="text-center text-xs">{player.playerData.position}</p>
-          <p className="text-center text-xs">{player.playerData.points}</p>
-        </div>
-      );
-    });
+  const renderPlayers = (positionType) => {
+    const positions = formationPositions[formation][positionType];
+    const filteredSortedPlayers = teamPlayers
+      .filter((p) => p.playerData.positionID === positionTypeMap[positionType])
+      .sort((a, b) => b.playerData.points - a.playerData.points)
+      .slice(0, formationPlayerCounts[formation][positionType]);
+
+    return filteredSortedPlayers.map((player, index) => (
+      <div
+        key={player.playerID}
+        className="absolute flex flex-col items-center justify-center transform  -translate-x-1/2 -translate-y-1/2"
+        style={{
+          top: positions[index].top,
+          left: positions[index].left,
+        }}
+      >
+        <Link className="relative w-full h-full" href={`/player/${player.playerData.playerID}`}>
+          <Image
+            src={player.playerData.image}
+            alt={player.playerData.name}
+            fill={true}
+            style={{ objectFit: "contain" }}
+            className="w-full h-full object-cover "
+            priority
+          />
+        </Link>
+
+        <Link href={`/player/${player.playerData.playerID}`}>
+          <Card className="font-semibold text-center min-w-[72px] px-2 border-none rounded-xs text-base shadow-md shadow-neutral-800 text-neutral-800 backdrop-blur-xl bg-white/50 whitespace-nowrap	">
+            {player.playerData.nickname.split(" ").slice(-1).join(" ")}
+          </Card>
+        </Link>
+        <p className="text-center text-xs">{player.playerData.position}</p>
+        <p className="text-center text-xs">{player.playerData.points}</p>
+      </div>
+    ));
+  };
+  const positionTypeMap = {
+    goalkeepers: 1,
+    defenders: 2,
+    midfielders: 3,
+    forwards: 4,
   };
 
   return (
-    <div className="">
+    <div>
       <div className="w-24 mx-auto my-4">
- 
-      <Select value={formation} onValueChange={(value) => setFormation(value)}>
-        <SelectTrigger>
-          <SelectValue>{`${formation}`}</SelectValue>
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem value="5-4-1">5-4-1</SelectItem>
-          <SelectItem value="5-3-2">5-3-2</SelectItem>
-          <SelectItem value="5-2-3">5-2-3</SelectItem>
-          <SelectItem value="4-6-0">4-6-0</SelectItem>
-          <SelectItem value="4-5-1">4-5-1</SelectItem>
-          <SelectItem value="4-4-2">4-4-2</SelectItem>
-          <SelectItem value="4-3-3">4-3-3</SelectItem>
-          <SelectItem value="4-2-4">4-2-4</SelectItem>
-          <SelectItem value="3-6-1">3-6-1</SelectItem>
-          <SelectItem value="3-5-2">3-5-2</SelectItem>
-          <SelectItem value="3-4-3">3-4-3</SelectItem>
-          <SelectItem value="3-3-4">3-3-4</SelectItem>
-        </SelectContent>
-      </Select>
-             
+        <Select
+          value={formation}
+          onValueChange={(value) => setFormation(value)}
+        >
+          <SelectTrigger>
+            <SelectValue>{formation}</SelectValue>
+          </SelectTrigger>
+          <SelectContent>
+            {Object.keys(formationPositions).map((form) => (
+              <SelectItem key={form} value={form}>
+                {form}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
       </div>
       <div className="relative max-w-2xl mx-auto min-w-[343px]">
         <div className="w-full ">
@@ -339,37 +329,8 @@ const MyTeamLineup = ({ teamPlayers }: { teamPlayers: PlayerWithStats[] }) => {
           />
         </div>
 
-        {teamPlayers && (
-          <>
-            {renderPlayers(
-              teamPlayers
-                ?.filter((p) => p.playerData.positionID === 1)
-                .sort((a, b) => b.playerData.points - a.playerData.points)
-                .slice(0, formationPlayerCounts[formation].goalkeepers),
-              "goalkeepers"
-            )}
-            {renderPlayers(
-              teamPlayers
-                ?.filter((p) => p.playerData.positionID === 2)
-                .sort((a, b) => b.playerData.points - a.playerData.points)
-                .slice(0, formationPlayerCounts[formation].defenders),
-              "defenders"
-            )}
-            {renderPlayers(
-              teamPlayers
-                ?.filter((p) => p.playerData.positionID === 3)
-                .sort((a, b) => b.playerData.points - a.playerData.points)
-                .slice(0, formationPlayerCounts[formation].midfielders),
-              "midfielders"
-            )}
-            {renderPlayers(
-              teamPlayers
-                ?.filter((p) => p.playerData.positionID === 4)
-                .sort((a, b) => b.playerData.points - a.playerData.points)
-                .slice(0, formationPlayerCounts[formation].forwards),
-              "forwards"
-            )}
-          </>
+        {Object.keys(positionTypeMap).map((position) =>
+          renderPlayers(position)
         )}
       </div>
     </div>

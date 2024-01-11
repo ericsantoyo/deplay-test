@@ -57,8 +57,8 @@ const TeamLineup: React.FC<Props> = ({ teamselected, teamPlayers }) => {
           top: positions[positionType][index].top,
           left: positions[positionType][index].left,
           transform: "translate(-50%, -50%)",
-          width: "84px", // larger width
-          height: "84px", // larger height to allow zooming
+          width: "84px", 
+          height: "84px", 
         }}
       >
         <div

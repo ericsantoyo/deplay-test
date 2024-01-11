@@ -16,6 +16,33 @@ interface SocialIconsProps {
 const SocialIcons = ({ className }: SocialIconsProps) => {
   return (
     <div className={`${className} `}>
+      {/* TWITTER LOGO */}
+      <Link className="" target="_blank" href="https://twitter.com/home">
+        <Tooltip
+          PopperProps={{
+            modifiers: [
+              {
+                name: "offset",
+                options: {
+                  offset: [0, -7],
+                },
+              },
+            ],
+          }}
+          title="Twitter"
+        >
+          <Button
+            variant="default"
+            size={"icon"}
+            className={` group transition-all bg-neutral-50 dark:bg-neutral-300 dark:hover:bg-sky-600 hover:bg-sky-600`}
+          >
+            <TwitterIcon
+              color="primary"
+              className="group-hover:text-neutral-100 transition  "
+            />
+          </Button>
+        </Tooltip>
+      </Link>
       {/* YOUTUBE LOGO */}
       <Link className="" target="_blank" href="https://www.youtube.com/">
         <Tooltip
@@ -40,34 +67,6 @@ const SocialIcons = ({ className }: SocialIconsProps) => {
               color="error"
               className="group-hover:text-neutral-100 transition "
             />
-          </Button>
-        </Tooltip>
-      </Link>
-
-      {/* TWITTER LOGO */}
-      <Link className="" target="_blank" href="https://twitter.com/home">
-        <Tooltip
-          PopperProps={{
-            modifiers: [
-              {
-                name: "offset",
-                options: {
-                  offset: [0, -7],
-                },
-              },
-            ],
-          }}
-          title="Twitter"
-        >
-          <Button
-            variant="default"
-            size={"icon"}
-            className={` group transition-all bg-neutral-50 dark:bg-neutral-300 dark:hover:bg-sky-600 hover:bg-sky-600`}
-          >
-            <TwitterIcon
-            color="primary"
-            className="group-hover:text-neutral-100 transition  "
-          />
           </Button>
         </Tooltip>
       </Link>

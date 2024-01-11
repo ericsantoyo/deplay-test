@@ -11,7 +11,6 @@ import QueryStatsIcon from "@mui/icons-material/QueryStats";
 import Link from "next/link";
 import TroubleshootIcon from "@mui/icons-material/Troubleshoot";
 
-
 import { getAllMatches } from "@/database/client";
 
 import {
@@ -27,17 +26,6 @@ import {
 import GamesSheet from "../GamesSheet";
 import MenuIcon from "@mui/icons-material/Menu";
 
-// import { UserButton } from "@clerk/nextjs";
-// import {
-//   SignInButton,
-//   SignOutButton,
-//   SignedIn,
-//   SignedOut,
-// } from "@clerk/nextjs";
-// import { Button } from "@/components/ui/button";
-
-// CHANGEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE    eeeeeeeeeeeeeeeeeeeeeeeeeeeee start
-
 type Props = {};
 
 const TopBar = (props: Props) => {
@@ -47,20 +35,26 @@ const TopBar = (props: Props) => {
     <>
       <div
         className="
-        container flex justify-between items-center md:flex-row 
-        mx-auto max-w-6xl w-full md:flex-nowrap flex-wrap 
+        container flex justify-between items-center 
+        mx-auto max-w-6xl w-full  flex-nowrap 
         "
       >
-        {/* --- GAMES ICON --- */}
+        {/* --- GAMES & SEARCH ICONS --- */}
         <div className="md:order-2 shrink-0 md:ml-3">
-          <Sheet>
-            <SheetTrigger asChild>
-              <GamesIcon className="" />
-            </SheetTrigger>
-            <SheetContent className=" w-[350px] h-full p-0 flex flex-col bg-neutral-50  shadow-lg shadow-neutral-300">
-              <GamesSheet />
-            </SheetContent>
-          </Sheet>
+          <div className="shrink-0 flex justify-between items-center ">
+            {/* <SearchBox divClassName="hidden" /> */}
+            <div className="md:ml-3">
+              <Sheet>
+                <SheetTrigger asChild>
+                  <GamesIcon className="" />
+                </SheetTrigger>
+                <SheetContent className=" w-[350px] h-full p-0 flex flex-col bg-neutral-50  shadow-lg shadow-neutral-300">
+                  <GamesSheet />
+                </SheetContent>
+              </Sheet>
+            </div>
+            <SearchBox divClassName="md:order-first ml-3 md:ml-0" />
+          </div>
         </div>
 
         {/* --- LOGO --- */}
@@ -68,150 +62,80 @@ const TopBar = (props: Props) => {
           <Logo className="" />
         </div>
 
-        {/* --- HAMBURGER MENU --- */}
-        <Sheet>
-          <div className="md:hidden shrink-0">
-            <SheetTrigger asChild>
-              <IconButton
-                size="large"
-                className="w-12 h-12 group"
-                sx={{
-                  // boxShadow: 2,
-                  borderRadius: 1,
-                  padding: 0,
-                }}
-              >
-                <MenuIcon
-                  fontSize="large"
-                  sx={{}}
-                  className="transition-all group-hover:scale-110 dark:text-neutral-300 "
-                />
-              </IconButton>
-            </SheetTrigger>
-          </div>
-          <SheetContent
-            side={"top"}
-            className=" flex flex-row justify-between items-center pr-14"
+        {/* --- SOCIAL ICONS --- */}
+        <SocialIcons className=" shrink-0 flex justify-between items-center space-x-3" />
+
+        {/* MENU WITH TEXT AND ICONS */}
+        <div className="hidden lg:flex order-last md:order-first justify-between items-center  md:gap-2 lg:gap-8  flex-nowrap font-semibold mr-4">
+          {/* MARKET BUTTON */}
+          <Link
+            href="/market"
+            className="w-16 flex flex-col justify-center items-center"
           >
-            <SearchBox className={``} 
-            // onSearch={handleSearch} 
-            />
-            <SocialIcons className=" shrink-0 flex justify-between items-center space-x-3" />
-          </SheetContent>
-        </Sheet>
+            <IconButton sx={{ padding: 0 }}>
+              <QueryStatsIcon
+                className="text-neutral-800 "
+                sx={{ fontSize: 28 }}
+              />
+            </IconButton>
+            <p className="text-center text-[14px] p-0 m-0">Mercado</p>
+          </Link>
 
-        <div
-          className={`
-          transition-all md:flex md:flex-row justify-between md:items-center  w-full md:w-auto flex-nowrap 
-             flex-col items-center" hidden
-            }`}
-        >
-          <div
-            className={`transition-all flex flex-row justify-between items-center w-full space-x-3 py-4  `}
+          {/* NEWS BUTTON */}
+          <Link
+            href="/news"
+            className="w-16 flex flex-col justify-center items-center"
           >
-            {/* SEARCHBOX */}
-            <SearchBox className={`grow `} 
-            // onSearch={handleSearch} 
-            />
-            {/* SOCIALS */}
-            <SocialIcons className=" shrink-0 flex justify-between items-center space-x-3" />
-            {/* THEMETOGGLE */}
+            <IconButton sx={{ padding: 0 }}>
+              <NewspaperIcon
+                className="text-neutral-800"
+                sx={{ fontSize: 28 }}
+              />
+            </IconButton>
+            <p className="text-center text-[14px] p-0 m-0">Noticias</p>
+          </Link>
 
-            {/* <SignedOut>
-              <SignInButton mode="modal">
-                <Button variant="usericon" size="rounded" className="shrink-0 group">
-                  <User className="group-hover:invert transition p-[1px]" />
-                </Button>
-              </SignInButton>
-            </SignedOut>
+          {/* STATS BUTTON */}
+          <Link
+            href="/stats"
+            className="w-16 flex flex-col justify-center items-center"
+          >
+            <IconButton sx={{ padding: 0 }}>
+              <TroubleshootIcon
+                className="text-neutral-800"
+                sx={{ fontSize: 28 }}
+              />
+            </IconButton>
+            <p className="text-center text-[14px] p-0 m-0">Stats</p>
+          </Link>
 
-            <SignedIn> */}
-            {/* USERBUTTON */}
-            {/* <div className="ml-2 shrink-0">
-                <UserButton afterSignOutUrl="/" />
-              </div>
-            </SignedIn> */}
-          </div>
+          {/* STATS BUTTON */}
+          <Link
+            href="/calendar"
+            className="w-16 flex flex-col justify-center items-center"
+          >
+            <IconButton sx={{ padding: 0 }}>
+              <CalendarMonthIcon
+                className="text-neutral-800"
+                sx={{ fontSize: 28 }}
+              />
+            </IconButton>
+            <p className="text-center text-[14px] p-0 m-0">Calendario</p>
+          </Link>
 
-      
-          <div className="hidden lg:flex order-last md:order-first justify-between items-center  md:gap-2 lg:gap-8  flex-nowrap font-semibold mr-4">
-            {/* MARKET BUTTON */}
-            <Link
-              href="/market"
-              className="w-16 flex flex-col justify-center items-center"
-            >
-              <IconButton sx={{ padding: 0 }}>
-                <QueryStatsIcon
-                  className="text-neutral-800 "
-                  sx={{ fontSize: 28 }}
-                />
-              </IconButton>
-              <p className="text-center text-[14px] p-0 m-0">Mercado</p>
-            </Link>
-
-            {/* NEWS BUTTON */}
-            <Link
-              href="/news"
-              className="w-16 flex flex-col justify-center items-center"
-            >
-              
-                <IconButton sx={{ padding: 0 }}>
-                  <NewspaperIcon
-                    className="text-neutral-800"
-                    sx={{ fontSize: 28 }}
-                  />
-                </IconButton>
-                <p className="text-center text-[14px] p-0 m-0">Noticias</p>
-            </Link>
-
-            {/* STATS BUTTON */}
-            <Link
-              href="/stats"
-              className="w-16 flex flex-col justify-center items-center"
-            >
-              
-                <IconButton sx={{ padding: 0 }}>
-                  <TroubleshootIcon
-                    className="text-neutral-800"
-                    sx={{ fontSize: 28 }}
-                  />
-                </IconButton>
-                <p className="text-center text-[14px] p-0 m-0">Stats</p>
-            
-            </Link>
-
-            {/* STATS BUTTON */}
-            <Link
-              href="/calendar"
-              className="w-16 flex flex-col justify-center items-center"
-            >
-              
-                <IconButton sx={{ padding: 0 }}>
-                  <CalendarMonthIcon
-                    className="text-neutral-800"
-                    sx={{ fontSize: 28 }}
-                  />
-                </IconButton>
-                <p className="text-center text-[14px] p-0 m-0">Calendario</p>
-             
-            </Link>
-
-            {/* MYTEAM BUTTON */}
-            <Link
-              href="/myteam"
-              className="w-16 flex flex-col justify-center items-center"
-            >
-              
-                <IconButton sx={{ padding: 0 }}>
-                  <AssignmentIndIcon
-                    className="text-neutral-800"
-                    sx={{ fontSize: 28 }}
-                  />
-                </IconButton>
-                <p className="text-center text-[14px] p-0 m-0">MyTeam</p>
-              
-            </Link>
-          </div>
+          {/* MYTEAM BUTTON */}
+          <Link
+            href="/myteam"
+            className="w-16 flex flex-col justify-center items-center"
+          >
+            <IconButton sx={{ padding: 0 }}>
+              <AssignmentIndIcon
+                className="text-neutral-800"
+                sx={{ fontSize: 28 }}
+              />
+            </IconButton>
+            <p className="text-center text-[14px] p-0 m-0">MyTeam</p>
+          </Link>
         </div>
         {/* MENU WITH ONLY ICONS AND TOOLTIP */}
         <div className="hidden md:flex lg:hidden order-last md:order-first justify-between gap-3  flex-nowrap font-semibold mx-4">
