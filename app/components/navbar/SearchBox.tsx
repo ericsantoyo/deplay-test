@@ -64,9 +64,9 @@ const SearchBox = (props: SearchProps) => {
         onClose={handleClose}
         className="flex justify-center items-center "
       >
-        <Card className=" w-[250px] h-[405px]  p-4 transition-all absolute outline-none  flex flex-col justify-start  ">
+        <Card className=" w-[280px] h-[405px]  p-4 transition-all absolute outline-none  flex flex-col justify-start  ">
           <Paper
-            className={` w-full  mb-2 rounded px-1 py-1 flex`}
+            className={`mb-4 mt-1.5 mx-4 rounded px-1 flex justify-center items-center`}
             component="form"
             variant="outlined"
           >

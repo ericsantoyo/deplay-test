@@ -265,30 +265,30 @@ const MyTeamLineup = ({ teamPlayers }: { teamPlayers: PlayerWithStats[] }) => {
     return filteredSortedPlayers.map((player, index) => (
       <div
         key={player.playerID}
-        className="absolute flex flex-col items-center justify-center transform  -translate-x-1/2 -translate-y-1/2"
+        className="absolute flex flex-col items-center justify-center transform -translate-x-1/2 -translate-y-1/2"
         style={{
           top: positions[index].top,
           left: positions[index].left,
         }}
       >
-        <Link className="relative w-full h-full" href={`/player/${player.playerData.playerID}`}>
-          <Image
-            src={player.playerData.image}
-            alt={player.playerData.name}
-            fill={true}
-            style={{ objectFit: "contain" }}
-            className="w-full h-full object-cover "
-            priority
-          />
+        <Link href={`/player/${player.playerData.playerID}`}>
+          <div className="relative  w-12 h-12 md:w-24 md:h-24">
+            {/* Adjust the width and height as needed */}
+            <Image
+              src={player.playerData.image}
+              alt={player.playerData.name}
+              layout="fill"
+              objectFit="contain"
+              className="object-cover"
+            />
+          </div>
         </Link>
 
         <Link href={`/player/${player.playerData.playerID}`}>
-          <Card className="font-semibold text-center min-w-[72px] px-2 border-none rounded-xs text-base shadow-md shadow-neutral-800 text-neutral-800 backdrop-blur-xl bg-white/50 whitespace-nowrap	">
-            {player.playerData.nickname.split(" ").slice(-1).join(" ")}
+          <Card className="font-semibold text-center md:min-w-[72px] px-2 border-none rounded-xs text-sm md:text-base shadow-md shadow-neutral-800 text-neutral-800 backdrop-blur-xl bg-white/50 whitespace-nowrap	">
+            {player.playerData.nickname?.split(" ").slice(-1).join(" ")}
           </Card>
         </Link>
-        <p className="text-center text-xs">{player.playerData.position}</p>
-        <p className="text-center text-xs">{player.playerData.points}</p>
       </div>
     ));
   };
