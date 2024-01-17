@@ -1,12 +1,24 @@
 import Image from "next/image";
 import { getColor, slugById } from "@/utils/utils";
-import SportsSoccerTwoToneIcon from "@mui/icons-material/SportsSoccerTwoTone";
+import SportsSoccerIcon from "@mui/icons-material/SportsSoccer";
 import DoNotStepIcon from "@mui/icons-material/DoNotStep";
 import SdCardAlertIcon from "@mui/icons-material/SdCardAlert";
 import SignalCellularNoSimIcon from "@mui/icons-material/SignalCellularNoSim";
 import WatchLaterOutlinedIcon from "@mui/icons-material/WatchLaterOutlined";
 import TimerOffOutlinedIcon from "@mui/icons-material/TimerOffOutlined";
+import FontDownloadIcon from "@mui/icons-material/FontDownload";
+import HdrAutoIcon from "@mui/icons-material/HdrAuto";
+import HdrAutoOutlinedIcon from "@mui/icons-material/HdrAutoOutlined";
+import WavingHandIcon from '@mui/icons-material/WavingHand';
+import BackHandIcon from '@mui/icons-material/BackHand';
+import SportsHandballIcon from "@mui/icons-material/SportsHandball";
+import PhonelinkEraseRoundedIcon from '@mui/icons-material/PhonelinkEraseRounded';
+import FontDownloadRoundedIcon from "@mui/icons-material/FontDownloadRounded";
+import HdrAutoRoundedIcon from "@mui/icons-material/HdrAutoRounded";
+import HdrAutoTwoToneIcon from "@mui/icons-material/HdrAutoTwoTone";
+import StyleIcon from "@mui/icons-material/Style";
 import BlockOutlinedIcon from "@mui/icons-material/BlockOutlined";
+import RectangleRoundedIcon from "@mui/icons-material/RectangleRounded";
 import CancelPresentationOutlinedIcon from "@mui/icons-material/CancelPresentationOutlined";
 import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
@@ -59,8 +71,9 @@ export default function MatchesStats({
 
       for (let i = 0; i < stat.goals[0]; i++) {
         icons.push(
-          <SportsSoccerTwoToneIcon
-            color="success"
+          <SportsSoccerIcon
+            // color="success"
+            className="text-neutral-100 bg-green-600 rounded-full"
             fontSize="small"
             key={`goal-${matchWeek}-${i}`}
           />
@@ -68,8 +81,9 @@ export default function MatchesStats({
       }
       for (let i = 0; i < stat.goal_assist[0]; i++) {
         icons.push(
-          <DoNotStepIcon
-            color="action"
+          <FontDownloadRoundedIcon
+            color="primary"
+            // className="text-green-600"
             fontSize="small"
             key={`assist-${matchWeek}-${i}`}
           />
@@ -87,24 +101,71 @@ export default function MatchesStats({
 
       for (let i = 0; i < stat.yellow_card[0]; i++) {
         icons.push(
-          <SdCardAlertIcon
+          <RectangleRoundedIcon
             className="text-yellow-400"
             color="inherit"
             fontSize="small"
+            transform="rotate(90)"
             key={`yellow-${matchWeek}-${i}`}
           />
         );
       }
+      for (let i = 0; i < stat.second_yellow_card[0]; i++) {
+        icons.push(
+          <div className="flex relative" key={`secondyellow-${matchWeek}-${i}`}>
+            <RectangleRoundedIcon
+              className="text-yellow-400 z-40 absolute right-2"
+              color="inherit"
+              fontSize="small"
+              transform="rotate(90)"
+            />
+            <RectangleRoundedIcon
+              className="text-red-600 z-50"
+              color="inherit"
+              fontSize="small"
+              transform="rotate(90)"
+            />
+          </div>
+        );
+      }
       for (let i = 0; i < stat.red_card[0]; i++) {
         icons.push(
-          <SignalCellularNoSimIcon
+          <RectangleRoundedIcon
             className="text-red-600"
             color="inherit"
             fontSize="small"
-            key={`red-${matchWeek}-${i}`}
+            transform="rotate(90)"
+            key={`redcard-${matchWeek}-${i}`}
           />
         );
       }
+
+      for (let i = 0; i < stat.penalty_save[0]; i++) {
+        icons.push(
+          <div key={`penalty-save-${matchWeek}-${i}`} className="flex justify-center items-center text-sm">
+            <span className="ml-1">
+              
+              <span className="font-semibold text-xs ">{stat.penalty_save[0]}</span>
+              <span className="text-[11px] text-neutral-500">x</span>
+            </span>
+            <PhonelinkEraseRoundedIcon transform="rotate(-90)" color="action" fontSize="small" />
+          </div>
+        );
+      }
+      
+      if (stat.saves) {
+        icons.push(
+          <div key={`saves-${matchWeek}`} className="flex justify-center items-center text-sm">
+            <span className="ml-1">
+              
+              <span className="font-semibold text-xs ">{stat.saves[0]}</span>
+              <span className="text-[11px] text-neutral-500">x</span>
+            </span>
+            <SportsHandballIcon color="action" fontSize="small" />
+          </div>
+        );
+      }
+
 
       icons.push(
         <div
