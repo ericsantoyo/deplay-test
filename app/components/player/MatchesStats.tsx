@@ -102,10 +102,10 @@ export default function MatchesStats({
       for (let i = 0; i < stat.yellow_card[0]; i++) {
         icons.push(
           <RectangleRoundedIcon
-            className="text-yellow-400"
+            className="text-yellow-400 -rotate-90"
             color="inherit"
             fontSize="small"
-            transform="rotate(90)"
+         
             key={`yellow-${matchWeek}-${i}`}
           />
         );
@@ -114,16 +114,16 @@ export default function MatchesStats({
         icons.push(
           <div className="flex relative" key={`secondyellow-${matchWeek}-${i}`}>
             <RectangleRoundedIcon
-              className="text-yellow-400 z-40 absolute right-2"
+              className="text-yellow-400 z-40 absolute right-2 -rotate-90"
               color="inherit"
               fontSize="small"
-              transform="rotate(90)"
+              
             />
             <RectangleRoundedIcon
-              className="text-red-600 z-50"
+              className="text-red-600 z-50 -rotate-90"
               color="inherit"
               fontSize="small"
-              transform="rotate(90)"
+              
             />
           </div>
         );
@@ -131,10 +131,10 @@ export default function MatchesStats({
       for (let i = 0; i < stat.red_card[0]; i++) {
         icons.push(
           <RectangleRoundedIcon
-            className="text-red-600"
+            className="text-red-600 -rotate-90"
             color="inherit"
             fontSize="small"
-            transform="rotate(90)"
+           
             key={`redcard-${matchWeek}-${i}`}
           />
         );
@@ -142,22 +142,21 @@ export default function MatchesStats({
 
       for (let i = 0; i < stat.penalty_save[0]; i++) {
         icons.push(
-          <div key={`penalty-save-${matchWeek}-${i}`} className="flex justify-center items-center text-sm">
+          <div key={`penalty-save-${matchWeek}-${i}`} className="flex justify-center items-center text-sm ">
             <span className="ml-1">
               
               <span className="font-semibold text-xs ">{stat.penalty_save[0]}</span>
               <span className="text-[11px] text-neutral-500">x</span>
             </span>
-            <PhonelinkEraseRoundedIcon transform="rotate(-90)" color="action" fontSize="small" />
+            <PhonelinkEraseRoundedIcon className="-rotate-90" color="action" fontSize="small" />
           </div>
         );
       }
       
-      if (stat.saves) {
+      if (stat.saves && stat.saves[0] > 0) {
         icons.push(
           <div key={`saves-${matchWeek}`} className="flex justify-center items-center text-sm">
             <span className="ml-1">
-              
               <span className="font-semibold text-xs ">{stat.saves[0]}</span>
               <span className="text-[11px] text-neutral-500">x</span>
             </span>
