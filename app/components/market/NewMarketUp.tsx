@@ -270,7 +270,7 @@ const NewMarketUp = () => {
                         </div>
                       </div>
                       <div className="flex flex-row justify-center items-center gap-x-2">
-                        Promedio:{" "}
+                        Media:{" "}
                         <div className="font-bold">
                           {selectedPlayer.playerData.averagePoints.toFixed(2)}
                         </div>
@@ -291,6 +291,7 @@ const NewMarketUp = () => {
                         alt={selectedPlayer.playerData.nickname}
                         width={64}
                         height={64}
+                        
                         className="h-16 w-auto "
                       />
 
@@ -355,7 +356,7 @@ const NewMarketUp = () => {
                                   )}
 
                                 <div
-                                  className={`text-center border-[0.5px] w-5 h-5 border-neutral-700 rounded-sm flex justify-center items-center ${getColor(
+                                  className={`text-center border-[0.5px] w-5 h-5 border-neutral-700 rounded-xs flex justify-center items-center ${getColor(
                                     point.points
                                   )}`}
                                 >

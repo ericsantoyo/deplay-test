@@ -99,7 +99,7 @@ export default function FantasyStat({
               <div className="flex flex-col justify-center items-center">
                 <div className="text-center">J{stats.week}</div>
                 <div
-                  className={`text-center border-[0.5px] w-6 h-6 border-neutral-700 rounded-sm flex justify-center items-center ${getColor(
+                  className={`text-center border-[0.5px] w-6 h-6 border-neutral-700 rounded-xs flex justify-center items-center ${getColor(
                     stats.totalPoints
                   )}`}
                 >

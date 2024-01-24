@@ -215,7 +215,7 @@ export default async function Player({
         </TabsList>
 
         <TabsContent value="puntos" className="overflow-visible mx-auto">
-          <MatchesStats matchesData={matchesData} playerStat={playerStat} />
+          <MatchesStats matchesData={matchesData} playerStat={playerStat} playerData={playerData} />
         </TabsContent>
         <TabsContent value="valor" className="overflow-visible mx-auto ">
           {/* GRAPH */}

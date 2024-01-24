@@ -355,7 +355,7 @@ const NewMarketDown = () => {
                                   )}
 
                                 <div
-                                  className={`text-center border-[0.5px] w-5 h-5 border-neutral-700 rounded-sm flex justify-center items-center ${getColor(
+                                  className={`text-center border-[0.5px] w-5 h-5 border-neutral-700 rounded-xs flex justify-center items-center ${getColor(
                                     point.points
                                   )}`}
                                 >

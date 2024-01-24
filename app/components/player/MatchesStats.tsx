@@ -9,10 +9,10 @@ import TimerOffOutlinedIcon from "@mui/icons-material/TimerOffOutlined";
 import FontDownloadIcon from "@mui/icons-material/FontDownload";
 import HdrAutoIcon from "@mui/icons-material/HdrAuto";
 import HdrAutoOutlinedIcon from "@mui/icons-material/HdrAutoOutlined";
-import WavingHandIcon from '@mui/icons-material/WavingHand';
-import BackHandIcon from '@mui/icons-material/BackHand';
+import WavingHandIcon from "@mui/icons-material/WavingHand";
+import BackHandIcon from "@mui/icons-material/BackHand";
 import SportsHandballIcon from "@mui/icons-material/SportsHandball";
-import PhonelinkEraseRoundedIcon from '@mui/icons-material/PhonelinkEraseRounded';
+import PhonelinkEraseRoundedIcon from "@mui/icons-material/PhonelinkEraseRounded";
 import FontDownloadRoundedIcon from "@mui/icons-material/FontDownloadRounded";
 import HdrAutoRoundedIcon from "@mui/icons-material/HdrAutoRounded";
 import HdrAutoTwoToneIcon from "@mui/icons-material/HdrAutoTwoTone";
@@ -26,11 +26,11 @@ import React from "react";
 
 export default function MatchesStats({
   matchesData,
-
+  playerData,
   playerStat,
 }: {
   matchesData: matches[];
-
+  playerData: players;
   playerStat: stats[];
 }) {
   const renderPerformanceIcons = (matchWeek: number, matchState: number) => {
@@ -39,8 +39,12 @@ export default function MatchesStats({
     if (matchState === 7 && !stat) {
       return (
         <div className="flex justify-between items-center w-full">
-          <TimerOffOutlinedIcon color="action" fontSize="inherit" />
-          <p className="text-sm italic text-gray-600">No estuvo presente</p>
+          <div
+          key={`separator1-${matchWeek}`}
+          className="mx-1 h-5 border-l flex-initial border-neutral-400"
+        ></div>
+          <TimerOffOutlinedIcon color="action" fontSize="inherit" className=" ml-1	" />
+          <p className="text-sm italic flex-grow text-right text-gray-600">No participó</p>
         </div>
       );
     }
@@ -51,7 +55,7 @@ export default function MatchesStats({
       icons.push(
         <div
           key={`separator1-${matchWeek}`}
-          className="mx-2 h-5 border-l border-neutral-400"
+          className="mx-1 h-5 border-l border-neutral-400"
         ></div>
       );
       icons.push(
@@ -105,7 +109,6 @@ export default function MatchesStats({
             className="text-yellow-400 -rotate-90"
             color="inherit"
             fontSize="small"
-         
             key={`yellow-${matchWeek}-${i}`}
           />
         );
@@ -117,13 +120,11 @@ export default function MatchesStats({
               className="text-yellow-400 z-40 absolute right-2 -rotate-90"
               color="inherit"
               fontSize="small"
-              
             />
             <RectangleRoundedIcon
               className="text-red-600 z-50 -rotate-90"
               color="inherit"
               fontSize="small"
-              
             />
           </div>
         );
@@ -134,7 +135,6 @@ export default function MatchesStats({
             className="text-red-600 -rotate-90"
             color="inherit"
             fontSize="small"
-           
             key={`redcard-${matchWeek}-${i}`}
           />
         );
@@ -142,29 +142,39 @@ export default function MatchesStats({
 
       for (let i = 0; i < stat.penalty_save[0]; i++) {
         icons.push(
-          <div key={`penalty-save-${matchWeek}-${i}`} className="flex justify-center items-center text-sm ">
-            <span className="ml-1">
-              
-              <span className="font-semibold text-xs ">{stat.penalty_save[0]}</span>
-              <span className="text-[11px] text-neutral-500">x</span>
+          <div
+            key={`penalty-save-${matchWeek}-${i}`}
+            className="flex justify-center items-center text-sm border px-1"
+          >
+            <span className="w-3">
+              <span className="font-semibold text-xs ">
+                {stat.penalty_save[0]}
+              </span>
+              <span className="text-[11px] text-neutral-500">-</span>
             </span>
-            <PhonelinkEraseRoundedIcon className="-rotate-90" color="action" fontSize="small" />
+            <PhonelinkEraseRoundedIcon
+              className="-rotate-90"
+              color="action"
+              fontSize="small"
+            />
           </div>
         );
       }
-      
-      if (stat.saves && stat.saves[0] > 0) {
+
+      if (stat.saves && playerData.positionID === 1) {
         icons.push(
-          <div key={`saves-${matchWeek}`} className="flex justify-center items-center text-sm">
-            <span className="ml-1">
+          <div
+            key={`saves-${matchWeek}`}
+            className="flex justify-center items-center text-sm border px-1"
+          >
+            <span className="mx-1 w-2">
               <span className="font-semibold text-xs ">{stat.saves[0]}</span>
-              <span className="text-[11px] text-neutral-500">x</span>
+              <span className="text-[11px] text-neutral-500"></span>
             </span>
             <SportsHandballIcon color="action" fontSize="small" />
           </div>
         );
       }
-
 
       icons.push(
         <div
@@ -176,7 +186,7 @@ export default function MatchesStats({
       icons.push(
         <div
           key={`total-points-${matchWeek}`}
-          className={`text-center border-[0.5px] w-5 h-5 border-neutral-700 rounded-sm flex justify-center items-center ${getColor(
+          className={`text-center border-[0.5px] w-5 h-5 border-neutral-700 rounded-xs flex justify-center items-center ${getColor(
             stat.totalPoints
           )}`}
         >
@@ -189,7 +199,9 @@ export default function MatchesStats({
 
     return (
       <React.Fragment>
-        <div className="flex justify-end items-center w-full">{icons}</div>
+        <div className="flex justify-end items-center w-full gap-1">
+          {icons}
+        </div>
       </React.Fragment>
     );
   };
@@ -202,29 +214,41 @@ export default function MatchesStats({
         {matchesData.map((match) => (
           <React.Fragment key={match.matchID}>
             <li className="w-full flex flex-row justify-start items-center">
+              <div className="flex flex-col">
+
               <p className="text-[10px] uppercase font-semibold text-center whitespace-nowrap	w-8">
                 J-{match.week}
               </p>
+              <span className="text-[8px] uppercase font-medium text-center">
+                        {new Date(match.matchDate).toLocaleDateString("es-EU", {
+                          month: "short",
+                          day: "numeric",
+                        })}
+                      </span>
+              </div>
 
-              <div className="flex flex-col justify-between items-center w-[100px] py-[6px] text-center rounded-md px-2">
+              <div className="flex flex-col justify-between items-center w-[80px] py-[6px] text-center rounded-md mx-1">
                 <div className="flex flex-row justify-between items-center text-center w-full ">
-                  <Image
-                    src={`/teamLogos/${slugById(match.localTeamID)}.png`}
-                    alt="home"
-                    width={20}
-                    height={20}
-                    style={{ objectFit: "contain" }}
-                    className="h-5 "
-                  />
+                  <div className="w-5 flex justify-center items-center">
+                    <Image
+                      src={`/teamLogos/${slugById(match.localTeamID)}.png`}
+                      alt="home"
+                      width={20}
+                      height={20}
+                      style={{ objectFit: "contain" }}
+                      className="h-5 "
+                    />
+                  </div>
 
-                  <div className="flex justify-center items-center">
-                    <p className="font-semibold text-xs">{match.localScore}</p>
-                    <p className="mx-1 text-xs">-</p>
-                    <p className="font-semibold text-xs">
+                  <div className="flex justify-between items-center">
+                    <p className="font-semibold text-xs w-2">{match.localScore}</p>
+                    <p className="mx-1 text-xs w-1">-</p>
+                    <p className="font-semibold text-xs w-2">
                       {match.visitorScore}
                     </p>
                   </div>
 
+                  <div className="w-5 flex justify-center items-center">
                   <Image
                     src={`/teamLogos/${slugById(match.visitorTeamID)}.png`}
                     alt="visitor"
@@ -233,6 +257,7 @@ export default function MatchesStats({
                     style={{ objectFit: "contain" }}
                     className="h-5 "
                   />
+                  </div>
                 </div>
               </div>
               <div className="flex items-center justify-end flex-grow">
