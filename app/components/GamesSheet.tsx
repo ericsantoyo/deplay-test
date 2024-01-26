@@ -15,7 +15,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { getCurrentWeek, slugById } from "@/utils/utils";
+import { getCurrentWeek, nicknameById, slugById } from "@/utils/utils";
 
 import { Skeleton } from "@/components/ui/skeleton";
 import {
@@ -27,6 +27,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import Link from "next/link";
 
 // Your component
 export default function GamesSheet() {
@@ -65,77 +66,70 @@ export default function GamesSheet() {
     setSelectedWeek((prevWeek) => Math.min(38, prevWeek + 1));
   };
 
-  // Displaying skeleton while loading
-  if (isLoading) {
-    return (
-      <div className="flex flex-col justify-start items-center h-full overflow-y-auto">
-        <div className="flex flex-row justify-center items-center w-full mt-5">
-          <p className="text-xl font-semibold">PARTIDOS</p>
-        </div>
+  const selectedWeekMatchDate =
+    matches &&
+    matches.allMatches
+      .filter((match) => match.week === selectedWeek)
+      .sort(
+        (a, b) =>
+          new Date(a.matchDate).getTime() - new Date(b.matchDate).getTime()
+      )[0]?.matchDate;
 
-        <div className="flex justify-between items-center m-auto mt-4 mb-5 gap-4">
-          <IconButton onClick={handlePrevWeek}>
-            <ChevronLeftIcon />
-          </IconButton>
-          <Select
-            value={selectedWeek.toString()}
-            onValueChange={handleWeekChange}
-            disabled
-          >
-            <SelectTrigger>
-              <SelectValue>{`Jornada ${selectedWeek}`}</SelectValue>
-            </SelectTrigger>
-            <SelectContent>
-              {Array.from({ length: 38 }, (_, index) => (
-                <SelectItem key={index + 1} value={(index + 1).toString()}>
-                  {" "}
-                  {/* Fix 4: Convert the number to string */}
-                  {`Jornada ${index + 1}`}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+  const selectedWeekday = selectedWeekMatchDate
+    ? new Date(selectedWeekMatchDate).toLocaleDateString("es-EU", {
+        weekday: "short",
+      })
+    : "";
+  const selectedMonthDay = selectedWeekMatchDate
+    ? new Date(selectedWeekMatchDate).toLocaleDateString("es-EU", {
+        month: "short",
+        day: "numeric",
+      })
+    : "";
+  const selectedTime = selectedWeekMatchDate
+    ? new Date(selectedWeekMatchDate).toLocaleTimeString("es-EU", {
+        hour: "numeric",
+        minute: "2-digit",
+        hour12: false,
+      })
+    : "";
 
-          <IconButton onClick={handleNextWeek}>
-            <ChevronRightIcon />
-          </IconButton>
-        </div>
-        <Separator className=" mb-4" />
-        <div className="grid grid-cols-2 gap-4 mx-auto">
-          {/* Display matches for the selected week */}
-          {Array.from({ length: 10 }, (_, index) => (
-            <div key={index}>
-              <Card className="flex flex-col justify-between items-center w-[155px] h-full py-[6px] text-center ">
-                <Skeleton className="h-[8px] w-7 mb-2" />
-                <div className="flex flex-row justify-between w-full items-center ">
-                  <Skeleton className="h-7 ml-3 w-7 rounded-full" />
-                  <div className="flex justify-center items-center">
-                    <div className="flex justify-center items-center gap-1">
-                      <Skeleton className="h-4 w-4" />
-                      <Skeleton className="h-2 w-2" />
-                      <Skeleton className="h-4 w-4" />
-                    </div>
-                  </div>
+  const nextWeekMatchDate =
+    matches &&
+    matches.allMatches
+      .filter((match) => match.week === selectedWeek + 1)
+      .sort(
+        (a, b) =>
+          new Date(a.matchDate).getTime() - new Date(b.matchDate).getTime()
+      )[0]?.matchDate;
 
-                  <Skeleton className="h-7 mr-3 rounded-full w-7" />
-                </div>
-                <Skeleton className="h-[9px] w-7 mt-2" />
-              </Card>
-            </div>
-          ))}
-        </div>
-        <Separator className=" mt-4" />
-      </div>
-    );
-  }
+  const nextWeekday = nextWeekMatchDate
+    ? new Date(nextWeekMatchDate).toLocaleDateString("es-EU", {
+        weekday: "short",
+      })
+    : "";
+  const nextMonthDay = nextWeekMatchDate
+    ? new Date(nextWeekMatchDate).toLocaleDateString("es-EU", {
+        month: "short",
+        day: "numeric",
+      })
+    : "";
+  const nextTime = nextWeekMatchDate
+    ? new Date(nextWeekMatchDate).toLocaleTimeString("es-EU", {
+        hour: "numeric",
+        minute: "2-digit",
+        hour12: false,
+      })
+    : "";
 
   // Displaying matches
   return (
-    <div className="flex flex-col justify-start items-center h-full overflow-y-auto">
+    <div className="flex flex-col justify-start items-center h-full overflow-y-auto mx-4">
       <div className="flex flex-row justify-center items-center w-full mt-5">
         <p className="text-xl font-semibold">PARTIDOS</p>
       </div>
-      <div className="flex justify-between items-center my-4 gap-4">
+      <Separator className=" my-2" />
+      <div className="flex justify-between items-center my-2 gap-4">
         <IconButton onClick={handlePrevWeek}>
           <ChevronLeftIcon />
         </IconButton>
@@ -144,13 +138,16 @@ export default function GamesSheet() {
           onValueChange={handleWeekChange}
         >
           <SelectTrigger>
-            <SelectValue>{`Jornada ${selectedWeek}`}</SelectValue>
+            <SelectValue>
+              <div className="text-center text-base font-bold">
+                {`Jornada ${selectedWeek}`}
+              </div>
+            </SelectValue>
           </SelectTrigger>
           <SelectContent className="max-h-[var(--radix-select-content-available-height)] ">
             {Array.from({ length: 38 }, (_, index) => (
               <SelectItem key={index + 1} value={(index + 1).toString()}>
                 {" "}
-                {/* Fix 5: Convert the number to string */}
                 {`Jornada ${index + 1}`}
               </SelectItem>
             ))}
@@ -161,8 +158,14 @@ export default function GamesSheet() {
           <ChevronRightIcon />
         </IconButton>
       </div>
-      <Separator className=" mb-4" />
-      <div className=" grid grid-cols-2 gap-x-3 gap-y-2 mx-auto">
+      {/* selectedWeek Date */}
+      <div className="flex flex-row justify-center items-center w-full mb-2">
+        <p className="capitalize text-xs font-semibold">
+          {`${selectedWeekday} ${selectedMonthDay} - ${selectedTime}`}
+        </p>
+      </div>
+      {/* <Separator className=" mb-4" /> */}
+      <div className=" grid grid-cols-2 gap-x-3 gap-y-2 mx-auto w-full">
         {/* Display matches for the selected week */}
         {matches &&
           matches.allMatches
@@ -172,61 +175,318 @@ export default function GamesSheet() {
                 new Date(a.matchDate).getTime() -
                 new Date(b.matchDate).getTime()
             )
-            .map((match) => (
-              <div key={match.matchID}>
-                <Card className="flex flex-col justify-between items-center w-[155px] h-full py-[6px] text-center   ">
-                  <p className="text-[10px] uppercase font-medium text-center">
-                    <span className="font-bold">
-                      {new Date(match.matchDate).toLocaleDateString("es-EU", {
-                        weekday: "short",
-                      })}
-                    </span>{" "}
-                    {new Date(match.matchDate).toLocaleDateString("es-EU", {
-                      month: "short",
-                      day: "numeric",
-                    })}
-                  </p>
+            .map((match) => {
+              let localTeamClass = "";
+              let visitorTeamClass = "";
 
-                  <div className="flex flex-row justify-between items-center text-center w-full px-[2px]">
-                    <Image
-                      src={`/teamLogos/${slugById(match.localTeamID)}.png`}
-                      alt="home"
-                      width={48}
-                      height={48}
-                      style={{ objectFit: "contain" }}
-                      className="h-7 "
-                    />
-                    <div className="flex flex-col justify-center items-center">
-                      <div className="flex">
-                        <p className="font-semibold">{match.localScore}</p>
-                        <p className="mx-1">-</p>
-                        <p className="font-semibold">{match.visitorScore}</p>
+              if (match.matchState === 7) {
+                if (match.localScore > match.visitorScore) {
+                  localTeamClass = "text-green-600  ";
+                  visitorTeamClass = "text-red-600 ";
+                } else if (match.localScore < match.visitorScore) {
+                  localTeamClass = "text-red-600 ";
+                  visitorTeamClass = "text-green-600 ";
+                } else {
+                  // Draw
+                  localTeamClass = "text-orange-400 ";
+                  visitorTeamClass = "text-orange-400 ";
+                }
+              }
+
+              return (
+                <div key={match.matchID}>
+                  <Card className="flex flex-row justify-between items-center w-full px-1  h-full text-center   ">
+                    {/* LOCAL TEAM */}
+                    <Link
+                      className="w-full flex justify-center items-center"
+                      href={`/team/${match.localTeamID}`}
+                    >
+                      <div className="flex flex-col justify-center items-center h-14 w-8 shrink-0 ">
+                        <Image
+                          src={`/teamLogos/${slugById(match.localTeamID)}.png`}
+                          alt="home team"
+                          width={48}
+                          height={48}
+                          style={{
+                            objectFit: "contain",
+                            width: "auto",
+                          }}
+                          className="h-8  "
+                          priority
+                        />
+                        {/* <p className="font-bold text-[11px] p-0 m-0 leading-none">
+                          {nicknameById(match.localTeamID)}
+                        </p> */}
+                      </div>
+                    </Link>
+
+                    {/* DATE & SCORE */}
+                    <div className="flex flex-col justify-center gap-1 items-center grow w-full h-full whitespace-nowrap py-1 text-center text-[10px] leading-none">
+                      <div className={``}>
+                        {match.matchState === 7 ? (
+                          <div className="flex flex-row justify-center items-center w-16 px-2 ">
+                            <p
+                              className={`font-bold text-lg	leading-none ${localTeamClass}`}
+                            >
+                              {match.localScore}
+                            </p>
+                            <p className="mx-2 text-base font-bold leading-none">
+                              -
+                            </p>
+                            <p
+                              className={`font-bold text-lg	leading-none ${visitorTeamClass}`}
+                            >
+                              {match.visitorScore}
+                            </p>
+                          </div>
+                        ) : (
+                          <p className=" uppercase font-bold text-center w-full leading-none">
+                            {new Date(match.matchDate).toLocaleDateString(
+                              "es-EU",
+                              {
+                                weekday: "short",
+                              }
+                            )}
+                          </p>
+                        )}
+                      </div>
+                      {match.matchState === 7 ? (
+                        <div className="flex flex-row justify-center items-center w-16 px-2 "></div>
+                      ) : (
+                        <div className={``}>
+                          <p className=" uppercase font-medium text-center w-full leading-none">
+                            {new Date(match.matchDate).toLocaleDateString(
+                              "es-EU",
+                              {
+                                month: "short",
+                                day: "numeric",
+                              }
+                            )}
+                          </p>
+                        </div>
+                      )}
+
+                      <div className={``}>
+                        <p
+                          className={` text-center leading-none ${
+                            match.matchState === 7
+                              ? "text-neutral-700 font-bold"
+                              : "text-neutral-700 font-bold"
+                          }`}
+                        >
+                          {match.matchState === 7
+                            ? "Finalizado"
+                            : new Date(match.matchDate).toLocaleTimeString(
+                                "es-EU",
+                                {
+                                  hour: "numeric",
+                                  minute: "2-digit",
+                                  hour12: false,
+                                }
+                              )}
+                        </p>
                       </div>
                     </div>
-                    <Image
-                      src={`/teamLogos/${slugById(match.visitorTeamID)}.png`}
-                      alt="home"
-                      width={48}
-                      height={48}
-                      style={{ objectFit: "contain" }}
-                      className="h-7 "
-                    />
-                  </div>
-                  <p className="text-[11px] uppercase font-medium text-center">
-                    {new Date(match.matchDate).toLocaleTimeString("en-GB", {
-                      hour: "numeric",
-                      minute: "2-digit",
-                      hour12: false,
-                    })}
-                  </p>
-                </Card>
-              </div>
-            ))}
+
+                    {/* VISITOR TEAM */}
+                    <Link
+                      className="w-full flex justify-center items-center"
+                      href={`/team/${match.visitorTeamID}`}
+                    >
+                      <div className="flex flex-col justify-center items-center h-14 w-8 shrink-0 ">
+                        <Image
+                          src={`/teamLogos/${slugById(
+                            match.visitorTeamID
+                          )}.png`}
+                          alt="visitor team"
+                          width={48}
+                          height={48}
+                          style={{
+                            objectFit: "contain",
+                            width: "auto",
+                          }}
+                          className="h-8  "
+                          priority
+                        />
+                        {/* <p className="font-bold text-[11px] p-0 m-0 leading-none">
+                          {nicknameById(match.visitorTeamID)}
+                        </p> */}
+                      </div>
+                    </Link>
+                  </Card>
+                </div>
+              );
+            })}
       </div>
       <Separator className=" mt-4" />
-      {/* <pre className="text-center">
-        {JSON.stringify(matches, null, 2)}
-      </pre> */}
+
+      {/* Selected Week +1*/}
+
+      <div className="flex flex-row justify-center items-center w-full my-2">
+        <p className="text-base font-bold">{`Jornada ${selectedWeek + 1}`} </p>
+        {/* DATE FOR FIRST MATCH OF THE WEEK */}
+      </div>
+      {/* selectedWeek Date */}
+      <div className="flex flex-row justify-center items-center w-full mb-2">
+        <p className="capitalize text-xs font-semibold">
+          {`${nextWeekday} ${nextMonthDay} - ${nextTime}`}
+        </p>
+      </div>
+      
+
+      <div className=" grid grid-cols-2 gap-x-3 gap-y-2 mx-auto w-full">
+        {/* Display matches for the selected week */}
+        {matches &&
+          matches.allMatches
+            .filter((match) => match.week === selectedWeek + 1)
+            .sort(
+              (a, b) =>
+                new Date(a.matchDate).getTime() -
+                new Date(b.matchDate).getTime()
+            )
+            .map((match) => {
+              let localTeamClass = "";
+              let visitorTeamClass = "";
+
+              if (match.matchState === 7) {
+                if (match.localScore > match.visitorScore) {
+                  localTeamClass = "text-green-600  ";
+                  visitorTeamClass = "text-red-600 ";
+                } else if (match.localScore < match.visitorScore) {
+                  localTeamClass = "text-red-600 ";
+                  visitorTeamClass = "text-green-600 ";
+                } else {
+                  // Draw
+                  localTeamClass = "text-orange-400 ";
+                  visitorTeamClass = "text-orange-400 ";
+                }
+              }
+
+              return (
+                <div key={match.matchID}>
+                  <Card className="flex flex-row justify-between items-center w-full px-1  h-full text-center   ">
+                    {/* LOCAL TEAM */}
+                    <Link
+                      className="w-full flex justify-center items-center"
+                      href={`/team/${match.localTeamID}`}
+                    >
+                      <div className="flex flex-col justify-center items-center h-14 w-8 shrink-0 ">
+                        <Image
+                          src={`/teamLogos/${slugById(match.localTeamID)}.png`}
+                          alt="home team"
+                          width={48}
+                          height={48}
+                          style={{
+                            objectFit: "contain",
+                            width: "auto",
+                          }}
+                          className="h-8  "
+                          priority
+                        />
+                        {/* <p className="font-bold text-[11px] p-0 m-0 leading-none">
+                          {nicknameById(match.localTeamID)}
+                        </p> */}
+                      </div>
+                    </Link>
+
+                    {/* DATE & SCORE */}
+                    <div className="flex flex-col justify-center gap-1 items-center grow w-full h-full whitespace-nowrap py-1 text-center text-[10px] leading-none">
+                      <div className={``}>
+                        {match.matchState === 7 ? (
+                          <div className="flex flex-row justify-center items-center w-16 px-2 ">
+                            <p
+                              className={`font-bold text-lg	leading-none ${localTeamClass}`}
+                            >
+                              {match.localScore}
+                            </p>
+                            <p className="mx-2 text-base font-bold leading-none">
+                              -
+                            </p>
+                            <p
+                              className={`font-bold text-lg	leading-none ${visitorTeamClass}`}
+                            >
+                              {match.visitorScore}
+                            </p>
+                          </div>
+                        ) : (
+                          <p className=" uppercase font-bold text-center w-full leading-none">
+                            {new Date(match.matchDate).toLocaleDateString(
+                              "es-EU",
+                              {
+                                weekday: "short",
+                              }
+                            )}
+                          </p>
+                        )}
+                      </div>
+                      {match.matchState === 7 ? (
+                        <div className="flex flex-row justify-center items-center w-16 px-2 "></div>
+                      ) : (
+                        <div className={``}>
+                          <p className=" uppercase font-medium text-center w-full leading-none">
+                            {new Date(match.matchDate).toLocaleDateString(
+                              "es-EU",
+                              {
+                                month: "short",
+                                day: "numeric",
+                              }
+                            )}
+                          </p>
+                        </div>
+                      )}
+
+                      <div className={``}>
+                        <p
+                          className={` text-center leading-none ${
+                            match.matchState === 7
+                              ? "text-neutral-700 font-bold"
+                              : "text-neutral-700 font-bold"
+                          }`}
+                        >
+                          {match.matchState === 7
+                            ? "Finalizado"
+                            : new Date(match.matchDate).toLocaleTimeString(
+                                "es-EU",
+                                {
+                                  hour: "numeric",
+                                  minute: "2-digit",
+                                  hour12: false,
+                                }
+                              )}
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* VISITOR TEAM */}
+                    <Link
+                      className="w-full flex justify-center items-center"
+                      href={`/team/${match.visitorTeamID}`}
+                    >
+                      <div className="flex flex-col justify-center items-center h-14 w-8 shrink-0 ">
+                        <Image
+                          src={`/teamLogos/${slugById(
+                            match.visitorTeamID
+                          )}.png`}
+                          alt="visitor team"
+                          width={48}
+                          height={48}
+                          style={{
+                            objectFit: "contain",
+                            width: "auto",
+                          }}
+                          className="h-8  "
+                          priority
+                        />
+                        {/* <p className="font-bold text-[11px] p-0 m-0 leading-none">
+                          {nicknameById(match.visitorTeamID)}
+                        </p> */}
+                      </div>
+                    </Link>
+                  </Card>
+                </div>
+              );
+            })}
+      </div>
     </div>
   );
 }

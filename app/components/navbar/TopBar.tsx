@@ -66,209 +66,83 @@ const TopBar = (props: Props) => {
         <SocialIcons className=" shrink-0 flex justify-between items-center space-x-3" />
 
         {/* MENU WITH TEXT AND ICONS */}
-        <div className="hidden lg:flex order-last md:order-first justify-between items-center  md:gap-2 lg:gap-8  flex-nowrap font-semibold mr-4">
+        <div className="hidden md:flex order-last md:order-first mr-12 justify-between items-center  md:gap-2 lg:gap-8  flex-nowrap font-semibold ">
           {/* MARKET BUTTON */}
           <Link
             href="/market"
-            className="w-16 flex flex-col justify-center items-center"
+            className="group w-16 flex flex-col justify-center items-center"
           >
+            <p className="transition-all text-transparent text-center text-[14px] p-0 m-0">_______</p>
             <IconButton sx={{ padding: 0 }}>
               <QueryStatsIcon
                 className="text-neutral-800 "
-                sx={{ fontSize: 28 }}
+                sx={{ fontSize: 36 }}
               />
             </IconButton>
-            <p className="text-center text-[14px] p-0 m-0">Mercado</p>
+            <p className="transition-all group-hover:text-inherit text-transparent text-center text-[14px] p-0 m-0">Mercado</p>
           </Link>
 
           {/* NEWS BUTTON */}
           <Link
             href="/news"
-            className="w-16 flex flex-col justify-center items-center"
+            className="group w-16 flex flex-col justify-center items-center"
           >
+            <p className="transition-all text-transparent text-center text-[14px] p-0 m-0">_______</p>
             <IconButton sx={{ padding: 0 }}>
               <NewspaperIcon
                 className="text-neutral-800"
-                sx={{ fontSize: 28 }}
+                sx={{ fontSize: 36 }}
               />
             </IconButton>
-            <p className="text-center text-[14px] p-0 m-0">Noticias</p>
+            <p className="transition-all group-hover:text-inherit text-transparent text-center text-[14px] p-0 m-0">Noticias</p>
           </Link>
 
           {/* STATS BUTTON */}
           <Link
             href="/stats"
-            className="w-16 flex flex-col justify-center items-center"
+            className="group w-16 flex flex-col justify-center items-center"
           >
+            <p className="transition-all text-transparent text-center text-[14px] p-0 m-0">_______</p>
             <IconButton sx={{ padding: 0 }}>
               <TroubleshootIcon
                 className="text-neutral-800"
-                sx={{ fontSize: 28 }}
+                sx={{ fontSize: 36 }}
               />
             </IconButton>
-            <p className="text-center text-[14px] p-0 m-0">Stats</p>
+            <p className="transition-all group-hover:text-inherit text-transparent text-center text-[14px] p-0 m-0">Stats</p>
           </Link>
 
           {/* STATS BUTTON */}
           <Link
             href="/calendar"
-            className="w-16 flex flex-col justify-center items-center"
+            className="group w-16 flex flex-col justify-center items-center"
           >
+            <p className="transition-all text-transparent text-center text-[14px] p-0 m-0">_______</p>
             <IconButton sx={{ padding: 0 }}>
               <CalendarMonthIcon
                 className="text-neutral-800"
-                sx={{ fontSize: 28 }}
+                sx={{ fontSize: 36 }}
               />
             </IconButton>
-            <p className="text-center text-[14px] p-0 m-0">Calendario</p>
+            <p className="transition-all group-hover:text-inherit text-transparent text-center text-[14px] p-0 m-0">Calendario</p>
           </Link>
 
           {/* MYTEAM BUTTON */}
           <Link
             href="/myteam"
-            className="w-16 flex flex-col justify-center items-center"
+            className="group w-16 flex flex-col justify-center items-center"
           >
+            <p className="transition-all text-transparent text-center text-[14px] p-0 m-0">_______</p>
             <IconButton sx={{ padding: 0 }}>
               <AssignmentIndIcon
                 className="text-neutral-800"
-                sx={{ fontSize: 28 }}
+                sx={{ fontSize: 36 }}
               />
             </IconButton>
-            <p className="text-center text-[14px] p-0 m-0">MyTeam</p>
+            <p className="transition-all group-hover:text-inherit text-transparent text-center text-[14px] p-0 m-0">MyTeam</p>
           </Link>
         </div>
-        {/* MENU WITH ONLY ICONS AND TOOLTIP */}
-        <div className="hidden md:flex lg:hidden order-last md:order-first justify-between gap-3  flex-nowrap font-semibold mx-4">
-          <Link
-            href="/market"
-            className="w-16 flex flex-col justify-center items-center"
-          >
-            <Tooltip
-              PopperProps={{
-                modifiers: [
-                  {
-                    name: "offset",
-                    options: {
-                      offset: [0, -18],
-                    },
-                  },
-                ],
-              }}
-              title="Mercado"
-            >
-              <IconButton>
-                <QueryStatsIcon
-                  className="text-neutral-800"
-                  sx={{ fontSize: 32 }}
-                />
-              </IconButton>
-            </Tooltip>
-          </Link>
-
-          <Link
-            href="/news"
-            className="flex flex-col justify-center items-center"
-          >
-            <Tooltip
-              PopperProps={{
-                modifiers: [
-                  {
-                    name: "offset",
-                    options: {
-                      offset: [0, -18],
-                    },
-                  },
-                ],
-              }}
-              title="Noticias"
-            >
-              <IconButton>
-                <NewspaperIcon
-                  className="text-neutral-800"
-                  sx={{ fontSize: 32 }}
-                />
-              </IconButton>
-            </Tooltip>
-          </Link>
-
-          <Link
-            href="/stats"
-            className="flex flex-col justify-center items-center"
-          >
-            <Tooltip
-              PopperProps={{
-                modifiers: [
-                  {
-                    name: "offset",
-                    options: {
-                      offset: [0, -18],
-                    },
-                  },
-                ],
-              }}
-              title="Stats"
-            >
-              <IconButton>
-                <TroubleshootIcon
-                  className="text-neutral-800"
-                  sx={{ fontSize: 32 }}
-                />
-              </IconButton>
-            </Tooltip>
-          </Link>
-
-          <Link
-            href="/calendar"
-            className="flex flex-col justify-center items-center"
-          >
-            <Tooltip
-              PopperProps={{
-                modifiers: [
-                  {
-                    name: "offset",
-                    options: {
-                      offset: [0, -18],
-                    },
-                  },
-                ],
-              }}
-              title="Calendario"
-            >
-              <IconButton>
-                <CalendarMonthIcon
-                  className="text-neutral-800"
-                  sx={{ fontSize: 32 }}
-                />
-              </IconButton>
-            </Tooltip>
-          </Link>
-
-          <Link
-            href="/myteam"
-            className="flex flex-col justify-center items-center"
-          >
-            <Tooltip
-              PopperProps={{
-                modifiers: [
-                  {
-                    name: "offset",
-                    options: {
-                      offset: [0, -18],
-                    },
-                  },
-                ],
-              }}
-              title="MyTeam"
-            >
-              <IconButton>
-                <AssignmentIndIcon
-                  className="text-neutral-800"
-                  sx={{ fontSize: 32 }}
-                />
-              </IconButton>
-            </Tooltip>
-          </Link>
-        </div>
+       
       </div>
     </>
   );
