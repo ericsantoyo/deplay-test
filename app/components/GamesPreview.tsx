@@ -118,29 +118,15 @@ export default function GamesPreview() {
                   new Date(b.matchDate).getTime()
               )
               .map((match) => {
-                let localTeamClass = "";
-                let visitorTeamClass = "";
-
-                if (match.matchState === 7) {
-                  if (match.localScore > match.visitorScore) {
-                    localTeamClass = "text-green-600  ";
-                    visitorTeamClass = "text-red-600 ";
-                  } else if (match.localScore < match.visitorScore) {
-                    localTeamClass = "text-red-600 ";
-                    visitorTeamClass = "text-green-600 ";
-                  } else {
-                    // Draw
-                    localTeamClass = "text-orange-400 ";
-                    visitorTeamClass = "text-orange-400 ";
-                  }
-                }
-
                 return (
                   <div className="" key={match.matchID}>
-                    <Card className="flex flex-row justify-between items-center text-center px-1.5 w-full h-full">
+                    <Card className="flex flex-row justify-between items-center text-center w-full h-full">
                       {/* LOCAL TEAM */}
-                      <Link className="" href={`/team/${match.localTeamID}`}>
-                        <div className="flex flex-col justify-center items-center h-16 w-12 shrink-0 py-2">
+                      <Link
+                        className="w-full flex justify-center items-center"
+                        href={`/team/${match.localTeamID}`}
+                      >
+                        <div className="flex flex-col justify-center items-center h-10 w-10 shrink-0 py-2">
                           <Image
                             src={`/teamLogos/${slugById(
                               match.localTeamID
@@ -152,72 +138,53 @@ export default function GamesPreview() {
                               objectFit: "contain",
                               width: "auto",
                             }}
-                            className="h-8  "
+                            className="h-7  "
                             priority
                           />
-                          {/* <p className="font-bold text-[11px] p-0 m-0 leading-none">
+                          {/* <p className="font-bold text-[11px] p-0 m-0 ">
                             {nicknameById(match.localTeamID)}
                           </p> */}
                         </div>
                       </Link>
 
                       {/* DATE & SCORE */}
-                      <div className="flex flex-col justify-center gap-1 items-center grow w-full h-full whitespace-nowrap py-2 text-center text-[10px] leading-none">
-                        <div className={``}>
+                      <div className="flex flex-col justify-center items-center w-full h-full text-center text-[10px] ">
+                        <div className="w-full	 ">
                           {match.matchState === 7 ? (
-                            <div className="flex flex-row justify-center items-center w-16 px-2 ">
-                              <p
-                                className={`font-bold text-lg	leading-none ${localTeamClass}`}
-                              >
-                                {match.localScore}
-                              </p>
-                              <p className="mx-2 text-base font-bold leading-none">
-                                -
-                              </p>
-                              <p
-                                className={`font-bold text-lg	leading-none ${visitorTeamClass}`}
-                              >
-                                {match.visitorScore}
-                              </p>
-                            </div>
-                          ) : (
-                            <p className=" uppercase font-bold text-center w-full leading-none">
-                              {new Date(match.matchDate).toLocaleDateString(
-                                "es-EU",
-                                {
-                                  weekday: "short",
-                                }
-                              )}
+                            <div className="flex flex-row justify-between items-center px-1.5  ">
+                            <p className={`font-semibold text-base	`}>
+                              {match.localScore}
                             </p>
-                          )}
-                        </div>
-                        {match.matchState === 7 ? (
-                          <div className="flex flex-row justify-center items-center w-16 px-2 "></div>
-                        ) : (
-                          <div className={``}>
-                            <p className=" uppercase font-medium text-center w-full leading-none">
-                              {new Date(match.matchDate).toLocaleDateString(
-                                "es-EU",
-                                {
-                                  month: "short",
-                                  day: "numeric",
-                                }
-                              )}
+                            <p className=" text-base font-bold ">-</p>
+                            <p className={`font-semibold text-base	 `}>
+                              {match.visitorScore}
                             </p>
                           </div>
-                        )}
-
-                        <div className={``}>
-                          <p
-                            className={` text-center leading-none ${
-                              match.matchState === 7
-                                ? "text-neutral-700 font-bold"
-                                : "text-neutral-700 font-bold"
-                            }`}
-                          >
-                            {match.matchState === 7
-                              ? "Finalizado"
-                              : new Date(match.matchDate).toLocaleTimeString(
+                          ) : (
+                            <div
+                              className={`flex flex-col justify-center items-center`}
+                            >
+                              <div className="flex justify-center items-center gap-1">
+                                <p className=" uppercase font-bold text-center w-full whitespace-nowrap ">
+                                  {new Date(match.matchDate).toLocaleDateString(
+                                    "es-EU",
+                                    {
+                                      weekday: "short",
+                                    }
+                                  )}
+                                </p>
+                                <p className="uppercase font-medium text-center w-full whitespace-nowrap">
+                                  {new Date(match.matchDate).toLocaleDateString(
+                                    "es-EU",
+                                    {
+                                      month: "numeric",
+                                      day: "numeric",
+                                    }
+                                  )}
+                                </p>
+                              </div>
+                              <p className=" uppercase font-medium text-center w-full whitespace-nowrap">
+                                {new Date(match.matchDate).toLocaleTimeString(
                                   "es-EU",
                                   {
                                     hour: "numeric",
@@ -225,13 +192,18 @@ export default function GamesPreview() {
                                     hour12: false,
                                   }
                                 )}
-                          </p>
+                              </p>
+                            </div>
+                          )}
                         </div>
                       </div>
 
                       {/* VISITOR TEAM */}
-                      <Link className="" href={`/team/${match.visitorTeamID}`}>
-                        <div className="flex flex-col justify-center items-center h-16 w-12 shrink-0 py-2">
+                      <Link
+                        className="w-full flex justify-center items-center"
+                        href={`/team/${match.visitorTeamID}`}
+                      >
+                        <div className="flex flex-col justify-center items-center h-10 w-10 shrink-0 py-2">
                           <Image
                             src={`/teamLogos/${slugById(
                               match.visitorTeamID
@@ -243,10 +215,10 @@ export default function GamesPreview() {
                               objectFit: "contain",
                               width: "auto",
                             }}
-                            className="h-8  "
+                            className="h-7  "
                             priority
                           />
-                          {/* <p className="font-bold text-[11px] p-0 m-0 leading-none">
+                          {/* <p className="font-bold text-[11px] p-0 m-0 ">
                             {nicknameById(match.visitorTeamID)}
                           </p> */}
                         </div>
