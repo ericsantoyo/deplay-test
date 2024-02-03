@@ -1,11 +1,13 @@
 
 import {
+  getAllMatches,
   getAllPlayers,
   getAllStats,
   getMatchesByTeamID,
 } from "@/database/client";
 
 import MyTeamLineup from "@/app/components/myTeam/MyTeamLineup";
+import MyTeams from "../components/myTeam/MyTeams";
 
 export const revalidate = 0;
 
@@ -31,41 +33,17 @@ function formatPlayersWithStats(players: players[], stats: stats[]) {
 export default async function MyTeam() {
   const { allPlayers: players } = await getAllPlayers();
   const { allStats: stats } = await getAllStats();
+  const { allMatches: matches } = await getAllMatches();
 
 
   const playersWithStats = formatPlayersWithStats(players, stats);
   
-
-  // const { data: playersWithStats, error } = useSWR(
-  //   ["getAllPlayers", "getAllStats"],
-  //   async () => {
-  //     const { allPlayers: players } = (await getAllPlayers()) as {
-  //       allPlayers: players[];
-  //     };
-  //     const { allStats: stats } = (await getAllStats()) as {
-  //       allStats: stats[];
-  //     };
-
-  //     return formatPlayersWithStats(players, stats);
-  //   }
-  // );
-
-  // const { data: matches } = useSWR(["getMatchesByTeamID", "1"], async () => {
-  //   const { teamMatches } = (await getMatchesByTeamID(1)) as {
-  //     teamMatches: matches[];
-  //   };
-
-  //   return teamMatches;
-  // });
-
-
-
   return (
     <>
-      <h2 className="text-xl font-bold text-center mb-2">MyTEAM page</h2>
-      <MyTeamLineup teamPlayers={playersWithStats} />
-
-     
+      <h2 className="text-xl font-bold text-center mb-2">MyTEAMS</h2>
+      {/* <MyTeamLineup teamPlayers={playersWithStats} /> */}
+      <MyTeams teamPlayers={playersWithStats} matches={matches} />
+     {/* <pre>{JSON.stringify(playersWithStats[0], null, 2)}</pre> */}
 
     </>
   );

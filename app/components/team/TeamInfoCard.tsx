@@ -44,7 +44,7 @@ export default async function TeamInfoCard({ teamInfo, playerInfo }) {
           howMany={3}
           pClass=""
         />
-        {/* <pre className="text-center">{JSON.stringify(teamMatches, null, 2)}</pre> */}
+        
         <div className="order-first md:order-none flex flex-col justify-betweem items-center flex-initial  md:flex-none  w-max	">
           <Image
             src={teamInfo.image}

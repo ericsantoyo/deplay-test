@@ -71,6 +71,18 @@ const NewMarketUp = () => {
       return formatPlayersWithStats(players, stats);
     }
   );
+  function formatPlayersWithStats(players: players[], stats: stats[]) {
+    const formattedPlayers = [];
+
+    for (const player of players) {
+      const playerStats = stats.filter(
+        (stat) => stat.playerID === player.playerID
+      );
+      formattedPlayers.push({ playerData: player, stats: playerStats });
+    }
+
+    return formattedPlayers;
+  }
   const [selectedPlayer, setSelectedPlayer] = useState<players | null>(null);
 
   const [open, setOpen] = useState(false);
@@ -92,18 +104,6 @@ const NewMarketUp = () => {
     }
   };
 
-  function formatPlayersWithStats(players: players[], stats: stats[]) {
-    const formattedPlayers = [];
-
-    for (const player of players) {
-      const playerStats = stats.filter(
-        (stat) => stat.playerID === player.playerID
-      );
-      formattedPlayers.push({ playerData: player, stats: playerStats });
-    }
-
-    return formattedPlayers;
-  }
 
   const prepareValueChangesData = (playerId: number) => {
     const playerData = playersWithStats?.find(

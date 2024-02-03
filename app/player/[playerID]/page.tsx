@@ -234,6 +234,7 @@ export default async function Player({
             playerStat={playerStat}
             playerWithStats={playerWithStats}
           />
+          
         </TabsContent>
         <TabsContent value="noticias" className="overflow-visible mx-auto">
          

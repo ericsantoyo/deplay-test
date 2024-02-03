@@ -51,7 +51,7 @@ const TeamRoster: React.FC<TeamRosterProps> = ({
             <p className="">Jugador</p>
           </div>
           <p className="hidden md:flex flex-1 justify-center text-center	 mx-2 ">
-            Posicion
+          Posición
           </p>
           <p className="hidden md:flex flex-1 justify-center text-center	 mx-2 ">
             Puntos
