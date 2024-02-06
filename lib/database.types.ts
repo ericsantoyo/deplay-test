@@ -209,6 +209,27 @@ export interface Database {
         };
         Relationships: [];
       };
+      myteams: {
+        Row: {
+          myTeamID: number;
+          name: string;
+          players: any; 
+          createdAt: string; 
+        };
+        Insert: {
+          myTeamID?: number;
+          name?: string;
+          players?: any; 
+          createdAt?: string;
+        };
+        Update: {
+          myTeamID?: number;
+          name?: string;
+          players?: any;
+          createdAt?: string;
+        };
+        Relationships: [];
+      };
     };
     Views: {
       [_ in never]: never;

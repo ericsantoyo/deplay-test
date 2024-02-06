@@ -146,7 +146,43 @@ export function getWeeksTotalPointsFromSinglePlayer(
   return points;
 }
 
+export function getWeeksTotalPointsOnePlayer(
+  playerWithStats: any,
+  maxWeeks: number
+) {
+  const player = playerWithStats;
+  const stats = playerWithStats.stats;
 
+  let points = [];
+
+  // Create a map to store points by week
+  const pointsByWeek = new Map();
+
+  // Calculate points for each week from the player's stats
+  for (const stat of stats) {
+    const week = stat.week;
+    const totalPoints = stat.totalPoints;
+
+    // Update the points for the corresponding week
+    pointsByWeek.set(week, totalPoints);
+  }
+
+  // Determine the maximum week
+  let maxWeek = Math.max(...stats.map((stat: { week: number; }) => stat.week));
+
+  // Get the last N weeks (or fewer if less than N weeks of data)
+  for (let i = maxWeek; i > maxWeek - maxWeeks && i >= 1; i--) {
+    points.push({
+      week: i,
+      points: pointsByWeek.get(i) || 0, // Use 0 if there are no stats for the week
+    });
+  }
+
+  // Sort points by week in ascending order
+  points.sort((a, b) => a.week - b.week);
+
+  return points;
+}
 
 
 export const formatter = new Intl.NumberFormat("en-GB", {});
@@ -369,6 +405,25 @@ export const getNextThreeMatches = (
         match.week < currentWeek + 3 &&
         (match.localTeamID === selectedPlayer.playerData.teamID ||
           match.visitorTeamID === selectedPlayer.playerData.teamID)
+    )
+    .sort(
+      (a, b) =>
+        new Date(a.matchDate).getTime() - new Date(b.matchDate).getTime()
+    );
+};
+
+export const getNextGames = (
+  matches: matches[],
+  selectedPlayer: players
+): matches[] => {
+  const currentWeek = getCurrentWeek(matches);
+  return matches
+    .filter(
+      (match) =>
+        match.week >= currentWeek &&
+        match.week < currentWeek + 3 &&
+        (match.localTeamID === selectedPlayer.teamID ||
+          match.visitorTeamID === selectedPlayer.teamID)
     )
     .sort(
       (a, b) =>
