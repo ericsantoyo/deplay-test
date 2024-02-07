@@ -166,7 +166,8 @@ export default async function Player({
             </h3>
           </div>
         </div>
-
+        
+        {/* MATCHES INFO */}
         <div className="flex flex-col md:flex-row justify-center items-stretch w-1/3">
           {/* LAST MATCHES */}
           <div className="flex flex-col justify-start items-center h-full">

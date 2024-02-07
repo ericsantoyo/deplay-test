@@ -66,6 +66,21 @@ async function getMyTeams(): Promise<{ myTeams: myteams[] }> {
   return { myTeams: data as myteams[] };
 }
 
+async function fetchStatsForMyTeamsPlayers(playerIds) {
+  const { data: stats, error } = await supabase
+    .from('stats')
+    .select('*')
+    .in('playerID', playerIds)
+    .order('week', { ascending: false })
+
+  if (error) {
+    console.error('Error fetching stats:', error);
+    return [];
+  }
+
+  return stats;
+}
+
 async function getPlayerById(playerID: number) {
   // if (!playerID) return { data: null, error: "No playerID provided" };
   const { data: playerData, error } = await supabase
@@ -146,4 +161,5 @@ export {
   getAllMatches,
   getMatchesByTeamID,
   getMyTeams,
+  fetchStatsForMyTeamsPlayers,
 };

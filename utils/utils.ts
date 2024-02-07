@@ -1,11 +1,15 @@
 import { SortDirection } from "@/types";
 
-
 export const teams = [
   { name: "Deportivo Alavés", slug: "d-alaves", nickname: "ALA", id: 21 },
   { name: "UD Almería", slug: "ud-almeria", nickname: "ALM", id: 1 },
   { name: "Athletic Club", slug: "athletic-club", nickname: "ATH", id: 3 },
-  { name: "Atlético de Madrid", slug: "atletico-de-madrid", nickname: "ATM", id: 2 },
+  {
+    name: "Atlético de Madrid",
+    slug: "atletico-de-madrid",
+    nickname: "ATM",
+    id: 2,
+  },
   { name: "FC Barcelona", slug: "fc-barcelona", nickname: "BAR", id: 4 },
   { name: "Real Betis", slug: "real-betis", nickname: "BET", id: 5 },
   { name: "Cádiz CF", slug: "cadiz-cf", nickname: "CAD", id: 162 },
@@ -23,7 +27,6 @@ export const teams = [
   { name: "Valencia CF", slug: "valencia-cf", nickname: "VAL", id: 18 },
   { name: "Villarreal CF", slug: "villarreal-cf", nickname: "VIL", id: 20 },
 ];
-
 
 export function slugById(teamID: number) {
   const team = teams.find((team) => team.id === teamID);
@@ -130,7 +133,7 @@ export function getWeeksTotalPointsFromSinglePlayer(
   }
 
   // Determine the maximum week
-  let maxWeek = Math.max(...stats.map((stat: { week: number; }) => stat.week));
+  let maxWeek = Math.max(...stats.map((stat: { week: number }) => stat.week));
 
   // Get the last N weeks (or fewer if less than N weeks of data)
   for (let i = maxWeek; i > maxWeek - maxWeeks && i >= 1; i--) {
@@ -146,44 +149,28 @@ export function getWeeksTotalPointsFromSinglePlayer(
   return points;
 }
 
-export function getWeeksTotalPointsOnePlayer(
-  playerWithStats: any,
-  maxWeeks: number
-) {
-  const player = playerWithStats;
-  const stats = playerWithStats.stats;
+export function getWeeksTotalPointsForPlayer(player: any, maxWeeks: number) {
+  // Debugging: Log the length of the stats array to see how many weeks of data are available
 
   let points = [];
 
-  // Create a map to store points by week
-  const pointsByWeek = new Map();
+  // Sort the stats array by 'week' in descending order to get the most recent weeks first
+  const sortedStats = player.stats.sort((a, b) => b.week - a.week);
 
-  // Calculate points for each week from the player's stats
-  for (const stat of stats) {
-    const week = stat.week;
-    const totalPoints = stat.totalPoints;
-
-    // Update the points for the corresponding week
-    pointsByWeek.set(week, totalPoints);
-  }
-
-  // Determine the maximum week
-  let maxWeek = Math.max(...stats.map((stat: { week: number; }) => stat.week));
-
-  // Get the last N weeks (or fewer if less than N weeks of data)
-  for (let i = maxWeek; i > maxWeek - maxWeeks && i >= 1; i--) {
+  // Iterate through the sorted stats array, up to 'maxWeeks' elements
+  for (let i = 0; i < Math.min(sortedStats.length, maxWeeks); i++) {
+    const stat = sortedStats[i];
     points.push({
-      week: i,
-      points: pointsByWeek.get(i) || 0, // Use 0 if there are no stats for the week
+      week: stat.week,
+      points: stat.totalPoints,
     });
   }
 
-  // Sort points by week in ascending order
-  points.sort((a, b) => a.week - b.week);
+  // Sort points by week in ascending order for presentation
+  // points.sort((a, b) => b.week - a.week);
 
   return points;
 }
-
 
 export const formatter = new Intl.NumberFormat("en-GB", {});
 
@@ -283,7 +270,7 @@ export function getPositionBadge(positionID: number) {
     default:
       return {
         abbreviation: "",
-        className: "", 
+        className: "",
       };
   }
 }
@@ -372,7 +359,6 @@ export const getUpcomingTeamMatches = (
   return upcomingMatches;
 };
 
-
 export const getUpcomingMatches = (
   allMatches: matches[],
   gamesToShow: number
@@ -433,57 +419,117 @@ export const getNextGames = (
 
 export const createColumnDefs = (
   cellRenderers: { [key: string]: any },
-  sortOrder: SortDirection = 'desc'
+  sortOrder: SortDirection = "desc"
 ) => {
   return [
-  {
-    field: "playerData.playerID",
-    headerName: "",
-    minWidth: 60,
-    maxWidth: 70,
-    cellRenderer: cellRenderers.tablePlayerImg, 
-  },
-  {
-    field: "playerData.nickname",
-    headerName: "Nombre",
-    minWidth: 110,
-    cellRenderer: cellRenderers.tablePlayerNames,
-  },
-  {
-    field: "playerData.lastMarketChange",
-    headerName: "Cambio",
-    minWidth: 90,
-    sort: sortOrder,
-    headerClass: "ag-center-header",
-    cellRenderer: cellRenderers.tableSubidasBajadas,
-  },
-  {
-    field: "playerData.teamName",
-    headerName: "",
-    minWidth: 40,
-    cellRenderer: cellRenderers.tableClubLogos,
-  },
-  {
-    field: "playerData.marketValue",
-    headerName: "$ Actual",
-    minWidth: 90,
-    headerClass: "ag-center-header",
-    cellRenderer: cellRenderers.tableValues,
-  },
-  {
-    field: "playerData.previousMarketValue",
-    headerName: "$ Previo",
-    minWidth: 80,
-    cellRenderer: cellRenderers.tableValues,
-  },
-  {
-    field: "playerData.positionID",
-    headerName: "Pos",
-    minWidth: 65,
-    cellRenderer: cellRenderers.tablePositions,
-    headerClass: "ag-center-header",
-  },
-];
-}
+    {
+      field: "playerData.playerID",
+      headerName: "",
+      minWidth: 60,
+      maxWidth: 70,
+      cellRenderer: cellRenderers.tablePlayerImg,
+    },
+    {
+      field: "playerData.nickname",
+      headerName: "Nombre",
+      minWidth: 110,
+      cellRenderer: cellRenderers.tablePlayerNames,
+    },
+    {
+      field: "playerData.lastMarketChange",
+      headerName: "Cambio",
+      minWidth: 90,
+      sort: sortOrder,
+      headerClass: "ag-center-header",
+      cellRenderer: cellRenderers.tableSubidasBajadas,
+    },
+    {
+      field: "playerData.teamName",
+      headerName: "",
+      minWidth: 40,
+      cellRenderer: cellRenderers.tableClubLogos,
+    },
+    {
+      field: "playerData.marketValue",
+      headerName: "$ Actual",
+      minWidth: 90,
+      headerClass: "ag-center-header",
+      cellRenderer: cellRenderers.tableValues,
+    },
+    {
+      field: "playerData.previousMarketValue",
+      headerName: "$ Previo",
+      minWidth: 80,
+      cellRenderer: cellRenderers.tableValues,
+    },
+    {
+      field: "playerData.positionID",
+      headerName: "Pos",
+      minWidth: 65,
+      cellRenderer: cellRenderers.tablePositions,
+      headerClass: "ag-center-header",
+    },
+  ];
+};
 
+// <TableCell className="">
+//                         <div className="flex flex-row justify-between items-center w-full ">
+//                           <div className="flex flex-row justify-start items-center gap-2 w-full">
+//                             {player &&
+//                               getWeeksTotalPointsForPlayer(player, 38).map(
+//                                 (point) => {
+//                                   // Filter matches for those involving the player's team
+//                                   const playerMatches = matches.filter(
+//                                     (match) =>
+//                                       match.localTeamID === player.teamID ||
+//                                       match.visitorTeamID === player.teamID
+//                                   );
 
+//                                   const match = playerMatches.find(
+//                                     (match) => match.week === point.week
+//                                   );
+
+//                                   if (!match) return null;
+
+//                                   const opponentTeamID =
+//                                     match.localTeamID === player.teamID
+//                                       ? match.visitorTeamID
+//                                       : match.localTeamID;
+
+//                                   return (
+//                                     <div
+//                                       className="flex flex-col justify-center items-center "
+//                                       key={point.week}
+//                                     >
+//                                       <div className="flex flex-col justify-center items-center gap-0.5">
+//                                         <Image
+//                                           src={`/teamLogos/${slugById(
+//                                             opponentTeamID
+//                                           )}.png`}
+//                                           alt="opponent"
+//                                           width={20}
+//                                           height={20}
+//                                           style={{ objectFit: "contain" }}
+//                                           className="h-4"
+//                                         />
+
+//                                         <div
+//                                           className={`text-center border-[0.5px] w-6 h-6 border-neutral-500 rounded-xs flex justify-center items-center ${getColor(
+//                                             point.points
+//                                           )}`}
+//                                         >
+//                                           <p className="text-[13px] items-center align-middle">
+//                                             {point.points}
+//                                           </p>
+//                                         </div>
+//                                         <p className="text-xs text-center">
+//                                           {point.week}
+//                                         </p>
+//                                       </div>
+//                                     </div>
+//                                   );
+//                                 }
+//                               )}
+//                           </div>
+//                         </div>
+//                       </TableCell>
