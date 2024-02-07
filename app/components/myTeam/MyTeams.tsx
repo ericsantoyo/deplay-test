@@ -137,7 +137,7 @@ const MyTeams = ({ teams, matches }: { teams: any; matches: Match[] }) => {
                 <TableRow>
                   {/* <TableHead className="w-[100px]">ID</TableHead> */}
                   <TableHead className="text-center w-14">Pos</TableHead>
-                  <TableHead className=" text-center min-w-[195px]">Jugador</TableHead>
+                  <TableHead className=" text-center min-w-[180px]">Jugador</TableHead>
                   <TableHead className=" text-center ">
                     Proximos Partidos
                   </TableHead>
@@ -261,7 +261,7 @@ const MyTeams = ({ teams, matches }: { teams: any; matches: Match[] }) => {
                 <TableRow>
                   {/* <TableHead className="w-[100px]">ID</TableHead> */}
                   <TableHead className="text-center w-14">Pos</TableHead>
-                  <TableHead className=" text-center min-w-[195px]">Jugador</TableHead>
+                  <TableHead className=" text-center min-w-[180px]">Jugador</TableHead>
                   {/* Dynamically add headers for each unique week */}
                   {uniqueWeeks.map((week) => (
                     <TableHead
