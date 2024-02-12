@@ -54,13 +54,10 @@ const SearchBox = (props: SearchProps) => {
     )
     .slice(0, searchTerm ? undefined : 9);
 
-  // Handlers for opening and closing the modal
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
 
   return (
     <div className={`${props.divClassName}`}>
-      <Dialog>
+      <Dialog open={open} onOpenChange={setOpen} >
         <DialogTrigger >
           <Button asChild
             variant="default"
@@ -90,7 +87,7 @@ const SearchBox = (props: SearchProps) => {
                     <Link
                       href={`/player/${player.playerID}`}
                       className="flex justify-between items-center space-x-2 w-full px-1 hover:bg-gray-100 cursor-pointer"
-                      onClick={handleClose}
+                      onClick={() => setOpen(false)}
                     >
                       <div className="flex justify-center items-center w-8">
                         <Image

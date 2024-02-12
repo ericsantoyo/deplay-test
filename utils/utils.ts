@@ -1,4 +1,4 @@
-import { SortDirection } from "@/types";
+import { Match, PlayerStats, SortDirection } from "@/types";
 
 export const teams = [
   { name: "Deportivo Alavés", slug: "d-alaves", nickname: "ALA", id: 21 },
@@ -400,14 +400,15 @@ export const getNextThreeMatches = (
 
 export const getNextGames = (
   matches: matches[],
-  selectedPlayer: players
+  selectedPlayer: players,
+  quantity: number
 ): matches[] => {
   const currentWeek = getCurrentWeek(matches);
   return matches
     .filter(
       (match) =>
         match.week >= currentWeek &&
-        match.week < currentWeek + 3 &&
+        match.week < currentWeek + quantity &&
         (match.localTeamID === selectedPlayer.teamID ||
           match.visitorTeamID === selectedPlayer.teamID)
     )
@@ -472,64 +473,40 @@ export const createColumnDefs = (
   ];
 };
 
-// <TableCell className="">
-//                         <div className="flex flex-row justify-between items-center w-full ">
-//                           <div className="flex flex-row justify-start items-center gap-2 w-full">
-//                             {player &&
-//                               getWeeksTotalPointsForPlayer(player, 38).map(
-//                                 (point) => {
-//                                   // Filter matches for those involving the player's team
-//                                   const playerMatches = matches.filter(
-//                                     (match) =>
-//                                       match.localTeamID === player.teamID ||
-//                                       match.visitorTeamID === player.teamID
-//                                   );
+export const calculatePlayerPoints = (
+  playerStats: PlayerStats[],
+  matches: Match[],
+  playerTeamID: number
+): {
+  totalLocalPoints: number;
+  totalVisitorPoints: number;
+  averageLocalPoints: number;
+  averageVisitorPoints: number;
+} => {
+  let totalLocalPoints = 0;
+  let totalVisitorPoints = 0;
+  let localGamesCount = 0;
+  let visitorGamesCount = 0;
 
-//                                   const match = playerMatches.find(
-//                                     (match) => match.week === point.week
-//                                   );
+  playerStats.forEach((stat) => {
+    const match = matches.find((m) => m.week === stat.week);
+    if (match) {
+      if (match.localTeamID === playerTeamID) {
+        totalLocalPoints += stat.totalPoints;
+        localGamesCount++;
+      } else if (match.visitorTeamID === playerTeamID) {
+        totalVisitorPoints += stat.totalPoints;
+        visitorGamesCount++;
+      }
+    }
+  });
 
-//                                   if (!match) return null;
-
-//                                   const opponentTeamID =
-//                                     match.localTeamID === player.teamID
-//                                       ? match.visitorTeamID
-//                                       : match.localTeamID;
-
-//                                   return (
-//                                     <div
-//                                       className="flex flex-col justify-center items-center "
-//                                       key={point.week}
-//                                     >
-//                                       <div className="flex flex-col justify-center items-center gap-0.5">
-//                                         <Image
-//                                           src={`/teamLogos/${slugById(
-//                                             opponentTeamID
-//                                           )}.png`}
-//                                           alt="opponent"
-//                                           width={20}
-//                                           height={20}
-//                                           style={{ objectFit: "contain" }}
-//                                           className="h-4"
-//                                         />
-
-//                                         <div
-//                                           className={`text-center border-[0.5px] w-6 h-6 border-neutral-500 rounded-xs flex justify-center items-center ${getColor(
-//                                             point.points
-//                                           )}`}
-//                                         >
-//                                           <p className="text-[13px] items-center align-middle">
-//                                             {point.points}
-//                                           </p>
-//                                         </div>
-//                                         <p className="text-xs text-center">
-//                                           {point.week}
-//                                         </p>
-//                                       </div>
-//                                     </div>
-//                                   );
-//                                 }
-//                               )}
-//                           </div>
-//                         </div>
-//                       </TableCell>
+  return {
+    totalLocalPoints,
+    totalVisitorPoints,
+    averageLocalPoints:
+      localGamesCount > 0 ? totalLocalPoints / localGamesCount : 0,
+    averageVisitorPoints:
+      visitorGamesCount > 0 ? totalVisitorPoints / visitorGamesCount : 0,
+  };
+};

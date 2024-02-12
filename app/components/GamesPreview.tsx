@@ -152,11 +152,11 @@ export default function GamesPreview() {
                         <div className="w-full	 ">
                           {match.matchState === 7 ? (
                             <div className="flex flex-row justify-between items-center px-1.5  ">
-                            <p className={`font-semibold text-base	`}>
+                            <p className={`font-bold text-base	`}>
                               {match.localScore}
                             </p>
                             <p className=" text-base font-bold ">-</p>
-                            <p className={`font-semibold text-base	 `}>
+                            <p className={`font-bold text-base	 `}>
                               {match.visitorScore}
                             </p>
                           </div>

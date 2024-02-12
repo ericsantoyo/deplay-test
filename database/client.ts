@@ -1,3 +1,4 @@
+import { Match } from "@/types";
 import { supabase } from "./supabase";
 
 async function getAllPlayers(): Promise<{ allPlayers: players[] }> {
@@ -66,7 +67,7 @@ async function getMyTeams(): Promise<{ myTeams: myteams[] }> {
   return { myTeams: data as myteams[] };
 }
 
-async function fetchStatsForMyTeamsPlayers(playerIds) {
+async function fetchStatsForMyTeamsPlayers(playerIds: number[]) {
   const { data: stats, error } = await supabase
     .from('stats')
     .select('*')
@@ -79,6 +80,20 @@ async function fetchStatsForMyTeamsPlayers(playerIds) {
   }
 
   return stats;
+}
+
+async function fetchMyTeamPlayers(playerIds: number[]) {
+  const { data: players, error } = await supabase
+    .from('players')
+    .select('*')
+    .in('playerID', playerIds)
+
+  if (error) {
+    console.error('Error fetching players:', error);
+    return [];
+  }
+
+  return players;
 }
 
 async function getPlayerById(playerID: number) {
@@ -150,6 +165,16 @@ async function getMatchesByTeamID(teamID: number) {
   return { teamMatches: teamMatches as matches[] };
 }
 
+async function getFinishedMatches(): Promise<Match[]> {
+  const { data: finishedMatches } = await supabase
+    .from('matches')
+    .select('*')
+    .eq('matchState', 7)
+    .order('matchDate', { ascending: true });
+
+  return finishedMatches as Match[];
+}
+
 export {
   getAllPlayers,
   getAllStats,
@@ -162,4 +187,6 @@ export {
   getMatchesByTeamID,
   getMyTeams,
   fetchStatsForMyTeamsPlayers,
+  fetchMyTeamPlayers,
+  getFinishedMatches,
 };

@@ -1,247 +1,367 @@
-export interface Database {
+export type Json =
+  | string
+  | number
+  | boolean
+  | null
+  | { [key: string]: Json | undefined }
+  | Json[]
+
+export type Database = {
   public: {
     Tables: {
       matches: {
         Row: {
-          localScore: number;
-          localTeamID: number;
-          matchDate: string;
-          matchID: number;
-          matchState: number;
-          visitorScore: number;
-          visitorTeamID: number;
-          week: number;
-        };
+          localScore: number | null
+          localTeamID: number | null
+          matchDate: string | null
+          matchID: number
+          matchState: number | null
+          visitorScore: number | null
+          visitorTeamID: number | null
+          week: number | null
+        }
         Insert: {
-          localScore?: number;
-          localTeamID?: number;
-          matchDate?: string;
-          matchID: number;
-          matchState?: number;
-          visitorScore?: number;
-          visitorTeamID?: number;
-          week?: number;
-        };
+          localScore?: number | null
+          localTeamID?: number | null
+          matchDate?: string | null
+          matchID: number
+          matchState?: number | null
+          visitorScore?: number | null
+          visitorTeamID?: number | null
+          week?: number | null
+        }
         Update: {
-          localScore?: number;
-          localTeamID?: number;
-          matchDate?: string;
-          matchID?: number;
-          matchState?: number;
-          visitorScore?: number;
-          visitorTeamID?: number;
-          week?: number;
-        };
-        Relationships: [];
-      };
-      players: {
-        Row: {
-          playerData: any;
-          averagePoints: number;
-          image: string;
-          lastMarketChange: number;
-          marketValue: number;
-          marketValues: Array<{
-            lfpId: number;
-            marketValue: number;
-            date: string;
-            bids: number;
-          }>;
-          name: string;
-          nickname: string;
-          playerID: number;
-          points: number;
-          position: string;
-          positionID: number;
-          previousMarketValue: number;
-          status: string;
-          teamID: number;
-          teamName: string;
-        };
-        Insert: {
-          averagePoints?: number;
-          image?: string;
-          lastMarketChange?: number;
-          marketValue?: number;
-          marketValues?: Array<{
-            lfpId: number;
-            marketValue: number;
-            date: string;
-            bids: number;
-          }>;
-          name?: string;
-          nickname?: string;
-          playerID: number;
-          points?: number;
-          position?: string;
-          positionID?: number;
-          previousMarketValue?: number;
-          status?: string;
-          teamID?: number;
-          teamName?: string;
-        };
-        Update: {
-          averagePoints?: number;
-          image?: string;
-          lastMarketChange?: number;
-          marketValue?: number;
-          marketValues?: Array<{
-            lfpId: number;
-            marketValue: number;
-            date: string;
-            bids: number;
-          }>;
-          name?: string;
-          nickname?: string;
-          playerID?: number;
-          points?: number;
-          position?: string;
-          positionID?: number;
-          previousMarketValue?: number;
-          status?: string;
-          teamID?: number;
-          teamName?: string;
-        };
-        Relationships: [];
-      };
-      stats: {
-        Row: {
-          ball_recovery: [number, number];
-          effective_clearance: [number, number];
-          goal_assist: [number, number];
-          goals: [number, number];
-          goals_conceded: [number, number];
-          isInIdealFormation: boolean;
-          marca_points: [number, number];
-          mins_played: [number, number];
-          offtarget_att_assist: [number, number];
-          own_goals: [number, number];
-          pen_area_entries: [number, number];
-          penalty_conceded: [number, number];
-          penalty_failed: [number, number];
-          penalty_save: [number, number];
-          penalty_won: [number, number];
-          playerID: number;
-          poss_lost_all: [number, number];
-          red_card: [number, number];
-          saves: [number, number];
-          second_yellow_card: [number, number];
-          total_scoring_att: [number, number];
-          totalPoints: number;
-          week: number;
-          won_contest: [number, number];
-          yellow_card: [number, number];
-        };
-        Insert: {
-          ball_recovery?: [number, number];
-          effective_clearance?: [number, number];
-          goal_assist?: [number, number];
-          goals?: [number, number];
-          goals_conceded?: [number, number];
-          isInIdealFormation?: boolean;
-          marca_points?: [number, number];
-          mins_played?: [number, number];
-          offtarget_att_assist?: [number, number];
-          own_goals?: [number, number];
-          pen_area_entries?: [number, number];
-          penalty_conceded?: [number, number];
-          penalty_failed?: [number, number];
-          penalty_save?: [number, number];
-          penalty_won?: [number, number];
-          playerID: number;
-          poss_lost_all?: [number, number];
-          red_card?: [number, number];
-          saves?: [number, number];
-          second_yellow_card?: [number, number];
-          total_scoring_att?: [number, number];
-          totalPoints?: number;
-          week: number;
-          won_contest?: [number, number];
-          yellow_card?: [number, number];
-        };
-        Update: {
-          ball_recovery?: [number, number];
-          effective_clearance?: [number, number];
-          goal_assist?: [number, number];
-          goals?: [number, number];
-          goals_conceded?: [number, number];
-          isInIdealFormation?: boolean;
-          marca_points?: [number, number];
-          mins_played?: [number, number];
-          offtarget_att_assist?: [number, number];
-          own_goals?: [number, number];
-          pen_area_entries?: [number, number];
-          penalty_conceded?: [number, number];
-          penalty_failed?: [number, number];
-          penalty_save?: [number, number];
-          penalty_won?: [number, number];
-          playerID?: number;
-          poss_lost_all?: [number, number];
-          red_card?: [number, number];
-          saves?: [number, number];
-          second_yellow_card?: [number, number];
-          total_scoring_att?: [number, number];
-          totalPoints?: number;
-          week?: number;
-          won_contest?: [number, number];
-          yellow_card?: [number, number];
-        };
-        Relationships: [];
-      };
-      teams: {
-        Row: {
-          image: string;
-          name: string;
-          nickname: string;
-          teamID: number;
-        };
-        Insert: {
-          image?: string;
-          name?: string;
-          nickname?: string;
-          teamID: number;
-        };
-        Update: {
-          image?: string;
-          name?: string;
-          nickname?: string;
-          teamID?: number;
-        };
-        Relationships: [];
-      };
+          localScore?: number | null
+          localTeamID?: number | null
+          matchDate?: string | null
+          matchID?: number
+          matchState?: number | null
+          visitorScore?: number | null
+          visitorTeamID?: number | null
+          week?: number | null
+        }
+        Relationships: []
+      }
       myteams: {
         Row: {
-          myTeamID: number;
-          name: string;
-          players: any; 
-          createdAt: string; 
-        };
+          created_at: string
+          myTeamID: number
+          name: string | null
+          players: Json | null
+        }
         Insert: {
-          myTeamID?: number;
-          name?: string;
-          players?: any; 
-          createdAt?: string;
-        };
+          created_at?: string
+          myTeamID?: number
+          name?: string | null
+          players?: Json | null
+        }
         Update: {
-          myTeamID?: number;
-          name?: string;
-          players?: any;
-          createdAt?: string;
-        };
-        Relationships: [];
-      };
-    };
+          created_at?: string
+          myTeamID?: number
+          name?: string | null
+          players?: Json | null
+        }
+        Relationships: []
+      }
+      news: {
+        Row: {
+          content: string | null
+          cover_photo_url: string | null
+          created_at: string
+          id: string
+          published: boolean | null
+          tag: Json | null
+          title: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          content?: string | null
+          cover_photo_url?: string | null
+          created_at?: string
+          id?: string
+          published?: boolean | null
+          tag?: Json | null
+          title?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          content?: string | null
+          cover_photo_url?: string | null
+          created_at?: string
+          id?: string
+          published?: boolean | null
+          tag?: Json | null
+          title?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      players: {
+        Row: {
+          averagePoints: number | null
+          image: string | null
+          lastMarketChange: number | null
+          marketValue: number | null
+          marketValues: Json | null
+          name: string | null
+          nickname: string | null
+          playerID: number
+          points: number | null
+          position: string | null
+          positionID: number | null
+          previousMarketValue: number | null
+          status: string | null
+          teamID: number | null
+          teamName: string | null
+        }
+        Insert: {
+          averagePoints?: number | null
+          image?: string | null
+          lastMarketChange?: number | null
+          marketValue?: number | null
+          marketValues?: Json | null
+          name?: string | null
+          nickname?: string | null
+          playerID: number
+          points?: number | null
+          position?: string | null
+          positionID?: number | null
+          previousMarketValue?: number | null
+          status?: string | null
+          teamID?: number | null
+          teamName?: string | null
+        }
+        Update: {
+          averagePoints?: number | null
+          image?: string | null
+          lastMarketChange?: number | null
+          marketValue?: number | null
+          marketValues?: Json | null
+          name?: string | null
+          nickname?: string | null
+          playerID?: number
+          points?: number | null
+          position?: string | null
+          positionID?: number | null
+          previousMarketValue?: number | null
+          status?: string | null
+          teamID?: number | null
+          teamName?: string | null
+        }
+        Relationships: []
+      }
+      roles: {
+        Row: {
+          email: string
+          role: string | null
+        }
+        Insert: {
+          email: string
+          role?: string | null
+        }
+        Update: {
+          email?: string
+          role?: string | null
+        }
+        Relationships: []
+      }
+      stats: {
+        Row: {
+          ball_recovery: Json | null
+          effective_clearance: Json | null
+          goal_assist: Json | null
+          goals: Json | null
+          goals_conceded: Json | null
+          isInIdealFormation: boolean | null
+          marca_points: Json | null
+          mins_played: Json | null
+          offtarget_att_assist: Json | null
+          own_goals: Json | null
+          pen_area_entries: Json | null
+          penalty_conceded: Json | null
+          penalty_failed: Json | null
+          penalty_save: Json | null
+          penalty_won: Json | null
+          playerID: number
+          poss_lost_all: Json | null
+          red_card: Json | null
+          saves: Json | null
+          second_yellow_card: Json | null
+          total_scoring_att: Json | null
+          totalPoints: number | null
+          week: number
+          won_contest: Json | null
+          yellow_card: Json | null
+        }
+        Insert: {
+          ball_recovery?: Json | null
+          effective_clearance?: Json | null
+          goal_assist?: Json | null
+          goals?: Json | null
+          goals_conceded?: Json | null
+          isInIdealFormation?: boolean | null
+          marca_points?: Json | null
+          mins_played?: Json | null
+          offtarget_att_assist?: Json | null
+          own_goals?: Json | null
+          pen_area_entries?: Json | null
+          penalty_conceded?: Json | null
+          penalty_failed?: Json | null
+          penalty_save?: Json | null
+          penalty_won?: Json | null
+          playerID: number
+          poss_lost_all?: Json | null
+          red_card?: Json | null
+          saves?: Json | null
+          second_yellow_card?: Json | null
+          total_scoring_att?: Json | null
+          totalPoints?: number | null
+          week: number
+          won_contest?: Json | null
+          yellow_card?: Json | null
+        }
+        Update: {
+          ball_recovery?: Json | null
+          effective_clearance?: Json | null
+          goal_assist?: Json | null
+          goals?: Json | null
+          goals_conceded?: Json | null
+          isInIdealFormation?: boolean | null
+          marca_points?: Json | null
+          mins_played?: Json | null
+          offtarget_att_assist?: Json | null
+          own_goals?: Json | null
+          pen_area_entries?: Json | null
+          penalty_conceded?: Json | null
+          penalty_failed?: Json | null
+          penalty_save?: Json | null
+          penalty_won?: Json | null
+          playerID?: number
+          poss_lost_all?: Json | null
+          red_card?: Json | null
+          saves?: Json | null
+          second_yellow_card?: Json | null
+          total_scoring_att?: Json | null
+          totalPoints?: number | null
+          week?: number
+          won_contest?: Json | null
+          yellow_card?: Json | null
+        }
+        Relationships: []
+      }
+      teams: {
+        Row: {
+          image: string | null
+          name: string | null
+          nickname: string | null
+          teamID: number
+        }
+        Insert: {
+          image?: string | null
+          name?: string | null
+          nickname?: string | null
+          teamID: number
+        }
+        Update: {
+          image?: string | null
+          name?: string | null
+          nickname?: string | null
+          teamID?: number
+        }
+        Relationships: []
+      }
+    }
     Views: {
-      [_ in never]: never;
-    };
+      [_ in never]: never
+    }
     Functions: {
-      [_ in never]: never;
-    };
+      [_ in never]: never
+    }
     Enums: {
-      [_ in never]: never;
-    };
+      [_ in never]: never
+    }
     CompositeTypes: {
-      [_ in never]: never;
-    };
-  };
+      [_ in never]: never
+    }
+  }
 }
+
+export type Tables<
+  PublicTableNameOrOptions extends
+    | keyof (Database["public"]["Tables"] & Database["public"]["Views"])
+    | { schema: keyof Database },
+  TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
+    ? keyof (Database[PublicTableNameOrOptions["schema"]]["Tables"] &
+        Database[PublicTableNameOrOptions["schema"]]["Views"])
+    : never = never
+> = PublicTableNameOrOptions extends { schema: keyof Database }
+  ? (Database[PublicTableNameOrOptions["schema"]]["Tables"] &
+      Database[PublicTableNameOrOptions["schema"]]["Views"])[TableName] extends {
+      Row: infer R
+    }
+    ? R
+    : never
+  : PublicTableNameOrOptions extends keyof (Database["public"]["Tables"] &
+      Database["public"]["Views"])
+  ? (Database["public"]["Tables"] &
+      Database["public"]["Views"])[PublicTableNameOrOptions] extends {
+      Row: infer R
+    }
+    ? R
+    : never
+  : never
+
+export type TablesInsert<
+  PublicTableNameOrOptions extends
+    | keyof Database["public"]["Tables"]
+    | { schema: keyof Database },
+  TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
+    ? keyof Database[PublicTableNameOrOptions["schema"]]["Tables"]
+    : never = never
+> = PublicTableNameOrOptions extends { schema: keyof Database }
+  ? Database[PublicTableNameOrOptions["schema"]]["Tables"][TableName] extends {
+      Insert: infer I
+    }
+    ? I
+    : never
+  : PublicTableNameOrOptions extends keyof Database["public"]["Tables"]
+  ? Database["public"]["Tables"][PublicTableNameOrOptions] extends {
+      Insert: infer I
+    }
+    ? I
+    : never
+  : never
+
+export type TablesUpdate<
+  PublicTableNameOrOptions extends
+    | keyof Database["public"]["Tables"]
+    | { schema: keyof Database },
+  TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
+    ? keyof Database[PublicTableNameOrOptions["schema"]]["Tables"]
+    : never = never
+> = PublicTableNameOrOptions extends { schema: keyof Database }
+  ? Database[PublicTableNameOrOptions["schema"]]["Tables"][TableName] extends {
+      Update: infer U
+    }
+    ? U
+    : never
+  : PublicTableNameOrOptions extends keyof Database["public"]["Tables"]
+  ? Database["public"]["Tables"][PublicTableNameOrOptions] extends {
+      Update: infer U
+    }
+    ? U
+    : never
+  : never
+
+export type Enums<
+  PublicEnumNameOrOptions extends
+    | keyof Database["public"]["Enums"]
+    | { schema: keyof Database },
+  EnumName extends PublicEnumNameOrOptions extends { schema: keyof Database }
+    ? keyof Database[PublicEnumNameOrOptions["schema"]]["Enums"]
+    : never = never
+> = PublicEnumNameOrOptions extends { schema: keyof Database }
+  ? Database[PublicEnumNameOrOptions["schema"]]["Enums"][EnumName]
+  : PublicEnumNameOrOptions extends keyof Database["public"]["Enums"]
+  ? Database["public"]["Enums"][PublicEnumNameOrOptions]
+  : never
