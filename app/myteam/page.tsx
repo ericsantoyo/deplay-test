@@ -27,12 +27,12 @@ interface PlayerWithStatsAndPoints extends Player {
 
 // START TO MOVE THE PLAYERPOINT CALCUTION TO HERE
 
-
 function formatAndSortPlayerData(
   players: Player[],
   stats: PlayerStats[],
   matches: Match[],
-  teams: myteams[]) {
+  teams: myteams[]
+) {
   // Initialize a map to hold player stats, keyed by playerID
   const playerStatsMap = new Map<number, PlayerStats[]>();
   stats.forEach((stat) => {
@@ -56,7 +56,8 @@ function formatAndSortPlayerData(
 
     // Get all matches for the player's team
     const teamMatches = matches.filter(
-      (m) => m.localTeamID === player.teamID || m.visitorTeamID === player.teamID
+      (m) =>
+        m.localTeamID === player.teamID || m.visitorTeamID === player.teamID
     );
 
     // For each match, check if the player has stats and update pointsData accordingly
@@ -73,30 +74,53 @@ function formatAndSortPlayerData(
       }
     });
 
-    pointsData.averageLocalPoints = pointsData.localGames > 0 ? pointsData.totalLocalPoints / pointsData.localGames : 0;
-    pointsData.averageVisitorPoints = pointsData.visitorGames > 0 ? pointsData.totalVisitorPoints / pointsData.visitorGames : 0;
+    pointsData.averageLocalPoints =
+      pointsData.localGames > 0
+        ? pointsData.totalLocalPoints / pointsData.localGames
+        : 0;
+    pointsData.averageVisitorPoints =
+      pointsData.visitorGames > 0
+        ? pointsData.totalVisitorPoints / pointsData.visitorGames
+        : 0;
 
-     // Attach the players with all their stats to their respective teams
-   
-
-     return {
+    return {
       ...player,
-      stats: playerStats, 
-      pointsData, 
+      stats: playerStats,
+      pointsData,
     };
   });
 
   // Attach the players with all their stats to their respective teams
   const teamsWithPlayers = teams.map((team) => ({
     ...team,
-    players: team.players.players.map(playerId =>
-      playersWithStatsAndPoints.find(p => p.playerID === playerId)).filter(p => p !== undefined) // Filter out undefined to ensure all players found
+    players: team.players.players
+      .map((playerId) =>
+        playersWithStatsAndPoints.find((p) => p.playerID === playerId)
+      )
+      .filter((p) => p !== undefined), // Filter out undefined to ensure all players found
   }));
+
+  //sort players by position and then by playerID for each team
+  teamsWithPlayers.forEach((team) => {
+    team.players.sort((a, b) => {
+      if (a.positionID < b.positionID) {
+        return -1;
+      }
+      if (a.positionID > b.positionID) {
+        return 1;
+      }
+      if (a.playerID < b.playerID) {
+        return -1;
+      }
+      if (a.playerID > b.playerID) {
+        return 1;
+      }
+      return 0;
+    });
+  });
 
   return teamsWithPlayers;
 }
-
-
 
 export default async function MyTeam() {
   const { myTeams } = await getMyTeams();
@@ -123,7 +147,10 @@ export default async function MyTeam() {
       {/* <pre>{JSON.stringify(stats.slice(0, 30), null, 2)}</pre> */}
       {/* <pre>{JSON.stringify(teamsWithFormattedAndCalculatedData[0].players[0].stats, null, 2)}</pre> */}
       {/* <MyTeamLineup teamPlayers={playersWithStats} /> */}
-      <MyTeams teams={teamsWithFormattedAndCalculatedData} matches={finishedMatches} />
+      <MyTeams
+        teams={teamsWithFormattedAndCalculatedData}
+        matches={finishedMatches}
+      />
     </>
   );
 }

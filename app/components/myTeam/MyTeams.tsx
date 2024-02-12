@@ -410,7 +410,7 @@ const MyTeams = ({ teams, matches }: { teams: any; matches: Match[] }) => {
                                 {/* <div className="ml-0 mr-0 h-5 border-l border-gray-400"></div> */}
                                 <div className="flex flex-col justify-center items-center gap-1">
                                   <div
-                                    className={`text-center border-[0.5px] w-6 h-6 border-neutral-500 rounded flex justify-center items-center ${getColor(
+                                    className={`text-center border-[0.5px] w-6 h-6 border-neutral-700 flex justify-center items-center ${getColor(
                                       stat.totalPoints
                                     )}`}
                                   >
