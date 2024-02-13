@@ -1,9 +1,6 @@
 import {
   getAllMatches,
-  getAllPlayers,
-  getAllStats,
   getMyTeams,
-  getMatchesByTeamID,
   fetchStatsForMyTeamsPlayers,
   fetchMyTeamPlayers,
   getFinishedMatches,
@@ -11,12 +8,10 @@ import {
 
 import MyTeamLineup from "@/app/components/myTeam/MyTeamLineup";
 import MyTeams from "../components/myTeam/MyTeams";
-import { Match, Player, PlayerStats } from "@/types";
-// import { calculatePlayerPoints } from "@/utils/utils";
 
 export const revalidate = 0;
 
-interface PlayerWithStatsAndPoints extends Player {
+interface PlayerWithStatsAndPoints extends players {
   pointsData: {
     totalLocalPoints: number;
     totalVisitorPoints: number;
@@ -25,16 +20,14 @@ interface PlayerWithStatsAndPoints extends Player {
   };
 }
 
-// START TO MOVE THE PLAYERPOINT CALCUTION TO HERE
-
 function formatAndSortPlayerData(
-  players: Player[],
-  stats: PlayerStats[],
-  matches: Match[],
+  players: players[],
+  stats: stats[],
+  matches: matches[],
   teams: myteams[]
 ) {
   // Initialize a map to hold player stats, keyed by playerID
-  const playerStatsMap = new Map<number, PlayerStats[]>();
+  const playerStatsMap = new Map<number, stats[]>();
   stats.forEach((stat) => {
     if (!playerStatsMap.has(stat.playerID)) {
       playerStatsMap.set(stat.playerID, []);
@@ -93,8 +86,8 @@ function formatAndSortPlayerData(
   // Attach the players with all their stats to their respective teams
   const teamsWithPlayers = teams.map((team) => ({
     ...team,
-    players: team.players.players
-      .map((playerId) =>
+    players: team.players
+      .map((playerId: number) =>
         playersWithStatsAndPoints.find((p) => p.playerID === playerId)
       )
       .filter((p) => p !== undefined), // Filter out undefined to ensure all players found
@@ -126,13 +119,16 @@ export default async function MyTeam() {
   const { myTeams } = await getMyTeams();
 
   // Extract player IDs from myTeams
-  const playerIds = myTeams.flatMap((team) => team.players.players);
+  const playerIds = myTeams.flatMap((team) => team.players);
   // Fetch stats only for these player IDs
   const stats = await fetchStatsForMyTeamsPlayers(playerIds);
   // Fetch players for these player IDs
   const players = await fetchMyTeamPlayers(playerIds);
   // Fetch finished matches
-  const finishedMatches = await getFinishedMatches();
+  const { finishedMatches: finishedMatches } = await getFinishedMatches();
+
+  // fetch all matches
+  const { allMatches: matchesData } = await getAllMatches();
 
   const teamsWithFormattedAndCalculatedData = formatAndSortPlayerData(
     players,
@@ -149,7 +145,7 @@ export default async function MyTeam() {
       {/* <MyTeamLineup teamPlayers={playersWithStats} /> */}
       <MyTeams
         teams={teamsWithFormattedAndCalculatedData}
-        matches={finishedMatches}
+        matches={matchesData}
       />
     </>
   );

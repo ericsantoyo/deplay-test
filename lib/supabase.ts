@@ -113,7 +113,6 @@ export type Database = {
           status: string | null
           teamID: number | null
           teamName: string | null
-        
         }
         Insert: {
           averagePoints?: number | null
@@ -131,7 +130,6 @@ export type Database = {
           status?: string | null
           teamID?: number | null
           teamName?: string | null
-      
         }
         Update: {
           averagePoints?: number | null
@@ -149,7 +147,6 @@ export type Database = {
           status?: string | null
           teamID?: number | null
           teamName?: string | null
-      
         }
         Relationships: []
       }

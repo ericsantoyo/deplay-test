@@ -321,7 +321,7 @@ export async function getWeeksTotalPointsFromStatsWithTeamLogo(
 
 export const getCurrentWeek = (matches: matches[]): number => {
   const now = new Date();
-
+  // console.log("now", now);
   // Filter upcoming matches (matchState is not 7) and sort them by matchDate in ascending order
   const upcomingMatches = matches
     .filter((match) => match.matchState !== 7)
@@ -404,6 +404,7 @@ export const getNextGames = (
   quantity: number
 ): matches[] => {
   const currentWeek = getCurrentWeek(matches);
+  // console.log("currentWeek", currentWeek);
   return matches
     .filter(
       (match) =>

@@ -165,15 +165,17 @@ async function getMatchesByTeamID(teamID: number) {
   return { teamMatches: teamMatches as matches[] };
 }
 
-async function getFinishedMatches(): Promise<Match[]> {
+async function getFinishedMatches(): Promise<{ finishedMatches: matches[] }> {
   const { data: finishedMatches } = await supabase
     .from('matches')
     .select('*')
     .eq('matchState', 7)
     .order('matchDate', { ascending: true });
 
-  return finishedMatches as Match[];
+    return { finishedMatches: finishedMatches as matches[] };
 }
+
+
 
 export {
   getAllPlayers,

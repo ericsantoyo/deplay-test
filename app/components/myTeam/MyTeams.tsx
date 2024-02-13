@@ -1,7 +1,6 @@
 "use client";
 import React, { useMemo, useState } from "react";
 import { Card } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
 import {
   Select,
   SelectContent,
@@ -21,35 +20,34 @@ import {
   TableHead,
   TableHeader,
   TableRow,
+  TableFooter,
 } from "@/components/ui/table";
 import HomeIcon from "@mui/icons-material/Home";
 import FlightIcon from "@mui/icons-material/Flight";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 
-import { Match, PlayerStats, PlayerWithStats } from "@/types";
 import {
   formatMoney,
   formatter,
   getColor,
-  getCurrentWeek,
   getNextGames,
-  getNextThreeMatches,
   getPositionBadge,
-  getWeeksTotalPointsForPlayer,
-  getWeeksTotalPointsFromSinglePlayer,
   lastChangeStyle,
   slugById,
 } from "@/utils/utils";
 import Image from "next/image";
-import LastMatches from "./LastMatches";
 
-const MyTeams = ({ teams, matches }: { teams: any; matches: Match[] }) => {
+interface PlayerWithStats extends players {
+  stats: stats[];
+}
+
+const MyTeams = ({ teams, matches }: { teams: any; matches: matches[] }) => {
   const [selectedTeam, setSelectedTeam] = useState(teams[0] || null);
 
   // Determine unique weeks for the selected team
   const uniqueWeeks = useMemo(() => {
-    const allWeeks = selectedTeam?.players.flatMap((player) =>
-      player.stats.map((stat) => stat.week)
+    const allWeeks = selectedTeam?.players.flatMap((player: players) =>
+      player.stats.map((stat: stats) => stat.week)
     );
     const weeksSet = new Set(allWeeks);
     return Array.from(weeksSet).sort((a, b) => b - a);
@@ -80,11 +78,12 @@ const MyTeams = ({ teams, matches }: { teams: any; matches: Match[] }) => {
         <h2 className="text-lg font-semibold text-center my-1">Mis Equipos</h2>
         <div className="flex w-full md:flex-row flex-col justify-between items-center gap-2">
           {/* TEAM SELECT */}
+
           <Select
             value={selectedTeam ? selectedTeam.name : "Selecciona un equipo"}
             onValueChange={handleTeamSelect}
           >
-            <SelectTrigger className="rounded-sm border bg-card text-card-foreground shadow h-full">
+            <SelectTrigger className="rounded-sm border bg-card text-card-foreground shadow h-full md:w-1/4">
               <SelectValue>
                 {selectedTeam ? selectedTeam.name : "Selecciona un equipo"}
               </SelectValue>
@@ -100,8 +99,9 @@ const MyTeams = ({ teams, matches }: { teams: any; matches: Match[] }) => {
               ))}
             </SelectContent>
           </Select>
+
           {/* TEAM INFO CARD */}
-          <Card className="transition-all flex flex-row justify-between items-center gap-6 md:gap-8 md:px-6 px-4 py-2 w-full text-xs md:text-sm h-full md:h-10 ">
+          <Card className="transition-all flex flex-row justify-between items-center gap-6 md:gap-8 md:px-6 px-4 py-2 md:w-3/4 w-full text-xs md:text-sm h-full md:h-10 ">
             <div className="flex flex-col md:flex-row justify-between items-start gap-2 md:gap-6 w-full ">
               <div className="flex flex-row justify-center items-center">
                 <p className=" font-normal mr-2">Valor:</p>
@@ -142,9 +142,7 @@ const MyTeams = ({ teams, matches }: { teams: any; matches: Match[] }) => {
                 <TableRow>
                   {/* <TableHead className="w-[100px]">ID</TableHead> */}
                   <TableHead className="w-text-center w-14">Pos</TableHead>
-                  <TableHead className=" text-center min-w-[180px]">
-                    Jugador
-                  </TableHead>
+                  <TableHead className=" text-center ">Jugador</TableHead>
                   <TableHead className=" text-center ">
                     Proximos Partidos
                   </TableHead>
@@ -153,9 +151,7 @@ const MyTeams = ({ teams, matches }: { teams: any; matches: Match[] }) => {
                   <TableHead className=" text-center">Visitante</TableHead>
                   <TableHead className=" text-right">Cambio</TableHead>
                   <TableHead className=" text-right">Valor</TableHead>
-                  <TableHead className=" text-center p-0 m-0 md:hidden">
-                    
-                  </TableHead>
+                  <TableHead className=" text-center p-0 m-0 md:hidden"></TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody className="p-0 m-0">
@@ -172,7 +168,7 @@ const MyTeams = ({ teams, matches }: { teams: any; matches: Match[] }) => {
                           {getPositionBadge(player.positionID).abbreviation}
                         </div>
                       </TableCell>
-                      <TableCell className=" p-0 m-0 ">
+                      <TableCell className=" p-0 m-0 truncate min-w-[200px]">
                         <Link
                           className="flex flex-row justify-start items-center gap-2"
                           href={`/player/${player.playerID}`}
@@ -187,18 +183,26 @@ const MyTeams = ({ teams, matches }: { teams: any; matches: Match[] }) => {
                               style={{ objectFit: "contain" }}
                             />
                           </div>
-                          <div className="flex justify-center items-center flex-shrink-0 w-10 h-10">
+                          <div className="flex flex-col justify-start items-center flex-shrink-0 h-10 p-0 m-0 overflow-hidden">
                             <Image
                               src={player.image}
                               alt={player.nickname}
-                              width={40}
-                              height={40}
-                              className="w-10 h-10"
+                              width={60}
+                              height={60}
                               style={{ objectFit: "contain" }}
                             />
                           </div>
-                          <div className="text-xs md:text-sm font-semibold whitespace-nowrap shrink-0">
-                            {player.nickname}
+                          <div className="text-xs md:text-sm  font-semibold whitespace-nowrap shrink-0">
+                            {player.nickname.includes(" ") &&
+                            player.nickname.length > 12
+                              ? `${player.nickname.split(" ")[0].charAt(0)}. ${
+                                  player.nickname.split(" ")[1]
+                                }${
+                                  player.nickname.split(" ").length > 2
+                                    ? ` ${player.nickname.split(" ")[2]}`
+                                    : ""
+                                }`
+                              : player.nickname}
                           </div>
                         </Link>
                       </TableCell>
@@ -243,14 +247,16 @@ const MyTeams = ({ teams, matches }: { teams: any; matches: Match[] }) => {
                       </TableCell>
                       <TableCell className="text-center ">
                         <div className="flex flex-row justify-center items-center gap-0.5">
-                          <p className="font-bold ">{player.points}</p>
-                          <p className="text-xs">pts</p>
+                          <p className="font-bold text-base ">
+                            {player.points}
+                          </p>
+                          {/* <p className="text-xs">pts</p> */}
                           <div className="mx-2 h-6 border-l border-neutral-300"></div>
                           <div className="flex flex-col justify-center items-center">
-                            <p className="font-bold ">
+                            <p className="font-bold leading-none">
                               {player.averagePoints.toFixed(2)}
                             </p>
-                            <p className=" text-xs">Media</p>
+                            <p className="text-[11px] leading-none ">Media</p>
                           </div>
                         </div>
                       </TableCell>
@@ -262,10 +268,10 @@ const MyTeams = ({ teams, matches }: { teams: any; matches: Match[] }) => {
                           </p>
                           <div className="mx-2 h-6 border-l border-neutral-300"></div>
                           <div className="flex flex-col justify-center items-center">
-                            <p className="font-bold ">
+                            <p className="font-bold leading-none">
                               {player.pointsData.averageLocalPoints.toFixed(2)}
                             </p>
-                            <p className="text-xs ">Media</p>
+                            <p className="text-[11px] leading-none ">Media</p>
                           </div>
                         </div>
                       </TableCell>
@@ -277,12 +283,12 @@ const MyTeams = ({ teams, matches }: { teams: any; matches: Match[] }) => {
                           </p>
                           <div className="mx-2 h-6 border-l border-neutral-300"></div>
                           <div className="flex flex-col justify-center items-center">
-                            <p className="font-bold ">
+                            <p className="font-bold leading-none">
                               {player.pointsData.averageVisitorPoints.toFixed(
                                 2
                               )}
                             </p>
-                            <p className="text-xs ">Media</p>
+                            <p className="text-[11px] leading-none">Media</p>
                           </div>
                         </div>
                       </TableCell>
@@ -312,6 +318,74 @@ const MyTeams = ({ teams, matches }: { teams: any; matches: Match[] }) => {
                   );
                 })}
               </TableBody>
+              <TableFooter className="">
+                <TableRow className="bg-neutral-100 text-neutral-800">
+                  <TableCell className="text-center" colSpan={3}></TableCell>
+
+                  <TableCell className="text-center">
+                    <div className="flex justify-center items-center gap-1">
+                      {(
+                        selectedTeamPlayers.reduce(
+                          (acc, player) => acc + player.averagePoints,
+                          0
+                        ) / selectedTeamPlayers.length
+                      ).toFixed(2)}
+                      <p className="text-[11px] leading-none">Media</p>
+                    </div>
+                  </TableCell>
+
+                  <TableCell className="text-center">
+                    <div className="flex justify-center items-center gap-1">
+                      {(
+                        selectedTeamPlayers.reduce(
+                          (acc, player) =>
+                            acc + player.pointsData.averageLocalPoints,
+                          0
+                        ) / selectedTeamPlayers.length
+                      ).toFixed(2)}
+                      <p className="text-[11px] leading-none">Media</p>
+                    </div>
+                  </TableCell>
+                  <TableCell className="text-center">
+                    <div className="flex justify-center items-center gap-1">
+                      {(
+                        selectedTeamPlayers.reduce(
+                          (acc, player) =>
+                            acc + player.pointsData.averageVisitorPoints,
+                          0
+                        ) / selectedTeamPlayers.length
+                      ).toFixed(2)}
+                      <p className="text-[11px] leading-none">Media</p>
+                    </div>
+                  </TableCell>
+                  <TableCell className="text-right ">
+                    <div
+                      className={`font-bold text-center tabular-nums text-xs md:text-sm  tracking-tighter  ${lastChangeStyle(
+                        selectedTeamPlayers.reduce(
+                          (acc, player) => acc + player.lastMarketChange,
+                          0
+                        )
+                      )}`}
+                    >
+                      {formatter.format(
+                        selectedTeamPlayers.reduce(
+                          (acc, player) => acc + player.lastMarketChange,
+                          0
+                        )
+                      )}
+                    </div>
+                  </TableCell>
+                  <TableCell className=" font-bold text-right tabular-nums text-xs md:text-sm">
+                    {formatMoney(
+                      selectedTeamPlayers.reduce(
+                        (acc, player) => acc + player.marketValue,
+                        0
+                      )
+                    )}
+                  </TableCell>
+                  <TableCell className="text-center p-0 m-0 md:hidden"></TableCell>
+                </TableRow>
+              </TableFooter>
             </Table>
           </Card>
         )}
@@ -326,10 +400,8 @@ const MyTeams = ({ teams, matches }: { teams: any; matches: Match[] }) => {
               <TableHeader>
                 <TableRow>
                   {/* <TableHead className="w-[100px]">ID</TableHead> */}
-                  <TableHead className="text-center w-14">Pos</TableHead>
-                  <TableHead className=" text-center min-w-[180px]">
-                    Jugador
-                  </TableHead>
+                  <TableHead className="w-text-center w-14">Pos</TableHead>
+                  <TableHead className=" text-center ">Jugador</TableHead>
                   {/* Dynamically add headers for each unique week */}
                   {uniqueWeeks.map((week) => (
                     <TableHead
@@ -343,8 +415,6 @@ const MyTeams = ({ teams, matches }: { teams: any; matches: Match[] }) => {
               </TableHeader>
               <TableBody className="p-0 m-0">
                 {selectedTeamPlayers.map((player) => {
-                  const nextThreeMatches = getNextGames(matches, player);
-
                   return (
                     <TableRow key={player.playerID} className="">
                       {/* <TableCell className="">
@@ -359,7 +429,7 @@ const MyTeams = ({ teams, matches }: { teams: any; matches: Match[] }) => {
                           {getPositionBadge(player.positionID).abbreviation}
                         </div>
                       </TableCell>
-                      <TableCell className=" p-0 m-0 ">
+                      <TableCell className=" p-0 m-0 truncate min-w-[200px]">
                         <Link
                           className="flex flex-row justify-start items-center gap-2"
                           href={`/player/${player.playerID}`}
@@ -374,18 +444,26 @@ const MyTeams = ({ teams, matches }: { teams: any; matches: Match[] }) => {
                               style={{ objectFit: "contain" }}
                             />
                           </div>
-                          <div className="flex justify-center items-center flex-shrink-0 w-10 h-10">
+                          <div className="flex flex-col justify-start items-center flex-shrink-0 h-10 p-0 m-0 overflow-hidden">
                             <Image
                               src={player.image}
                               alt={player.nickname}
-                              width={40}
-                              height={40}
-                              className="w-10 h-10"
+                              width={60}
+                              height={60}
                               style={{ objectFit: "contain" }}
                             />
                           </div>
-                          <div className="text-xs md:text-sm font-semibold whitespace-nowrap shrink-0">
-                            {player.nickname}
+                          <div className="text-xs md:text-sm  font-semibold whitespace-nowrap shrink-0">
+                            {player.nickname.includes(" ") &&
+                            player.nickname.length > 12
+                              ? `${player.nickname.split(" ")[0].charAt(0)}. ${
+                                  player.nickname.split(" ")[1]
+                                }${
+                                  player.nickname.split(" ").length > 2
+                                    ? ` ${player.nickname.split(" ")[2]}`
+                                    : ""
+                                }`
+                              : player.nickname}
                           </div>
                         </Link>
                       </TableCell>
