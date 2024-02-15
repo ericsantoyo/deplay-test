@@ -1,10 +1,9 @@
-import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import IconButton from "@mui/material/IconButton";
+
 import YouTubeIcon from "@mui/icons-material/YouTube";
 import TwitterIcon from "@mui/icons-material/Twitter";
-import GamesIcon from "./GamesIcon";
+
 import { ThemeSwitcher } from "./ThemeSwitcher";
 import { Button } from "@/components/ui/button";
 import Tooltip from "@mui/material/Tooltip";
@@ -17,47 +16,54 @@ const SocialIcons = ({ className }: SocialIconsProps) => {
   return (
     <div className={`${className} `}>
       {/* TWITTER LOGO */}
-      <Link className="" target="_blank" href="https://twitter.com/home">
-        <Tooltip
-          PopperProps={{
-            modifiers: [
-              {
-                name: "offset",
-                options: {
-                  offset: [0, -7],
-                },
-              },
-            ],
-          }}
-          title="Twitter"
+      <Link
+        className="group flex flex-col justify-center items-center transition-all"
+        target="_blank"
+        href="https://twitter.com/home"
+      >
+        <p className="transition-all text-transparent text-center text-[8px] p-0 m-0">
+          _______
+        </p>
+        <Button
+          variant="light"
+          size={"icon"}
+          className={` transition-all group-hover:bg-sky-600 group-hover:border-none my-1.5 `}
         >
-          <Button
-            variant="default"
-            size={"icon"}
-            className={` group transition-all bg-neutral-50 dark:bg-neutral-300 dark:hover:bg-sky-600 hover:bg-sky-600`}
-          >
-            <TwitterIcon
-              color="primary"
-              className="group-hover:text-neutral-100 transition  "
-            />
-          </Button>
-        </Tooltip>
+          <TwitterIcon
+            color="primary"
+            className="group-hover:text-neutral-100 transition  "
+          />
+        </Button>
+        <p className="transition-all group-hover:text-inherit text-transparent text-center text-xs ">
+          Twitter
+        </p>
       </Link>
       {/* YOUTUBE LOGO */}
-      <Link className="" target="_blank" href="https://www.youtube.com/">
-        <Tooltip
-          PopperProps={{
-            modifiers: [
-              {
-                name: "offset",
-                options: {
-                  offset: [0, -7],
-                },
-              },
-            ],
-          }}
-          title="YouTube"
+
+      <Link
+        className="group flex flex-col justify-center items-center transition-all"
+        target="_blank"
+        href="https://www.youtube.com/"
+      >
+        <p className="transition-all text-transparent text-center text-[8px] p-0 m-0">
+          _______
+        </p>
+        <Button
+          variant="light"
+          size={"icon"}
+          className={` transition-all  group-hover:bg-red-600 group-hover:border-none my-1.5`}
         >
+          <YouTubeIcon
+            color="error"
+            className="group-hover:text-neutral-100 transition  "
+          />
+        </Button>
+        <p className="transition-all group-hover:text-inherit text-transparent text-center text-xs ">
+        YouTube
+        </p>
+      </Link>
+
+{/*     
           <Button
             variant="default"
             size={"icon"}
@@ -68,8 +74,8 @@ const SocialIcons = ({ className }: SocialIconsProps) => {
               className="group-hover:text-neutral-100 transition "
             />
           </Button>
-        </Tooltip>
-      </Link>
+        </Tooltip> */}
+     
 
       {/* <ThemeSwitcher className="" /> */}
 

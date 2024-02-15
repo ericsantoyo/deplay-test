@@ -4,8 +4,9 @@ import React, { useEffect, useState } from "react";
 
 import { getAllMatches } from "@/database/client";
 
-import Paper from "@mui/material/Paper";
-import IconButton from "@mui/material/IconButton";
+
+
+import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 import {
@@ -73,9 +74,9 @@ export default function GamesList() {
         </div>
 
         <div className="flex justify-between items-center m-auto mt-4 mb-5 gap-4">
-          <IconButton onClick={handlePrevWeek}>
-            <ChevronLeftIcon />
-          </IconButton>
+        <Button variant="outline" onClick={handlePrevWeek} className="mr-3 ">
+          <ChevronLeftIcon />
+        </Button>
           <Select
             value={selectedWeek.toString()}
             onValueChange={handleWeekChange}
@@ -95,9 +96,9 @@ export default function GamesList() {
             </SelectContent>
           </Select>
 
-          <IconButton onClick={handleNextWeek}>
-            <ChevronRightIcon />
-          </IconButton>
+          <Button variant="outline" onClick={handleNextWeek} className="ml-3">
+          <ChevronRightIcon />
+        </Button>
         </div>
         <Separator className=" mb-4" />
         <div className="grid grid-cols-2 gap-4 mx-auto">
@@ -135,9 +136,9 @@ export default function GamesList() {
         <p className="text-xl font-semibold">PARTIDOS</p>
       </div>
       <div className="flex justify-between items-center my-4 gap-4">
-        <IconButton onClick={handlePrevWeek}>
+      <Button variant="outline" onClick={handlePrevWeek} className="mr-3 ">
           <ChevronLeftIcon />
-        </IconButton>
+        </Button>
         <Select
           value={selectedWeek.toString()}
           onValueChange={handleWeekChange}
@@ -155,9 +156,9 @@ export default function GamesList() {
           </SelectContent>
         </Select>
 
-        <IconButton onClick={handleNextWeek}>
+        <Button variant="outline" onClick={handleNextWeek} className="ml-3">
           <ChevronRightIcon />
-        </IconButton>
+        </Button>
       </div>
       <Separator className=" mb-4" />
       <div className=" flex justify-center items-center flex-wrap mx-auto">

@@ -4,14 +4,11 @@ import React, { useEffect, useState } from "react";
 
 import { getAllMatches } from "@/database/client";
 
-import Paper from "@mui/material/Paper";
-import IconButton from "@mui/material/IconButton";
 import Image from "next/image";
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 
-import { getCurrentWeek, nicknameById, slugById } from "@/utils/utils";
+import { getCurrentWeek, slugById } from "@/utils/utils";
 
-import { Skeleton } from "@/components/ui/skeleton";
 import {
   Card,
   CardContent,
@@ -20,8 +17,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
-import MatchCountdown from "./MatchCountdown";
+
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
@@ -152,14 +148,14 @@ export default function GamesPreview() {
                         <div className="w-full	 ">
                           {match.matchState === 7 ? (
                             <div className="flex flex-row justify-between items-center px-1.5  ">
-                            <p className={`font-bold text-base	`}>
-                              {match.localScore}
-                            </p>
-                            <p className=" text-base font-bold ">-</p>
-                            <p className={`font-bold text-base	 `}>
-                              {match.visitorScore}
-                            </p>
-                          </div>
+                              <p className={`font-bold text-base	`}>
+                                {match.localScore}
+                              </p>
+                              <p className=" text-base font-bold ">-</p>
+                              <p className={`font-bold text-base	 `}>
+                                {match.visitorScore}
+                              </p>
+                            </div>
                           ) : (
                             <div
                               className={`flex flex-col justify-center items-center`}

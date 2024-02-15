@@ -1,6 +1,6 @@
 "use client";
 import React, { ChangeEvent, useState } from "react";
-import IconButton from "@mui/material/IconButton";
+
 import SearchIcon from "@mui/icons-material/Search";
 import useSWR from "swr";
 import Modal from "@mui/material/Modal";
@@ -54,19 +54,26 @@ const SearchBox = (props: SearchProps) => {
     )
     .slice(0, searchTerm ? undefined : 9);
 
-
   return (
     <div className={`${props.divClassName}`}>
-      <Dialog open={open} onOpenChange={setOpen} >
-        <DialogTrigger >
-          <Button asChild
-            variant="default"
-            size={"icon"}
-            aria-label="search"
-            className={`group transition-all bg-neutral-50  text-neutral-600  hover:bg-neutral-300 outline-none focus:outline-none p-1`}
-          >
-            <SearchIcon className=" transition-all" />
-          </Button>
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogTrigger asChild>
+          <div className="group flex flex-col justify-center items-center transition-all">
+            <p className="transition-all text-transparent text-center text-[8px] p-0 m-0">
+              _______
+            </p>
+            <Button
+              variant="light"
+              size={"icon"}
+              aria-label="search"
+              className={`group transition-all group-hover:bg-sky-600 outline-none focus:outline-none group-hover:border-none my-1.5`}
+            >
+              <SearchIcon className=" transition-all group-hover:text-neutral-100" />
+            </Button>
+            <p className="transition-all group-hover:text-inherit text-transparent text-center text-xs ">
+              Buscar
+            </p>
+          </div>
         </DialogTrigger>
         <DialogContent className="w-[280px] h-[425px] overflow-auto">
           {/* <DialogTitle>Are you absolutely sure?</DialogTitle> */}

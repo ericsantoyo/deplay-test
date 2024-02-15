@@ -3,7 +3,8 @@ import useSWR from "swr";
 import React, { useEffect, useState } from "react";
 import { getAllMatches } from "@/database/client";
 import Image from "next/image";
-import IconButton from "@mui/material/IconButton";
+
+import { Button } from "@/components/ui/button";
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 import { getCurrentWeek, slugById } from "@/utils/utils";
 import { Card } from "@/components/ui/card";
@@ -72,9 +73,9 @@ export default function CommingWeek() {
       </div>
       {/* <Separator className=" mb-4" /> */}
       <div className="flex flex-row justify-between items-center w-full">
-        <IconButton onClick={handlePrevWeek} className="mr-3">
+        <Button variant="outline" onClick={handlePrevWeek} className="mr-3 ">
           <ChevronLeftIcon />
-        </IconButton>
+        </Button>
 
         <div className=" grid grid-cols-2 md:grid-cols-5 gap-x-3 gap-y-2 mx-auto w-full">
           {/* Display matches for the selected week */}
@@ -128,9 +129,9 @@ export default function CommingWeek() {
         {/* <pre className="text-center">
         {JSON.stringify(matches, null, 2)}
       </pre> */}
-        <IconButton onClick={handleNextWeek} className="ml-3">
+        <Button variant="outline" onClick={handleNextWeek} className="ml-3">
           <ChevronRightIcon />
-        </IconButton>
+        </Button>
       </div>
     </div>
   );

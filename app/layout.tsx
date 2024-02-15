@@ -39,7 +39,7 @@ export default function RootLayout({
 }) {
   return (
     <html suppressHydrationWarning lang="en">
-      <body className={`${inter.className}  transition-all`}>
+      <body className={`${inter.className}`}>
         <Navbar />
         <main className="container max-w-6xl ">
           

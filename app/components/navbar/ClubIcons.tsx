@@ -15,7 +15,7 @@ type Props = {};
 
 const ClubIcons = (props: Props) => {
   return (
-    <div className="flex justify-center items-center flex-wrap px-1 pt-1 pb-2">
+    <div className="flex justify-center items-center flex-wrap px-1  pb-1">
       <ul className="flex-wrap pl-0 pr-0 py-1 list-none flex justify-center items-center">
         {clubIcons.map((club: ClubIcon) => {
           return (

@@ -13,7 +13,7 @@ const Navbar = (props: Props) => {
   
       <Card
        
-        className="w-full transition-all pt-1 mb-5 border-none rounded shadow-md shadow-neutral-300"
+        className="w-full transition-all pt-0.5 mb-5 border-none rounded shadow-md shadow-neutral-300"
       >
         {/* NAVBAR - TOP ROW */}
         <TopBar />

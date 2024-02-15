@@ -151,7 +151,7 @@ const MyTeams = ({ teams, matches }: { teams: any; matches: matches[] }) => {
                   <TableHead className=" text-center">Visitante</TableHead>
                   <TableHead className=" text-right">Cambio</TableHead>
                   <TableHead className=" text-right">Valor</TableHead>
-                  <TableHead className=" text-center p-0 m-0 md:hidden"></TableHead>
+                  <TableHead className=" text-center p-0 m-0 md:hidden min-w-[50px]"></TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody className="p-0 m-0">
@@ -262,7 +262,7 @@ const MyTeams = ({ teams, matches }: { teams: any; matches: matches[] }) => {
                       </TableCell>
                       <TableCell className="text-center bg-neutral-100 border-x-2">
                         <div className="flex flex-row justify-center items-center ">
-                          <HomeOutlinedIcon fontSize="small" className="" />
+                          <HomeIcon fontSize="small" className="text-neutral-400" />
                           <p className="font-bold ml-1">
                             {player.pointsData.totalLocalPoints}
                           </p>
@@ -277,7 +277,7 @@ const MyTeams = ({ teams, matches }: { teams: any; matches: matches[] }) => {
                       </TableCell>
                       <TableCell className="text-center">
                         <div className="flex flex-row justify-center items-center ">
-                          <FlightIcon fontSize="small" className="rotate-45" />
+                          <FlightIcon fontSize="small" className="rotate-45 text-neutral-400" />
                           <p className="font-bold ml-1">
                             {player.pointsData.totalVisitorPoints}
                           </p>
@@ -303,58 +303,64 @@ const MyTeams = ({ teams, matches }: { teams: any; matches: matches[] }) => {
                         {formatMoney(player.marketValue)}
                       </TableCell>
                       <TableCell className="text-center p-0 m-0 md:hidden">
-                        <div className="flex justify-center items-center flex-shrink-0 w-10 h-10">
-                          <Image
-                            src={player.image}
-                            alt={player.nickname}
-                            width={40}
-                            height={40}
-                            className="w-10 h-10"
-                            style={{ objectFit: "contain" }}
-                          />
+                        <div className="flex flex-col justify-start items-center flex-shrink-0 h-10 p-0 m-0 overflow-hidden">
+                        <Image
+                              src={player.image}
+                              alt={player.nickname}
+                              width={60}
+                              height={60}
+                              style={{ objectFit: "contain" }}
+                            />
                         </div>
+                        
                       </TableCell>
                     </TableRow>
                   );
                 })}
               </TableBody>
-              <TableFooter className="">
-                <TableRow className="bg-neutral-100 text-neutral-800">
+              <TableFooter className="bg-inherit text-inherit">
+                <TableRow className="">
                   <TableCell className="text-center" colSpan={3}></TableCell>
 
                   <TableCell className="text-center">
                     <div className="flex justify-center items-center gap-1">
-                      {(
-                        selectedTeamPlayers.reduce(
-                          (acc, player) => acc + player.averagePoints,
-                          0
-                        ) / selectedTeamPlayers.length
-                      ).toFixed(2)}
+                      <div className="font-bold">
+                        {(
+                          selectedTeamPlayers.reduce(
+                            (acc, player) => acc + player.averagePoints,
+                            0
+                          ) / selectedTeamPlayers.length
+                        ).toFixed(2)}
+                      </div>
                       <p className="text-[11px] leading-none">Media</p>
                     </div>
                   </TableCell>
 
                   <TableCell className="text-center">
                     <div className="flex justify-center items-center gap-1">
-                      {(
-                        selectedTeamPlayers.reduce(
-                          (acc, player) =>
-                            acc + player.pointsData.averageLocalPoints,
-                          0
-                        ) / selectedTeamPlayers.length
-                      ).toFixed(2)}
+                      <div className="font-bold">
+                        {(
+                          selectedTeamPlayers.reduce(
+                            (acc, player) =>
+                              acc + player.pointsData.averageLocalPoints,
+                            0
+                          ) / selectedTeamPlayers.length
+                        ).toFixed(2)}
+                      </div>
                       <p className="text-[11px] leading-none">Media</p>
                     </div>
                   </TableCell>
                   <TableCell className="text-center">
                     <div className="flex justify-center items-center gap-1">
-                      {(
-                        selectedTeamPlayers.reduce(
-                          (acc, player) =>
-                            acc + player.pointsData.averageVisitorPoints,
-                          0
-                        ) / selectedTeamPlayers.length
-                      ).toFixed(2)}
+                      <div className="font-bold">
+                        {(
+                          selectedTeamPlayers.reduce(
+                            (acc, player) =>
+                              acc + player.pointsData.averageVisitorPoints,
+                            0
+                          ) / selectedTeamPlayers.length
+                        ).toFixed(2)}
+                      </div>
                       <p className="text-[11px] leading-none">Media</p>
                     </div>
                   </TableCell>
