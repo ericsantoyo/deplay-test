@@ -411,7 +411,7 @@ const MyTeams = ({ teams, matches }: { teams: any; matches: matches[] }) => {
               <TableHeader>
                 <TableRow>
                   {/* <TableHead className="w-[100px]">ID</TableHead> */}
-                 
+
                   <TableHead className="w-text-center w-14">Pos</TableHead>
                   <TableHead className=" text-center ">Jugador</TableHead>
                   <TableHead className=" text-center ">
@@ -512,7 +512,7 @@ const MyTeams = ({ teams, matches }: { teams: any; matches: matches[] }) => {
                                 key={week}
                                 className="flex flex-col justify-center items-center "
                               >
-                                {stat ? (
+                                {stat && (player.positionID === 5 || (stat.mins_played && !(stat.mins_played[0] === 0 && stat.mins_played[1] === 0))) ? (
                                   <div className="flex flex-row justify-center items-center w-full ">
                                     <div className="flex flex-col justify-center items-center gap-1 ">
                                       <div

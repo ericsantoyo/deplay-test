@@ -11,9 +11,9 @@ import {
 
 import { ChevronsDown, ChevronsUp } from "lucide-react";
 import Link from "next/link";
-import LooksOneOutlinedIcon from '@mui/icons-material/LooksOneOutlined';
-import LooksTwoOutlinedIcon from '@mui/icons-material/LooksTwoOutlined';
-import Looks3OutlinedIcon from '@mui/icons-material/Looks3Outlined';
+import LooksOneOutlinedIcon from "@mui/icons-material/LooksOneOutlined";
+import LooksTwoOutlinedIcon from "@mui/icons-material/LooksTwoOutlined";
+import Looks3OutlinedIcon from "@mui/icons-material/Looks3Outlined";
 
 import {
   Table,
@@ -164,7 +164,6 @@ const TopPlayers = ({
                           // Rank number for 4th place and beyond
                           index + 1
                         )}
-                        
                       </TableCell>
                       {/* <TableCell className="">
                         <div
@@ -330,7 +329,6 @@ const TopPlayers = ({
                   );
                 })}
               </TableBody>
-             
             </Table>
           </Card>
         )}
@@ -348,7 +346,7 @@ const TopPlayers = ({
                   <TableHead className="text-center">Rank</TableHead>
                   {/* <TableHead className="w-text-center w-14">Pos</TableHead> */}
                   <TableHead className=" text-center ">Jugador</TableHead>
-                      <TableHead className="text-center">Total</TableHead>
+                  <TableHead className="text-center">Total</TableHead>
                   <TableHead className=" text-center ">
                     <div className="flex flex-row justify-center items-center w-full divide-x-[1px] ">
                       {uniqueWeeks.map((week) => (
@@ -400,7 +398,6 @@ const TopPlayers = ({
                           // Rank number for 4th place and beyond
                           index + 1
                         )}
-                        
                       </TableCell>
                       {/* <TableCell className="">
                         <div
@@ -486,7 +483,7 @@ const TopPlayers = ({
                                 key={week}
                                 className="flex flex-col justify-center items-center "
                               >
-                                {stat ? (
+                                {stat && (player.positionID === 5 || (stat.mins_played && !(stat.mins_played[0] === 0 && stat.mins_played[1] === 0))) ? (
                                   <div className="flex flex-row justify-center items-center w-full ">
                                     <div className="flex flex-col justify-center items-center gap-1 ">
                                       <div
@@ -546,7 +543,7 @@ const TopPlayers = ({
                           })}
                         </div>
                       </TableCell>
-                     
+
                       <TableCell className="text-center p-0 m-0 md:hidden">
                         <div className="flex flex-col justify-start items-center flex-shrink-0 h-10 p-0 m-0 overflow-hidden">
                           <Image
