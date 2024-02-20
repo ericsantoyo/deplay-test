@@ -262,7 +262,10 @@ const MyTeams = ({ teams, matches }: { teams: any; matches: matches[] }) => {
                       </TableCell>
                       <TableCell className="text-center bg-neutral-100 border-x-2">
                         <div className="flex flex-row justify-center items-center ">
-                          <HomeIcon fontSize="small" className="text-neutral-400" />
+                          <HomeIcon
+                            fontSize="small"
+                            className="text-neutral-400"
+                          />
                           <p className="font-bold ml-1">
                             {player.pointsData.totalLocalPoints}
                           </p>
@@ -277,7 +280,10 @@ const MyTeams = ({ teams, matches }: { teams: any; matches: matches[] }) => {
                       </TableCell>
                       <TableCell className="text-center">
                         <div className="flex flex-row justify-center items-center ">
-                          <FlightIcon fontSize="small" className="rotate-45 text-neutral-400" />
+                          <FlightIcon
+                            fontSize="small"
+                            className="rotate-45 text-neutral-400"
+                          />
                           <p className="font-bold ml-1">
                             {player.pointsData.totalVisitorPoints}
                           </p>
@@ -304,15 +310,14 @@ const MyTeams = ({ teams, matches }: { teams: any; matches: matches[] }) => {
                       </TableCell>
                       <TableCell className="text-center p-0 m-0 md:hidden">
                         <div className="flex flex-col justify-start items-center flex-shrink-0 h-10 p-0 m-0 overflow-hidden">
-                        <Image
-                              src={player.image}
-                              alt={player.nickname}
-                              width={60}
-                              height={60}
-                              style={{ objectFit: "contain" }}
-                            />
+                          <Image
+                            src={player.image}
+                            alt={player.nickname}
+                            width={60}
+                            height={60}
+                            style={{ objectFit: "contain" }}
+                          />
                         </div>
-                        
                       </TableCell>
                     </TableRow>
                   );
@@ -408,15 +413,26 @@ const MyTeams = ({ teams, matches }: { teams: any; matches: matches[] }) => {
                   {/* <TableHead className="w-[100px]">ID</TableHead> */}
                   <TableHead className="w-text-center w-14">Pos</TableHead>
                   <TableHead className=" text-center ">Jugador</TableHead>
-                  {/* Dynamically add headers for each unique week */}
-                  {uniqueWeeks.map((week) => (
-                    <TableHead
-                      key={week}
-                      className="text-center mx-0 px-1 min-w-[30px]"
-                    >
-                      J{week}
-                    </TableHead>
-                  ))}
+                  <TableHead className=" text-center ">
+                    <div className="flex flex-row justify-center items-center w-full">
+                      {uniqueWeeks.map((week) => (
+                        <div key={week} className="items-center">
+                          <div className="flex flex-col justify-center items-center gap-1 ">
+                            <div
+                              className={`text-center  w-7 h-7  flex justify-center items-center border-r-2 border-neutral-50 }`}
+                            >
+                              <p className="text-xs items-center align-middle">
+                                J{week}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </TableHead>
+                  {/* <TableHead className=" text-center ">Puntos</TableHead> */}
+                  <TableHead className=" text-center p-0 m-0 md:hidden min-w-[50px]"></TableHead>
+                  <TableHead className="text-center">Total</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody className="p-0 m-0">
@@ -473,57 +489,114 @@ const MyTeams = ({ teams, matches }: { teams: any; matches: matches[] }) => {
                           </div>
                         </Link>
                       </TableCell>
-                      {uniqueWeeks.map((week) => {
-                        const stat = player.stats.find((s) => s.week === week);
-                        const match = matches.find(
-                          (m) =>
-                            m.week === week &&
-                            (m.localTeamID === player.teamID ||
-                              m.visitorTeamID === player.teamID)
-                        );
-                        const opponentTeamID = match
-                          ? match.localTeamID === player.teamID
-                            ? match.visitorTeamID
-                            : match.localTeamID
-                          : null;
+                      <TableCell className="text-center">
+                        <div className="flex flex-row justify-center items-center w-full divide-x-[1px]">
+                          {uniqueWeeks.map((week) => {
+                            const stat = player.stats.find(
+                              (s) => s.week === week
+                            );
+                            const match = matches.find(
+                              (m) =>
+                                m.week === week &&
+                                (m.localTeamID === player.teamID ||
+                                  m.visitorTeamID === player.teamID)
+                            );
+                            const opponentTeamID =
+                              match?.localTeamID === player.teamID
+                                ? match.visitorTeamID
+                                : match?.localTeamID;
 
-                        return (
-                          <TableCell key={week} className="m-auto px-0  ">
-                            {stat ? (
-                              <div className="flex flex-row justify-center items-center w-full ">
-                                {/* <div className="ml-0 mr-0 h-5 border-l border-gray-400"></div> */}
-                                <div className="flex flex-col justify-center items-center gap-1">
-                                  <div
-                                    className={`text-center border-[0.5px] w-6 h-6 border-neutral-700 flex justify-center items-center ${getColor(
-                                      stat.totalPoints
-                                    )}`}
-                                  >
-                                    <p className="text-[15px] items-center align-middle">
-                                      {stat.totalPoints}
-                                    </p>
+                            return (
+                              <div
+                                key={week}
+                                className="flex flex-col justify-center items-center "
+                              >
+                                {stat ? (
+                                  <div className="flex flex-row justify-center items-center w-full ">
+                                    <div className="flex flex-col justify-center items-center gap-1 ">
+                                      <div
+                                        className={`text-center w-7 h-7 flex justify-center items-center  ${
+                                          stat.isInIdealFormation
+                                            ? "border-yellow-500  border-[3px]"
+                                            : ""
+                                        } ${getColor(stat.totalPoints)}`}
+                                      >
+                                        <p className="text-[14px] items-center align-middle">
+                                          {stat.totalPoints}
+                                        </p>
+                                      </div>
+                                      {opponentTeamID && (
+                                        <Image
+                                          src={`/teamLogos/${slugById(
+                                            opponentTeamID
+                                          )}.png`}
+                                          alt="opponent"
+                                          width={20}
+                                          height={20}
+                                          style={{ objectFit: "contain" }}
+                                          className="h-4"
+                                        />
+                                      )}
+                                    </div>
                                   </div>
-                                  {opponentTeamID && (
-                                    <Image
-                                      src={`/teamLogos/${slugById(
-                                        opponentTeamID
-                                      )}.png`}
-                                      alt="opponent"
-                                      width={20}
-                                      height={20}
-                                      style={{ objectFit: "contain" }}
-                                      className="h-4"
-                                    />
-                                  )}
-                                </div>
+                                ) : (
+                                  <>
+                                    <div className="flex flex-col justify-center items-center gap-1">
+                                      <div
+                                        className={`text-center  w-7 h-7 flex justify-center items-center  ${getColor(
+                                          0
+                                        )}`}
+                                      >
+                                        <p className="text-[14px] items-center align-middle">
+                                          -
+                                        </p>
+                                      </div>
+                                      {opponentTeamID && (
+                                        <Image
+                                          src={`/teamLogos/${slugById(
+                                            opponentTeamID
+                                          )}.png`}
+                                          alt="opponent"
+                                          width={20}
+                                          height={20}
+                                          style={{ objectFit: "contain" }}
+                                          className="h-4"
+                                        />
+                                      )}
+                                    </div>
+                                  </>
+                                )}
                               </div>
-                            ) : (
-                              <span className="flex justify-center items-center">
-                                -
-                              </span>
-                            )}
-                          </TableCell>
-                        );
-                      })}
+                            );
+                          })}
+                        </div>
+                      </TableCell>
+                      <TableCell className="text-center bg-neutral-100 border-x-2">
+                        <div className="flex flex-row justify-center items-center gap-0.5">
+                          <p className="font-bold text-base ">
+                            {player.points}
+                          </p>
+                          {/* <p className="text-xs">pts</p> */}
+                          <div className="mx-2 h-6 border-l border-neutral-300"></div>
+                          <div className="flex flex-col justify-center items-center">
+                            <p className="font-bold leading-none">
+                              {player.averagePoints.toFixed(2)}
+                            </p>
+                            <p className="text-[11px] leading-none ">Media</p>
+                          </div>
+                        </div>
+                      </TableCell>
+                      <TableCell className="text-center p-0 m-0 md:hidden">
+                        <div className="flex flex-col justify-start items-center flex-shrink-0 h-10 p-0 m-0 overflow-hidden">
+                          <Image
+                            src={player.image}
+                            alt={player.nickname}
+                            width={60}
+                            height={60}
+                            style={{ objectFit: "contain" }}
+                          />
+                        </div>
+                      </TableCell>
                     </TableRow>
                   );
                 })}
