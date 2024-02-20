@@ -11,6 +11,9 @@ import {
 
 import { ChevronsDown, ChevronsUp } from "lucide-react";
 import Link from "next/link";
+import LooksOneOutlinedIcon from '@mui/icons-material/LooksOneOutlined';
+import LooksTwoOutlinedIcon from '@mui/icons-material/LooksTwoOutlined';
+import Looks3OutlinedIcon from '@mui/icons-material/Looks3Outlined';
 
 import {
   Table,
@@ -41,8 +44,14 @@ interface PlayerWithStats extends players {
   stats: stats[];
 }
 
-const MyTeams = ({ teams, matches }: { teams: any; matches: matches[] }) => {
-  const [selectedTeam, setSelectedTeam] = useState(teams[0] || null);
+const TopPlayers = ({
+  players,
+  matches,
+}: {
+  players: any;
+  matches: matches[];
+}) => {
+  const [selectedTeam, setSelectedTeam] = useState(players[0] || null);
 
   // Determine unique weeks for the selected team
   const uniqueWeeks = useMemo(() => {
@@ -53,9 +62,11 @@ const MyTeams = ({ teams, matches }: { teams: any; matches: matches[] }) => {
     return Array.from(weeksSet).sort((a, b) => b - a);
   }, [selectedTeam]);
 
-  const handleTeamSelect = (teamId: string) => {
-    const team = teams.find((team) => team.myTeamID.toString() === teamId);
-    setSelectedTeam(team || null);
+  const handleTeamSelect = (position: string) => {
+    const selected = players.find(
+      (player: players) => player.position === position
+    );
+    setSelectedTeam(selected);
   };
 
   const selectedTeamPlayers = selectedTeam?.players || [];
@@ -75,63 +86,33 @@ const MyTeams = ({ teams, matches }: { teams: any; matches: matches[] }) => {
       {/* <pre className="">{JSON.stringify(matches.slice(0, 30), null, 2)}</pre> */}
       {/* <pre className="">{JSON.stringify(selectedTeamPlayers[1].teamID, null, 2)}</pre> */}
       <div className="flex flex-col justify-start items-center gap-2">
-        <h2 className="text-lg font-semibold text-center my-1">Mis Equipos</h2>
         <div className="flex w-full md:flex-row flex-col justify-between items-center gap-2">
           {/* TEAM SELECT */}
 
           <Select
-            value={selectedTeam ? selectedTeam.name : "Selecciona un equipo"}
+            value={
+              selectedTeam ? selectedTeam.position : "Selecciona una posición"
+            }
             onValueChange={handleTeamSelect}
           >
             <SelectTrigger className="rounded-sm border bg-card text-card-foreground shadow h-full md:w-1/4">
               <SelectValue>
-                {selectedTeam ? selectedTeam.name : "Selecciona un equipo"}
+                {selectedTeam
+                  ? selectedTeam.position
+                  : "Selecciona una posición"}
               </SelectValue>
             </SelectTrigger>
             <SelectContent>
-              {teams.map((team) => (
+              {players.map((player) => (
                 <SelectItem
-                  key={team.myTeamID}
-                  value={team.myTeamID.toString()}
+                  key={player.position}
+                  value={player.position.toString()}
                 >
-                  {team.name}
+                  {player.position}
                 </SelectItem>
               ))}
             </SelectContent>
           </Select>
-
-          {/* TEAM INFO CARD */}
-          <Card className="transition-all flex flex-row justify-between items-center gap-6 md:gap-8 md:px-6 px-4 py-2 md:w-3/4 w-full text-xs md:text-sm h-full md:h-10 ">
-            <div className="flex flex-col md:flex-row justify-between items-start gap-2 md:gap-6 w-full ">
-              <div className="flex flex-row justify-center items-center">
-                <p className=" font-normal mr-2">Valor:</p>
-                <p className=" font-bold">
-                  {formatter.format(totalMarketValue)}
-                </p>
-              </div>
-              <div className="flex flex-row justify-center items-center">
-                <p className=" font-normal mr-2">Cambio:</p>
-
-                {totalLastChange > 0 ? (
-                  <ChevronsUp className="w-4 h-4 text-green-600" />
-                ) : (
-                  <ChevronsDown className="w-4 h-4 text-red-500" />
-                )}
-                <p
-                  className={`font-bold text-right tabular-nums text-xs md:text-sm  tracking-tighter  ${lastChangeStyle(
-                    totalLastChange
-                  )}`}
-                >
-                  {" "}
-                  {formatter.format(totalLastChange)}
-                </p>
-              </div>
-              <div className="flex flex-row justify-center items-center">
-                <p className=" font-normal mr-2	">Jugadores:</p>
-                <p className=" font-bold">{numberOfPlayers} /26</p>
-              </div>
-            </div>
-          </Card>
         </div>
         {/* NEXT MATCHES & VALUE TABLE */}
         {selectedTeam && (
@@ -141,7 +122,8 @@ const MyTeams = ({ teams, matches }: { teams: any; matches: matches[] }) => {
               <TableHeader>
                 <TableRow>
                   {/* <TableHead className="w-[100px]">ID</TableHead> */}
-                  <TableHead className="w-text-center w-14">Pos</TableHead>
+                  <TableHead className="text-center">Rank</TableHead>
+                  {/* <TableHead className="w-text-center w-14">Pos</TableHead> */}
                   <TableHead className=" text-center ">Jugador</TableHead>
                   <TableHead className=" text-center ">
                     Proximos Partidos
@@ -155,11 +137,36 @@ const MyTeams = ({ teams, matches }: { teams: any; matches: matches[] }) => {
                 </TableRow>
               </TableHeader>
               <TableBody className="p-0 m-0">
-                {selectedTeamPlayers.map((player) => {
+                {selectedTeamPlayers.map((player, index) => {
                   const nextThreeMatches = getNextGames(matches, player, 4);
                   return (
                     <TableRow key={player.playerID} className="">
-                      <TableCell className="">
+                      <TableCell className="text-center">
+                        {index === 0 ? (
+                          // Gold medal
+                          <LooksOneOutlinedIcon
+                            className="w-6 h-6"
+                            style={{ color: "#FFD700" }}
+                          />
+                        ) : index === 1 ? (
+                          // Silver medal
+                          <LooksTwoOutlinedIcon
+                            className="w-6 h-6"
+                            style={{ color: "#C0C0C0" }}
+                          />
+                        ) : index === 2 ? (
+                          // Bronze medal
+                          <Looks3OutlinedIcon
+                            className="w-6 h-6"
+                            style={{ color: "#CD7F32" }}
+                          />
+                        ) : (
+                          // Rank number for 4th place and beyond
+                          index + 1
+                        )}
+                        
+                      </TableCell>
+                      {/* <TableCell className="">
                         <div
                           className={
                             getPositionBadge(player.positionID).className
@@ -167,7 +174,7 @@ const MyTeams = ({ teams, matches }: { teams: any; matches: matches[] }) => {
                         >
                           {getPositionBadge(player.positionID).abbreviation}
                         </div>
-                      </TableCell>
+                      </TableCell> */}
                       <TableCell className=" p-0 m-0 truncate min-w-[200px]">
                         <Link
                           className="flex flex-row justify-start items-center gap-2"
@@ -206,8 +213,8 @@ const MyTeams = ({ teams, matches }: { teams: any; matches: matches[] }) => {
                           </div>
                         </Link>
                       </TableCell>
-                      <TableCell className="bg-neutral-100 border-x-2 ">
-                        <div className="flex justify-center items-center space-x-2 ">
+                      <TableCell className="bg-neutral-100 border-x-2">
+                        <div className="flex justify-center items-center space-x-2">
                           {/* <div className="mx-1 h-5 border-r border-gray-400"></div> */}
                           {nextThreeMatches.map((match, index) => (
                             <div key={index} className="flex items-center">
@@ -411,16 +418,16 @@ const MyTeams = ({ teams, matches }: { teams: any; matches: matches[] }) => {
               <TableHeader>
                 <TableRow>
                   {/* <TableHead className="w-[100px]">ID</TableHead> */}
-                 
-                  <TableHead className="w-text-center w-14">Pos</TableHead>
+                  <TableHead className="text-center">Rank</TableHead>
+                  {/* <TableHead className="w-text-center w-14">Pos</TableHead> */}
                   <TableHead className=" text-center ">Jugador</TableHead>
                   <TableHead className=" text-center ">
                     <div className="flex flex-row justify-center items-center w-full divide-x-[1px] ">
                       {uniqueWeeks.map((week) => (
-                        <div key={week} className="items-center">
-                          <div className="flex flex-col justify-center items-center gap-1 ">
+                        <div key={week} className="items-center ">
+                          <div className="flex flex-col justify-center items-center gap-2">
                             <div
-                              className={`text-center  w-7 h-7  flex justify-center items-center border-r-2 border-neutral-50 }`}
+                              className={`text-center  w-7 h-7  flex justify-center items-center }`}
                             >
                               <p className="text-xs items-center align-middle">
                                 J{week}
@@ -437,13 +444,38 @@ const MyTeams = ({ teams, matches }: { teams: any; matches: matches[] }) => {
                 </TableRow>
               </TableHeader>
               <TableBody className="p-0 m-0">
-                {selectedTeamPlayers.map((player) => {
+                {selectedTeamPlayers.map((player, index) => {
                   return (
                     <TableRow key={player.playerID} className="">
                       {/* <TableCell className="">
                     {player.playerID}
                   </TableCell> */}
-                      <TableCell className="">
+                      <TableCell className="text-center">
+                        {index === 0 ? (
+                          // Gold medal
+                          <LooksOneOutlinedIcon
+                            className="w-6 h-6"
+                            style={{ color: "#FFD700" }}
+                          />
+                        ) : index === 1 ? (
+                          // Silver medal
+                          <LooksTwoOutlinedIcon
+                            className="w-6 h-6"
+                            style={{ color: "#C0C0C0" }}
+                          />
+                        ) : index === 2 ? (
+                          // Bronze medal
+                          <Looks3OutlinedIcon
+                            className="w-6 h-6"
+                            style={{ color: "#CD7F32" }}
+                          />
+                        ) : (
+                          // Rank number for 4th place and beyond
+                          index + 1
+                        )}
+                        
+                      </TableCell>
+                      {/* <TableCell className="">
                         <div
                           className={
                             getPositionBadge(player.positionID).className
@@ -451,7 +483,7 @@ const MyTeams = ({ teams, matches }: { teams: any; matches: matches[] }) => {
                         >
                           {getPositionBadge(player.positionID).abbreviation}
                         </div>
-                      </TableCell>
+                      </TableCell> */}
                       <TableCell className=" p-0 m-0 truncate min-w-[200px]">
                         <Link
                           className="flex flex-row justify-start items-center gap-2"
@@ -610,4 +642,4 @@ const MyTeams = ({ teams, matches }: { teams: any; matches: matches[] }) => {
   );
 };
 
-export default MyTeams;
+export default TopPlayers;

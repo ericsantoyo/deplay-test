@@ -147,6 +147,41 @@ async function getPlayersByTeamID(
   return { data, error: error?.message || null };
 }
 
+//get the 30 players with the most points and their stats per position
+interface Player {
+  id: number;
+  name: string;
+  position: number;
+  points: number;
+  // Add other fields as necessary
+}
+
+async function getTopPlayersByPosition(): Promise<{ topPlayers: players[] }> {
+  const positions = [1, 2, 3, 4, 5]; 
+  let topPlayersByPosition: players[] = [];
+
+  for (const position of positions) {
+    const { data: topPlayers, error } = await supabase
+      .from('players')
+      .select('*')
+      .eq('positionID', position) 
+      .order('points', { ascending: false }) 
+      .limit(20); 
+
+    if (error) {
+      console.error(`Error fetching top players for position ${position}:`, error);
+      continue; 
+    }
+
+    if (topPlayers) {
+      topPlayersByPosition = topPlayersByPosition.concat(topPlayers);
+    }
+  }
+
+  return { topPlayers: topPlayersByPosition };
+}
+
+
 async function getAllMatches(): Promise<{ allMatches: matches[] }> {
   const { data: allMatches } = await supabase
     .from("matches")
@@ -191,4 +226,5 @@ export {
   fetchStatsForMyTeamsPlayers,
   fetchMyTeamPlayers,
   getFinishedMatches,
+  getTopPlayersByPosition,
 };
