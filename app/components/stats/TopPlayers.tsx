@@ -330,80 +330,7 @@ const TopPlayers = ({
                   );
                 })}
               </TableBody>
-              <TableFooter className="bg-inherit text-inherit">
-                <TableRow className="">
-                  <TableCell className="text-center" colSpan={3}></TableCell>
-
-                  <TableCell className="text-center">
-                    <div className="flex justify-center items-center gap-1">
-                      <div className="font-bold">
-                        {(
-                          selectedTeamPlayers.reduce(
-                            (acc, player) => acc + player.averagePoints,
-                            0
-                          ) / selectedTeamPlayers.length
-                        ).toFixed(2)}
-                      </div>
-                      <p className="text-[11px] leading-none">Media</p>
-                    </div>
-                  </TableCell>
-
-                  <TableCell className="text-center">
-                    <div className="flex justify-center items-center gap-1">
-                      <div className="font-bold">
-                        {(
-                          selectedTeamPlayers.reduce(
-                            (acc, player) =>
-                              acc + player.pointsData.averageLocalPoints,
-                            0
-                          ) / selectedTeamPlayers.length
-                        ).toFixed(2)}
-                      </div>
-                      <p className="text-[11px] leading-none">Media</p>
-                    </div>
-                  </TableCell>
-                  <TableCell className="text-center">
-                    <div className="flex justify-center items-center gap-1">
-                      <div className="font-bold">
-                        {(
-                          selectedTeamPlayers.reduce(
-                            (acc, player) =>
-                              acc + player.pointsData.averageVisitorPoints,
-                            0
-                          ) / selectedTeamPlayers.length
-                        ).toFixed(2)}
-                      </div>
-                      <p className="text-[11px] leading-none">Media</p>
-                    </div>
-                  </TableCell>
-                  <TableCell className="text-right ">
-                    <div
-                      className={`font-bold text-center tabular-nums text-xs md:text-sm  tracking-tighter  ${lastChangeStyle(
-                        selectedTeamPlayers.reduce(
-                          (acc, player) => acc + player.lastMarketChange,
-                          0
-                        )
-                      )}`}
-                    >
-                      {formatter.format(
-                        selectedTeamPlayers.reduce(
-                          (acc, player) => acc + player.lastMarketChange,
-                          0
-                        )
-                      )}
-                    </div>
-                  </TableCell>
-                  <TableCell className=" font-bold text-right tabular-nums text-xs md:text-sm">
-                    {formatMoney(
-                      selectedTeamPlayers.reduce(
-                        (acc, player) => acc + player.marketValue,
-                        0
-                      )
-                    )}
-                  </TableCell>
-                  <TableCell className="text-center p-0 m-0 md:hidden"></TableCell>
-                </TableRow>
-              </TableFooter>
+             
             </Table>
           </Card>
         )}
@@ -421,6 +348,7 @@ const TopPlayers = ({
                   <TableHead className="text-center">Rank</TableHead>
                   {/* <TableHead className="w-text-center w-14">Pos</TableHead> */}
                   <TableHead className=" text-center ">Jugador</TableHead>
+                      <TableHead className="text-center">Total</TableHead>
                   <TableHead className=" text-center ">
                     <div className="flex flex-row justify-center items-center w-full divide-x-[1px] ">
                       {uniqueWeeks.map((week) => (
@@ -440,7 +368,6 @@ const TopPlayers = ({
                   </TableHead>
                   {/* <TableHead className=" text-center ">Puntos</TableHead> */}
                   <TableHead className=" text-center p-0 m-0 md:hidden min-w-[50px]"></TableHead>
-                  <TableHead className="text-center">Total</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody className="p-0 m-0">
@@ -521,6 +448,21 @@ const TopPlayers = ({
                               : player.nickname}
                           </div>
                         </Link>
+                      </TableCell>
+                      <TableCell className="text-center bg-neutral-100 border-x-2">
+                        <div className="flex flex-row justify-center items-center gap-0.5">
+                          <p className="font-bold text-base ">
+                            {player.points}
+                          </p>
+                          {/* <p className="text-xs">pts</p> */}
+                          <div className="mx-2 h-6 border-l border-neutral-300"></div>
+                          <div className="flex flex-col justify-center items-center">
+                            <p className="font-bold leading-none">
+                              {player.averagePoints.toFixed(2)}
+                            </p>
+                            <p className="text-[11px] leading-none ">Media</p>
+                          </div>
+                        </div>
                       </TableCell>
                       <TableCell className="text-center">
                         <div className="flex flex-row justify-center items-center w-full divide-x-[1px]">
@@ -604,21 +546,7 @@ const TopPlayers = ({
                           })}
                         </div>
                       </TableCell>
-                      <TableCell className="text-center bg-neutral-100 border-x-2">
-                        <div className="flex flex-row justify-center items-center gap-0.5">
-                          <p className="font-bold text-base ">
-                            {player.points}
-                          </p>
-                          {/* <p className="text-xs">pts</p> */}
-                          <div className="mx-2 h-6 border-l border-neutral-300"></div>
-                          <div className="flex flex-col justify-center items-center">
-                            <p className="font-bold leading-none">
-                              {player.averagePoints.toFixed(2)}
-                            </p>
-                            <p className="text-[11px] leading-none ">Media</p>
-                          </div>
-                        </div>
-                      </TableCell>
+                     
                       <TableCell className="text-center p-0 m-0 md:hidden">
                         <div className="flex flex-col justify-start items-center flex-shrink-0 h-10 p-0 m-0 overflow-hidden">
                           <Image
