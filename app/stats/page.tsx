@@ -9,6 +9,8 @@ import {
 import TopPlayers from "../components/stats/TopPlayers";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import MyTeamLineup from "../components/myTeam/MyTeamLineup";
+import BestLineup from "../components/stats/BestLineup";
 
 export const revalidate = 0;
 
@@ -35,7 +37,7 @@ function formatAndSortPlayerData(
   stats: stats[],
   matches: matches[],
   positions: { id: number; name: string }[]
-) {
+): { playersWithStatsAndPoints: players[]; playersGroupedByPosition: any[] } {
   // Initialize a map to hold player stats, keyed by playerID
   const playerStatsMap = new Map<number, stats[]>();
   stats.forEach((stat) => {
@@ -101,7 +103,8 @@ function formatAndSortPlayerData(
     ),
   }));
 
-  return playersGroupedByPosition;
+  
+  return { playersWithStatsAndPoints, playersGroupedByPosition };
 }
 
 export default async function StatsPage() {
@@ -123,7 +126,14 @@ export default async function StatsPage() {
   // fetch all matches
   // const { allMatches: matchesData } = await getAllMatches();
 
-  const playersWithFormattedAndCalculatedData = formatAndSortPlayerData(
+  const { playersGroupedByPosition: playersWithFormattedAndCalculatedData } = formatAndSortPlayerData(
+    topPlayers,
+    stats,
+    finishedMatches,
+    positions
+  );
+
+  const { playersWithStatsAndPoints: playersWithStatsAndPoints } = formatAndSortPlayerData(
     topPlayers,
     stats,
     finishedMatches,
@@ -144,10 +154,10 @@ export default async function StatsPage() {
               Top 20
             </TabsTrigger>
             <TabsTrigger className="w-full" value="plantilla">
-              Plantilla
+              Best XI
             </TabsTrigger>
             <TabsTrigger className="w-full" value="partidos">
-              Partidos
+              Tabla LA LIGA
             </TabsTrigger>
           </TabsList>
           <TabsContent value="top20" className="overflow-visible mx-auto">
@@ -157,10 +167,7 @@ export default async function StatsPage() {
             />
           </TabsContent>
           <TabsContent value="plantilla" className="overflow-visible mx-auto">
-            {/* <TeamRoster
-              teamPlayers={sortedPlayers}
-              playerStats={playersWithStats}
-            /> */}
+           <BestLineup players={playersWithStatsAndPoints} />
           </TabsContent>
           <TabsContent value="partidos" className="overflow-visible mx-auto">
             {/* <TeamMatchList matchesData={matchesData} teamselected={team.teamID} /> */}

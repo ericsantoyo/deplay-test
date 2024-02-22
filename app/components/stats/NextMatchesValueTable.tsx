@@ -44,8 +44,8 @@ interface NextMatchesValueTableProps {
 const NextMatchesValueTable: React.FC<NextMatchesValueTableProps> = ({ players, matches }) => {
   const selectedTeamPlayers = players;
   return (
-    <>
-      <Card className="flex flex-col justify-start items-start  w-full  ">
+   
+      <Card className="flex flex-col justify-start items-start  w-full m-0 ">
             <Table className="">
               <TableCaption></TableCaption>
               <TableHeader>
@@ -260,7 +260,7 @@ const NextMatchesValueTable: React.FC<NextMatchesValueTableProps> = ({ players, 
               </TableBody>
             </Table>
           </Card>
-    </>
+  
   );
 };
 
