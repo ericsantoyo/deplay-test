@@ -8,7 +8,7 @@ import {
 } from "@/database/client";
 import TopPlayers from "../components/stats/TopPlayers";
 
-
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export const revalidate = 0;
 
@@ -29,7 +29,6 @@ const positions = [
   { id: 4, name: "Delantero" },
   { id: 5, name: "Entrenador" },
 ];
-
 
 function formatAndSortPlayerData(
   players: players[],
@@ -87,39 +86,35 @@ function formatAndSortPlayerData(
         ? pointsData.totalVisitorPoints / pointsData.visitorGames
         : 0;
 
-        return {
-          ...player,
-          stats: playerStatsMap.get(player.playerID) || [],
+    return {
+      ...player,
+      stats: playerStatsMap.get(player.playerID) || [],
       pointsData,
     };
   });
 
-
-// Group players by their positions
-const playersGroupedByPosition = positions.map((position) => ({
-  position: position.name,
-  players: playersWithStatsAndPoints.filter(player => player.positionID === position.id),
-}));
-
-
+  // Group players by their positions
+  const playersGroupedByPosition = positions.map((position) => ({
+    position: position.name,
+    players: playersWithStatsAndPoints.filter(
+      (player) => player.positionID === position.id
+    ),
+  }));
 
   return playersGroupedByPosition;
 }
 
-
-
-
-export default async function MyTeam() {
+export default async function StatsPage() {
   // fetch top players
   const { topPlayers: topPlayers } = await getTopPlayersByPosition();
 
   // extract playerIDs from topPlayers
   const playerIDs = topPlayers.map((player) => player.playerID);
 
-   // Fetch stats only for these player IDs
-   const stats = await fetchStatsForMyTeamsPlayers(playerIDs);
+  // Fetch stats only for these player IDs
+  const stats = await fetchStatsForMyTeamsPlayers(playerIDs);
 
-   // fetch all matches
+  // fetch all matches
   const { allMatches: matchesData } = await getAllMatches();
 
   // Fetch finished matches
@@ -132,19 +127,46 @@ export default async function MyTeam() {
     topPlayers,
     stats,
     finishedMatches,
-    positions 
+    positions
   );
 
   return (
     <>
-      <h2 className="text-lg font-semibold text-center mb-2 ">Top 20 por Posición</h2>
+      {/* <h2 className="text-lg font-semibold text-center mb-2 ">
+        Top 20 por Posición
+      </h2> */}
       {/* <pre>{JSON.stringify(playerIDs, null, 2)}</pre> */}
       {/* <pre>{JSON.stringify(playersWithFormattedAndCalculatedData[0], null, 2)}</pre> */}
-     
-      <TopPlayers
-        players={playersWithFormattedAndCalculatedData}
-        matches={matchesData}
-      />
+      <div className="flex w-full">
+        <Tabs defaultValue="top20" className="grow w-full mx-auto">
+          <TabsList className="flex flex-row justify-center items-center ">
+            <TabsTrigger className="w-full" value="top20">
+              Top 20
+            </TabsTrigger>
+            <TabsTrigger className="w-full" value="plantilla">
+              Plantilla
+            </TabsTrigger>
+            <TabsTrigger className="w-full" value="partidos">
+              Partidos
+            </TabsTrigger>
+          </TabsList>
+          <TabsContent value="top20" className="overflow-visible mx-auto">
+            <TopPlayers
+              players={playersWithFormattedAndCalculatedData}
+              matches={matchesData}
+            />
+          </TabsContent>
+          <TabsContent value="plantilla" className="overflow-visible mx-auto">
+            {/* <TeamRoster
+              teamPlayers={sortedPlayers}
+              playerStats={playersWithStats}
+            /> */}
+          </TabsContent>
+          <TabsContent value="partidos" className="overflow-visible mx-auto">
+            {/* <TeamMatchList matchesData={matchesData} teamselected={team.teamID} /> */}
+          </TabsContent>
+        </Tabs>
+      </div>
     </>
   );
 }

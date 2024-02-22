@@ -115,7 +115,7 @@ function formatAndSortPlayerData(
   return teamsWithPlayers;
 }
 
-export default async function MyTeam() {
+export default async function MyTeamPage() {
   const { myTeams } = await getMyTeams();
 
   // Extract player IDs from myTeams
