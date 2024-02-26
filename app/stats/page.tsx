@@ -103,7 +103,6 @@ function formatAndSortPlayerData(
     ),
   }));
 
-  
   return { playersWithStatsAndPoints, playersGroupedByPosition };
 }
 
@@ -126,19 +125,11 @@ export default async function StatsPage() {
   // fetch all matches
   // const { allMatches: matchesData } = await getAllMatches();
 
-  const { playersGroupedByPosition: playersWithFormattedAndCalculatedData } = formatAndSortPlayerData(
-    topPlayers,
-    stats,
-    finishedMatches,
-    positions
-  );
+  const { playersGroupedByPosition: playersWithFormattedAndCalculatedData } =
+    formatAndSortPlayerData(topPlayers, stats, finishedMatches, positions);
 
-  const { playersWithStatsAndPoints: playersWithStatsAndPoints } = formatAndSortPlayerData(
-    topPlayers,
-    stats,
-    finishedMatches,
-    positions
-  );
+  const { playersWithStatsAndPoints: playersWithStatsAndPoints } =
+    formatAndSortPlayerData(topPlayers, stats, finishedMatches, positions);
 
   return (
     <>
@@ -157,7 +148,18 @@ export default async function StatsPage() {
               Best XI
             </TabsTrigger>
             <TabsTrigger className="w-full" value="partidos">
-              Tabla LA LIGA
+              <div className="flex gap-2 justify-center items-center">
+                <p className="flex">Tabla</p>
+                <div className="flex justify-center items-center p-1  ">
+                  <svg
+                    className="transition-all  w-4  fill-red-600 group-hover:fill-neutral-100 "
+                    viewBox="0 0 70 64"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path d="M2.91 25.173L20.332 0h16.854L15.497 30.861h14.08L7.675 42.026l-4.41-5.618C1.701 34.346.99 32.782.99 30.648c0-1.92.712-3.77 1.92-5.475zM17.203 51.2c0-1.778.712-3.698 1.99-5.547L51.265 0h18.56L33.841 51.2h16.213L24.882 64l-5.405-6.897c-1.493-1.92-2.275-3.84-2.275-5.902l.001-.002z"></path>
+                  </svg>
+                </div>
+              </div>
             </TabsTrigger>
           </TabsList>
           <TabsContent value="top20" className="overflow-visible mx-auto">
@@ -167,7 +169,7 @@ export default async function StatsPage() {
             />
           </TabsContent>
           <TabsContent value="plantilla" className="overflow-visible mx-auto">
-           <BestLineup players={playersWithStatsAndPoints} />
+            <BestLineup players={playersWithStatsAndPoints} />
           </TabsContent>
           <TabsContent value="partidos" className="overflow-visible mx-auto">
             {/* <TeamMatchList matchesData={matchesData} teamselected={team.teamID} /> */}
