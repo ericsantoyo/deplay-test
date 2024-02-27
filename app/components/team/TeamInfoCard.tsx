@@ -15,6 +15,7 @@ import {
 } from "@/utils/utils";
 import { getMatchesByTeamID } from "@/database/client";
 import NextMatches from "../NextMatches";
+import TeamLastMatches from "../TeamLastMatches";
 
 interface PlayerStats {
   statType: string;
@@ -36,37 +37,8 @@ export default async function TeamInfoCard({ teamInfo, playerInfo }) {
 
   return (
     <>
-      <Card className="transition-all flex flex-row justify-between items-center gap-6 md:gap-8 md:px-6 px-4 py-4 text-xs md:text-sm rounded  ">
-        <NextMatches
-          matches={teamMatches}
-          selectedTeam={teamInfo.teamID}
-          dateClass=""
-          howMany={3}
-          pClass=""
-        />
-        
-        <div className="order-first md:order-none flex flex-col justify-betweem items-center flex-initial  md:flex-none  w-max	">
-          <Image
-            src={teamInfo.image}
-            alt={teamInfo.nickname}
-            width={96}
-            height={96}
-            style={{
-              objectFit: "contain",
-              width: "auto",
-            }}
-            className="h-20 p-[6px]"
-            priority
-          />
-
-          <div className="">
-            {/* <p>Team name</p> */}
-            <p className="font-bold mx-auto	uppercase text-center  w-fit	">
-              {teamInfo.name}
-            </p>
-          </div>
-        </div>
-        <div className="hidden md:flex flex-col justify-between items-start gap-2 ">
+      <Card className="relative flex flex-row justify-between items-center gap-4  md:px-6 px-4 py-2 text-xs md:text-sm  rounded  ">
+        <Card className="z-40 hidden md:flex flex-col justify-between items-start gap-2 backdrop-blur-md bg-white/30 p-4 rounded">
           <div className="flex flex-row justify-center items-center">
             <p className=" font-normal mr-2">Puntos:</p>
             <p className=" font-bold">{totalPoints}</p>
@@ -81,7 +53,60 @@ export default async function TeamInfoCard({ teamInfo, playerInfo }) {
               {numberOfAvailablePlayers} /{numberOfPlayers}
             </p>
           </div>
+        </Card>
+
+        <div className="  flex flex-col justify-betweem items-center flex-initial  md:flex-none  w-max	z-30  ">
+          <Image
+            src={teamInfo.image}
+            alt={teamInfo.nickname}
+            width={96}
+            height={96}
+            style={{
+              objectFit: "contain",
+              width: "auto",
+            }}
+            className="h-20 p-[6px]"
+            priority
+          />
+
+          <div className="backdrop-blur-md bg-white/30 p-1 rounded mb-1">
+            {/* <p>Team name</p> */}
+            <p className="font-bold mx-auto	uppercase text-center  w-fit	">
+              {teamInfo.name}
+            </p>
+          </div>
+          <TeamLastMatches
+            matches={teamMatches}
+            selectedTeam={teamInfo.teamID}
+            howMany={6}
+          />
         </div>
+
+        <div className="flex md:hidden">
+          <NextMatches
+            matches={teamMatches}
+            selectedTeam={teamInfo.teamID}
+            dateClass=""
+            howMany={3}
+            pClass=""
+          />
+        </div>
+        <div className="hidden md:flex">
+          <NextMatches
+            matches={teamMatches}
+            selectedTeam={teamInfo.teamID}
+            dateClass=""
+            howMany={4}
+            pClass=""
+          />
+        </div>
+        <div
+          className="inset-0 bg-no-repeat bg-center absolute z-0 w-full h-full  bg-cover"
+          style={{
+            backgroundImage: `url(${teamInfo.stadium})`,
+            opacity: 0.2,
+          }}
+        ></div>
       </Card>
     </>
   );

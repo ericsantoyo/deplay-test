@@ -255,18 +255,21 @@ export type Database = {
           name: string | null
           nickname: string | null
           teamID: number
+          stadium: string | null
         }
         Insert: {
           image?: string | null
           name?: string | null
           nickname?: string | null
           teamID: number
+          stadium?: string | null
         }
         Update: {
           image?: string | null
           name?: string | null
           nickname?: string | null
           teamID?: number
+          stadium?: string | null
         }
         Relationships: []
       }

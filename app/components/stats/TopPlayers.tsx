@@ -26,27 +26,42 @@ const TopPlayers = ({
         <TabsList className="flex flex-row justify-center items-center mt-2">
           <TabsTrigger className="w-full" value="porteros">
             <div className={getPositionBadge(1).className}>
-              {getPositionBadge(1).abbreviation}
+              <p className="hidden md:flex uppercase">
+                {getPositionBadge(1).name}
+              </p>
+              <p className="md:hidden">{getPositionBadge(1).abbreviation}</p>
             </div>
           </TabsTrigger>
           <TabsTrigger className="w-full" value="defensas">
             <div className={getPositionBadge(2).className}>
-              {getPositionBadge(2).abbreviation}
+              <p className="hidden md:flex uppercase">
+                {getPositionBadge(2).name}
+              </p>
+              <p className="md:hidden">{getPositionBadge(2).abbreviation}</p>
             </div>
           </TabsTrigger>
           <TabsTrigger className="w-full" value="mediocampistas">
             <div className={getPositionBadge(3).className}>
-              {getPositionBadge(3).abbreviation}
+              <p className="hidden md:flex uppercase">
+                {getPositionBadge(3).name}
+              </p>
+              <p className="md:hidden">{getPositionBadge(3).abbreviation}</p>
             </div>
           </TabsTrigger>
           <TabsTrigger className="w-full" value="delanteros">
             <div className={getPositionBadge(4).className}>
-              {getPositionBadge(4).abbreviation}
+              <p className="hidden md:flex uppercase">
+                {getPositionBadge(4).name}
+              </p>
+              <p className="md:hidden">{getPositionBadge(4).abbreviation}</p>
             </div>
           </TabsTrigger>
           <TabsTrigger className="w-full" value="entrenadores">
             <div className={getPositionBadge(5).className}>
-              {getPositionBadge(5).abbreviation}
+              <p className="hidden md:flex uppercase">
+                {getPositionBadge(5).name}
+              </p>
+              <p className="md:hidden">{getPositionBadge(5).abbreviation}</p>
             </div>
           </TabsTrigger>
         </TabsList>

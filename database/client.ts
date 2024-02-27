@@ -1,4 +1,4 @@
-import { Match } from "@/types";
+import { Match, Team } from "@/types";
 import { supabase } from "./supabase";
 
 async function getAllPlayers(): Promise<{ allPlayers: players[] }> {
@@ -125,15 +125,7 @@ async function getPlayerById(playerID: number) {
   };
 }
 
-async function getTeamByTeamID(teamID: number) {
-  if (!teamID) return { data: null, error: "No teamID provided" };
-  const { data, error } = await supabase
-    .from("teams")
-    .select("*")
-    .eq("teamID", teamID);
 
-  return { data, error };
-}
 
 async function getPlayersByTeamID(
   teamID: number
@@ -188,6 +180,16 @@ async function getAllMatches(): Promise<{ allMatches: matches[] }> {
     .select("*")
     .order("matchID", { ascending: false });
   return { allMatches: allMatches as matches[] };
+}
+
+async function getTeamByTeamID(teamID: number) {
+  
+  const { data: teamData} = await supabase
+    .from("teams")
+    .select("*")
+    .eq("teamID", teamID);
+
+  return { teamData: teamData as teams[] };
 }
 
 async function getMatchesByTeamID(teamID: number) {

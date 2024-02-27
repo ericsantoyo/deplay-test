@@ -19,11 +19,9 @@ export const revalidate=0
 
 
 export default async function Team({ params }: { params: { teamID: number } }) {
-  const { data: teamData } = await getTeamByTeamID(params.teamID);
-  if (!teamData) {
-    return notFound();
-  }
-  const team = teamData[0];
+  const { teamData: teamInfo } = await getTeamByTeamID(params.teamID);
+  
+  const team = teamInfo[0];
   const { data: playersData } = await getPlayersByTeamID(params.teamID);
   const players = playersData;
   const { teamMatches: matchesData } = await getMatchesByTeamID(params.teamID);

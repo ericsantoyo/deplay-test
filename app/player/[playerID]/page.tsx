@@ -1,4 +1,4 @@
-import { getPlayerById, getMatchesByTeamID } from "@/database/client";
+import { getPlayerById, getMatchesByTeamID, getTeamByTeamID } from "@/database/client";
 import { Player } from "@/types";
 
 import Image from "next/image";
@@ -46,6 +46,8 @@ export default async function Player({
     playerData.teamID
   );
 
+  const { teamData: teamInfo } = await getTeamByTeamID(playerData.teamID);
+
   function formatPlayerWithStats(playerData: players, playerStat: stats[]) {
     // Filter the stats for the given player
     const playerStats = playerStat.filter(
@@ -83,9 +85,10 @@ export default async function Player({
 
   return (
     <div className="w-full">
-      <Card className="flex flex-row justify-between items-center w-full py-4 px-2 md:p-[18px] gap-x-3  ">
+      {/* <pre>{JSON.stringify(teamInfo[0].stadium, null, 2)}</pre> */}
+      <Card className="relative flex flex-row justify-between items-center w-full py-4 px-2 md:p-[18px] gap-x-3  ">
         {/* POINTS INFO */}
-        <div className="flex flex-col justify-between items-center  w-1/3">
+        <div className="z-40 flex flex-col justify-between items-center  w-1/3">
           <div className="flex flex-row justify-center items-center  w-full">
             <div className="text-lg font-bold uppercase text-center w-min whitespace-nowrap	 ">
               {nicknameById(playerData.teamID)}
@@ -149,14 +152,14 @@ export default async function Player({
         </div>
 
         {/* IMAGE & NAME */}
-        <div className="flex flex-col justify-center items-center w-1/3">
-          <div className="h-48">
+        <div className="z-40 flex flex-col justify-center items-center w-1/3">
+          <div className="h-48 ">
             <Image
               src={playerData.image}
               alt={playerData.nickname}
               width={192}
               height={192}
-              className="h-48 object-cover object-top rounded-full border-2 border-white drop-shadow-md		 	"
+              className="backdrop-blur-sm  h-48 object-cover object-top rounded-full border-2 border-white drop-shadow-md		 	"
             />
           </div>
 
@@ -168,7 +171,7 @@ export default async function Player({
         </div>
         
         {/* MATCHES INFO */}
-        <div className="flex flex-col md:flex-row justify-center items-stretch w-1/3">
+        <div className="z-40 flex flex-col md:flex-row justify-center items-stretch w-1/3">
           {/* LAST MATCHES */}
           <div className="flex flex-col justify-start items-center h-full">
             <p className="text-xs uppercase font-bold pb-1 text-center">
@@ -192,12 +195,20 @@ export default async function Player({
                 matches={matchesData}
                 selectedTeam={playerData.teamID}
                 dateClass="hidden"
-                howMany={2}
+                howMany={3}
                 pClass="hidden"
               />
             </div>
           </div>
         </div>
+        {/* BACKGROUND */}
+        <div
+          className="inset-0 bg-no-repeat bg-center absolute z-0 w-full h-full  bg-cover"
+          style={{
+            backgroundImage: `url(${teamInfo[0].stadium})`,
+            opacity: 0.2,
+          }}
+        ></div>
       </Card>
       <Tabs defaultValue="puntos" className="grow w-full mx-auto">
         <TabsList className="flex flex-row justify-center items-center mt-2">
