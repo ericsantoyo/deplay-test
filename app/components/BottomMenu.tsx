@@ -13,7 +13,7 @@ import TroubleshootIcon from '@mui/icons-material/Troubleshoot';
 
 export default function BottomMenu() {
   return (
-    <Card className="fixed bottom-0 right-0 left-0 w-full rounded-none shadow-none h-[66px] 	 md:hidden ">
+    <Card className="z-50 fixed bottom-0 right-0 left-0 w-full rounded-none shadow-none h-[66px] 	 md:hidden ">
       <div className="flex flex-row justify-between items-center w-full h-full px-6">
         <Link href="/market" className="flex flex-col justify-center items-center">
           <QueryStatsIcon className="text-neutral-800" sx={{ fontSize: 32 }} />

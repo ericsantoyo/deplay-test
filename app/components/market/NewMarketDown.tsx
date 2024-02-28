@@ -168,7 +168,7 @@ const NewMarketDown = () => {
 
   const onGridSizeChanged = useCallback((params = {}) => {
     // get the current grids width
-    var gridWidth = document.getElementById("grid-wrapper")?.offsetWidth;
+    var gridWidth = document.getElementById("myBajadasGrid")?.offsetWidth;
     // keep track of which columns to hide/show
     var columnsToShow = [];
     var columnsToHide = [];
@@ -590,7 +590,6 @@ const NewMarketDown = () => {
         </Modal>
       )}
       <Card
-        id="grid-wrapper bajadasGrid"
         className={
           "h-auto flex flex-col justify-start items-center transition-all overflow-hidden  "
         }
@@ -619,7 +618,10 @@ const NewMarketDown = () => {
           </div>
         </div>
 
-        <div id="myBajadasGrid" className={`ag-theme-balham w-full  transition-all`}>
+        <div
+          id="myBajadasGrid"
+          className={`ag-theme-balham w-full  transition-all`}
+        >
           <AgGridReact
             rowData={playersWithStats}
             columnDefs={columnDefs}

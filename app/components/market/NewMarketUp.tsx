@@ -176,7 +176,7 @@ const NewMarketUp = () => {
 
   const onGridSizeChanged = useCallback((params = {}) => {
     // get the current grids width
-    var gridWidth = document.getElementById("grid-wrapper")?.offsetWidth;
+    var gridWidth = document.getElementById("mySubidasGrid")?.offsetWidth;
     // keep track of which columns to hide/show
     var columnsToShow = [];
     var columnsToHide = [];
@@ -252,7 +252,6 @@ const NewMarketUp = () => {
           >
             <Card className=" w-[340px] h-fit p-4 transition-all absolute outline-none  flex flex-col justify-between  ">
               <Card className="relative py-2 px-4 flex flex-col justify-start items-center   ">
-                
                 <div className="z-40 flex flex-row justify-center items-center mb-2 w-full ">
                   <div className="text-lg font-bold uppercase text-center w-min whitespace-nowrap	 ">
                     {selectedPlayer.playerData.nickname}
@@ -438,9 +437,7 @@ const NewMarketUp = () => {
                     </div>
                   </div>
                 </div>
-                <div className="inset-0 w-full h-full absolute  bg-white/40 z-30">
-
-                </div>
+                <div className="inset-0 w-full h-full absolute  bg-white/40 z-30"></div>
                 {/* BACKGROUND */}
                 <div
                   className="inset-0 bg-no-repeat bg-center absolute z-0 w-full h-full bg-cover"
@@ -612,7 +609,6 @@ const NewMarketUp = () => {
         </Modal>
       )}
       <Card
-        id="grid-wrapper subidasGrid"
         className={
           "h-auto flex flex-col justify-start items-center transition-all  overflow-hidden "
         }
