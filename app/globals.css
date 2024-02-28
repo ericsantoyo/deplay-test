@@ -97,12 +97,13 @@
   body {
     @apply bg-background text-foreground;
   }
+  
 }
 
 .ag-root-wrapper {
   --ag-header-column-separator-display: none;
   --ag-borders: none;
-  border-radius: 5px;
+  border-radius: 3px;
 }
 
 /* .ag-header-cell-label {
@@ -114,3 +115,24 @@
 .ag-center-header .ag-header-cell-label {
   justify-content: center;
 }
+
+#mySubidasGrid .ag-paging-panel  {
+  background-image: linear-gradient(to bottom, rgba(72, 187, 120, 0.05), rgba(72, 187, 120, 0.1));
+}
+
+#myBajadasGrid .ag-paging-panel  {
+  background-image: linear-gradient(to bottom, rgba(245, 101, 101, 0.05), rgba(245, 101, 101, 0.1));
+
+}
+
+#mySubidasGrid .ag-header  {
+  background-color: rgba(72, 187, 120, 0.05);
+}
+
+
+#myBajadasGrid .ag-header  {
+  background-color: rgba(245, 101, 101, 0.05);
+
+}
+
+

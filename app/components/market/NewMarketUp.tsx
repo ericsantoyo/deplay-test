@@ -104,7 +104,6 @@ const NewMarketUp = () => {
     }
   };
 
-
   const prepareValueChangesData = (playerId: number) => {
     const playerData = playersWithStats?.find(
       (player) => player.playerData.playerID === playerId
@@ -291,7 +290,6 @@ const NewMarketUp = () => {
                         alt={selectedPlayer.playerData.nickname}
                         width={64}
                         height={64}
-                        
                         className="h-16 w-auto "
                       />
 
@@ -591,35 +589,41 @@ const NewMarketUp = () => {
         </Modal>
       )}
       <Card
-        id="grid-wrapper"
+        id="grid-wrapper subidasGrid"
         className={
-          "h-auto flex flex-col justify-start items-center transition-all rounded  "
+          "h-auto flex flex-col justify-start items-center transition-all  overflow-hidden "
         }
       >
         {/* Search Bar */}
-        <Box className="flex flex-row justify-between items-center w-full h-16 px-3">
-          <span className="flex justify-center items-center md:text-lg font-semibold mr-2 w-full text-center">
+        <div className=" flex flex-row justify-between items-center w-full h-16 px-3 
+        bg-gradient-to-b from-green-500/10 to-green-500/5 
+        ">
+          <div className=" z-40 flex justify-center items-center  font-semibold p-1 rounded mr-2 w-fit whitespace-nowrap text-center">
             <ChevronsUp
               size={24}
               className="text-green-600 dark:text-green-400 mr-2"
             />{" "}
             Ultimas Subidas
-          </span>
-          <div className="relative w-full flex flex-row justify-center items-center">
-            <Search className="absolute h-4 w-4 top-[10px] left-4 text-muted-foreground" />
+          </div>
+          <div className=" z-40 relative w-full flex flex-row justify-center items-center ">
             <Input
               type="search"
               onChange={onFilterTextChange}
               placeholder="Buscar..."
-              className="pl-10 outline-none text-md
-              dark:bg-neutral-200 dark:placeholder-neutral-800 
-              dark:text-neutral-800
-        "
+              className="pl-10 outline-none text-md backdrop-blur-sm bg-white/70"
             />
+            <Search className="absolute h-4 w-4 top-[10px] left-4 text-muted-foreground" />
           </div>
-        </Box>
+          {/* <div
+            className="inset-0 bg-no-repeat bg-center absolute z-0 w-full h-full bg-cover"
+            style={{
+              backgroundImage: `url(./stadiums/grass.jpg)`,
+              opacity: 0.3,
+            }}
+          ></div> */}
+        </div>
 
-        <div id="myGrid" className={`ag-theme-balham w-full  transition-all`}>
+        <div id="mySubidasGrid" className={`ag-theme-balham w-full  transition-all`}>
           <AgGridReact
             rowData={playersWithStats}
             columnDefs={columnDefs}

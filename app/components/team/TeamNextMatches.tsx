@@ -28,7 +28,7 @@ const TeamNextMatches = ({
       <p
         className={`${pClass}  text-center text-xs uppercase font-semibold mb-2`}
       >
-        Próximos partidos
+        Próximos...
       </p>
       <Card className="py-2 flex flex-row justify-between items-center h-full md:gap-2 backdrop-blur-sm bg-white/30">
         {/* Display matches for the selected week */}
@@ -53,7 +53,7 @@ const TeamNextMatches = ({
                   width={24}
                   height={24}
                   style={{ objectFit: "contain" }}
-                  className="h-6 "
+                  className="h-5 md:h-6 "
                 />
               )}
 
@@ -76,11 +76,11 @@ const TeamNextMatches = ({
                   day: "numeric",
                 })}
               </p>
-              <div className="">
+              <div className="w-5 h-5  flex justify-center items-center">
                 {match.localTeamID !== selectedTeam ? (
-                  <FlightIcon className="rotate-45" />
+                  <FlightIcon fontSize="small" className="rotate-45" />
                 ) : (
-                  <HomeIcon />
+                  <HomeIcon fontSize="small" />
                 )}
               </div>
             </Card>

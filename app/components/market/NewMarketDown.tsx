@@ -590,35 +590,36 @@ const NewMarketDown = () => {
         </Modal>
       )}
       <Card
-        id="grid-wrapper"
+        id="grid-wrapper bajadasGrid"
         className={
-          "h-auto flex flex-col justify-start items-center transition-all rounded  "
+          "h-auto flex flex-col justify-start items-center transition-all overflow-hidden  "
         }
       >
         {/* Search Bar */}
-        <Box className="flex flex-row justify-between items-center w-full h-16 px-3">
-          <span className="flex justify-center items-center md:text-lg font-semibold mr-2 w-full text-center">
+        <div
+          className=" flex flex-row justify-between items-center w-full h-16 px-3 
+        bg-gradient-to-b from-red-500/10 to-red-500/5
+        "
+        >
+          <div className=" z-40 flex justify-center items-center  font-semibold p-1 rounded mr-2 w-fit whitespace-nowrap text-center">
             <ChevronsDown
               size={24}
               className="text-red-500 dark:text-red-400 mr-2"
             />{" "}
             Ultimas Bajadas
-          </span>
-          <div className="relative w-full flex flex-row justify-center items-center">
-            <Search className="absolute h-4 w-4 top-[10px] left-4 text-muted-foreground" />
+          </div>
+          <div className=" z-40 relative w-full flex flex-row justify-center items-center ">
             <Input
               type="search"
               onChange={onFilterTextChange}
               placeholder="Buscar..."
-              className="pl-10 outline-none text-md
-              dark:bg-neutral-200 dark:placeholder-neutral-800 
-              dark:text-neutral-800
-        "
+              className="pl-10 outline-none text-md backdrop-blur-sm bg-white/70"
             />
+            <Search className="absolute h-4 w-4 top-[10px] left-4 text-muted-foreground" />
           </div>
-        </Box>
+        </div>
 
-        <div id="myGrid" className={`ag-theme-balham w-full  transition-all`}>
+        <div id="myBajadasGrid" className={`ag-theme-balham w-full  transition-all`}>
           <AgGridReact
             rowData={playersWithStats}
             columnDefs={columnDefs}
