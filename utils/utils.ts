@@ -211,6 +211,22 @@ export const getTotalMarketValueOfTeam = (players: {
   return total;
 };
 
+export const getTotalLastMarketChangeOfTeam = (players: {
+  [x: string]: {
+    status: string;
+    lastMarketChange: number;
+  };
+}) => {
+  let total = 0;
+  for (let player in players) {
+    if (players[player].status === "out_of_league") {
+      continue;
+    }
+    total += players[player].lastMarketChange;
+  }
+  return total;
+};
+
 export const getNumberOfPlayersOfTeam = (players: {
   [x: string]: { status: string };
 }) => {

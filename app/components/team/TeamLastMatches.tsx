@@ -49,7 +49,7 @@ const TeamLastMatches = ({ matches, selectedTeam, howMany }: Props) => {
   const lastMatchesToShow = pastMatchesSorted.slice(-howMany);
 
   return (
-    <Card className="z-30 flex flex-row justify-end items-center gap-1 px-1 md:p-1 backdrop-blur-md bg-white/30">
+    <Card className="z-30 flex flex-row justify-end items-center gap-1 px-1.5 py-0.5 md:px-0.5 backdrop-blur-md bg-white/30">
       {lastMatchesToShow.map((match) => (
         <div
           key={match.matchID}

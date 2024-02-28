@@ -12,7 +12,7 @@ interface Props {
   pClass: string;
 }
 
-const NextMatches = ({
+const PlayerNextMatches = ({
   matches,
   selectedTeam,
   dateClass,
@@ -30,20 +30,21 @@ const NextMatches = ({
       >
         Próximos partidos
       </p>
-      <Card className="py-2 flex flex-row justify-between items-center h-full md:gap-2 backdrop-blur-md bg-white/30">
+      <Card className="flex flex-row justify-between items-center h-full md:gap-2 backdrop-blur-sm bg-white/30 px-1 py-1.5">
         {/* Display matches for the selected week */}
         {teamMatches
           .filter(
             (match) =>
-              match.week >= currentWeek && match.week <= currentWeek + howMany - 1
+              match.week >= currentWeek &&
+              match.week <= currentWeek + howMany - 1
           )
           .sort((a, b) => new Date(a.matchDate) - new Date(b.matchDate))
           .map((match) => (
             <Card
               key={match.matchID}
-              className="flex flex-col w-12 justify-between items-center border-none shadow-none h-full text-xs text-center rounded gap-1 bg-transparent "
+              className="flex flex-col w-7 md:w-8 justify-between items-center border-none shadow-none h-full text-xs text-center rounded bg-transparent gap-1"
             >
-              <div className="text-center font-bold text-[11px]">
+              <div className="text-center font-bold text-[11px] md:text-[12px]">
                 J{match.week}
               </div>
               {match.localTeamID !== selectedTeam && (
@@ -53,7 +54,7 @@ const NextMatches = ({
                   width={24}
                   height={24}
                   style={{ objectFit: "contain" }}
-                  className="h-6 "
+                  className="h-5 md:h-6 "
                 />
               )}
 
@@ -76,11 +77,11 @@ const NextMatches = ({
                   day: "numeric",
                 })}
               </p>
-              <div className="">
+              <div className="w-5 h-5  flex justify-center items-center">
                 {match.localTeamID !== selectedTeam ? (
-                  <FlightIcon className="rotate-45" />
+                  <FlightIcon fontSize="small" className="rotate-45" />
                 ) : (
-                  <HomeIcon />
+                  <HomeIcon fontSize="small" />
                 )}
               </div>
             </Card>
@@ -90,4 +91,4 @@ const NextMatches = ({
   );
 };
 
-export default NextMatches;
+export default PlayerNextMatches;

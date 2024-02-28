@@ -12,10 +12,13 @@ import {
   getTotalMarketValueOfTeam,
   getNumberOfPlayersOfTeam,
   getNumberOfAvailablePlayersOfTeam,
+  getTotalLastMarketChangeOfTeam,
 } from "@/utils/utils";
 import { getMatchesByTeamID } from "@/database/client";
-import NextMatches from "../NextMatches";
-import TeamLastMatches from "../TeamLastMatches";
+import NextMatches from "./TeamNextMatches";
+import TeamLastMatches from "./TeamLastMatches";
+import { ChevronsDown, ChevronsUp } from "lucide-react";
+import TeamPreviousMatches from "./TeamPreviousMatches";
 
 interface PlayerStats {
   statType: string;
@@ -35,8 +38,11 @@ export default async function TeamInfoCard({ teamInfo, playerInfo }) {
   const numberOfAvailablePlayers =
     getNumberOfAvailablePlayersOfTeam(playerInfo);
 
+  const totalLastMarketChange = getTotalLastMarketChangeOfTeam(playerInfo);
+
   return (
     <>
+      {/* <pre>{JSON.stringify(totalLastMarketChange, null, 2)}</pre> */}
       <Card className="relative flex flex-row justify-between items-center gap-4  md:px-6 px-4 py-2 text-xs md:text-sm  rounded  ">
         <Card className="z-40 hidden md:flex flex-col justify-between items-start gap-2 backdrop-blur-md bg-white/30 p-4 rounded">
           <div className="flex flex-row justify-center items-center">
@@ -46,6 +52,28 @@ export default async function TeamInfoCard({ teamInfo, playerInfo }) {
           <div className="flex flex-row justify-center items-center">
             <p className=" font-normal mr-2">Valor:</p>
             <p className=" font-bold">{formatter.format(totalMarketValue)}</p>
+          </div>
+          <div className="flex flex-row justify-center items-center">
+            <p className=" font-normal mr-2">Cambio:</p>
+            <div className="flex flex-col justify-center items-center">
+              <div className="flex justify-center items-center">
+                {totalLastMarketChange > 0 ? (
+                  <ChevronsUp className="w-3 h-3 text-green-600" />
+                ) : (
+                  <ChevronsDown className="w-3 h-3 text-red-500" />
+                )}
+                <div
+                  className={`font-bold tabular-nums tracking-tight 
+                                          ${
+                                            totalLastMarketChange < 0
+                                              ? "text-red-500 dark:text-red-400"
+                                              : "text-green-600 dark:text-green-400"
+                                          }`}
+                >
+                  {formatMoney(totalLastMarketChange)}
+                </div>
+              </div>
+            </div>
           </div>
           <div className="flex flex-row justify-center items-center">
             <p className=" font-normal mr-2	">Disponibles:</p>

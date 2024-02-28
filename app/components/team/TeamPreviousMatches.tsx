@@ -4,7 +4,7 @@ import Image from "next/image";
 
 
 
-const PreviousMatches = ({
+const TeamPreviousMatches = ({
   matchesData,
   playerWithStats,
   fetchedPlayer
@@ -89,4 +89,4 @@ const PreviousMatches = ({
   );
 };
 
-export default PreviousMatches;
+export default TeamPreviousMatches;
