@@ -16,6 +16,7 @@ import {
   getAllPlayers,
   getAllStats,
   getMatchesByTeamID,
+  getAllTeams,
 } from "@/database/client";
 import {
   getColor,
@@ -24,6 +25,7 @@ import {
   getWeeksTotalPointsFromStats,
   getNextThreeMatches,
   createColumnDefs,
+  getStadiumByTeamID,
 } from "@/utils/utils";
 // import { useTheme } from "next-themes";
 import Image from "next/image";
@@ -71,6 +73,13 @@ const NewMarketUp = () => {
       return formatPlayersWithStats(players, stats);
     }
   );
+
+  const { data: allTeams } = useSWR("getAllTeams", async () => {
+    const { allTeams: teams } = (await getAllTeams()) as { allTeams: teams[] };
+
+    return teams;
+  });
+
   function formatPlayersWithStats(players: players[], stats: stats[]) {
     const formattedPlayers = [];
 
@@ -242,8 +251,9 @@ const NewMarketUp = () => {
             // style={{ transitionDelay: open ? "0ms" : "0ms" }} // Adjust this value
           >
             <Card className=" w-[340px] h-fit p-4 transition-all absolute outline-none  flex flex-col justify-between  ">
-              <Card className="py-2 px-4 flex flex-col justify-start items-center   ">
-                <div className="flex flex-row justify-center items-center mb-2 w-full">
+              <Card className="relative py-2 px-4 flex flex-col justify-start items-center   ">
+                
+                <div className="z-40 flex flex-row justify-center items-center mb-2 w-full ">
                   <div className="text-lg font-bold uppercase text-center w-min whitespace-nowrap	 ">
                     {selectedPlayer.playerData.nickname}
                   </div>
@@ -259,7 +269,7 @@ const NewMarketUp = () => {
                   />
                 </div>
 
-                <div className="flex flex-col justify-between items-start h-full w-full">
+                <div className="z-40 flex flex-col justify-between items-start h-full w-full">
                   <div className="flex flex-row justify-between w-full">
                     <div className="flex flex-col justify-center items-start gap-y-1 text-sm">
                       <div className="flex flex-row justify-center items-center gap-x-2">
@@ -428,6 +438,19 @@ const NewMarketUp = () => {
                     </div>
                   </div>
                 </div>
+                <div className="inset-0 w-full h-full absolute  bg-white/40 z-30">
+
+                </div>
+                {/* BACKGROUND */}
+                <div
+                  className="inset-0 bg-no-repeat bg-center absolute z-0 w-full h-full bg-cover"
+                  style={{
+                    backgroundImage: `url(${getStadiumByTeamID(
+                      selectedPlayer.playerData.teamID
+                    )})`,
+                    opacity: 0.15,
+                  }}
+                ></div>
               </Card>
               <Tabs defaultValue="table" className="grow w-full mx-auto">
                 <TabsList className="flex flex-row justify-center items-center mt-2">
@@ -594,10 +617,13 @@ const NewMarketUp = () => {
           "h-auto flex flex-col justify-start items-center transition-all  overflow-hidden "
         }
       >
+        {/* <pre>{JSON.stringify(allTeams, null, 2)}</pre> */}
         {/* Search Bar */}
-        <div className=" flex flex-row justify-between items-center w-full h-16 px-3 
+        <div
+          className=" flex flex-row justify-between items-center w-full h-16 px-3 
         bg-gradient-to-b from-green-500/10 to-green-500/5 
-        ">
+        "
+        >
           <div className=" z-40 flex justify-center items-center  font-semibold p-1 rounded mr-2 w-fit whitespace-nowrap text-center">
             <ChevronsUp
               size={24}
@@ -623,7 +649,10 @@ const NewMarketUp = () => {
           ></div> */}
         </div>
 
-        <div id="mySubidasGrid" className={`ag-theme-balham w-full  transition-all`}>
+        <div
+          id="mySubidasGrid"
+          className={`ag-theme-balham w-full  transition-all`}
+        >
           <AgGridReact
             rowData={playersWithStats}
             columnDefs={columnDefs}

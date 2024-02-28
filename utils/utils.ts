@@ -1,32 +1,28 @@
 import { Match, PlayerStats, SortDirection } from "@/types";
 
 export const teams = [
-  { name: "Deportivo Alavés", slug: "d-alaves", nickname: "ALA", id: 21 },
-  { name: "UD Almería", slug: "ud-almeria", nickname: "ALM", id: 1 },
-  { name: "Athletic Club", slug: "athletic-club", nickname: "ATH", id: 3 },
-  {
-    name: "Atlético de Madrid",
-    slug: "atletico-de-madrid",
-    nickname: "ATM",
-    id: 2,
-  },
-  { name: "FC Barcelona", slug: "fc-barcelona", nickname: "BAR", id: 4 },
-  { name: "Real Betis", slug: "real-betis", nickname: "BET", id: 5 },
-  { name: "Cádiz CF", slug: "cadiz-cf", nickname: "CAD", id: 162 },
-  { name: "RC Celta", slug: "rc-celta", nickname: "CEL", id: 6 },
-  { name: "Getafe CF", slug: "getafe-cf", nickname: "GET", id: 9 },
-  { name: "Girona FC", slug: "girona-fc", nickname: "GIR", id: 28 },
-  { name: "Granada CF", slug: "granada-cf", nickname: "GRA", id: 10 },
-  { name: "UD Las Palmas", slug: "ud-las-palmas", nickname: "LPA", id: 31 },
-  { name: "RCD Mallorca", slug: "rcd-mallorca", nickname: "MLL", id: 33 },
-  { name: "C.A. Osasuna", slug: "c-a-osasuna", nickname: "OSA", id: 13 },
-  { name: "Rayo Vallecano", slug: "rayo-vallecano", nickname: "RAY", id: 14 },
-  { name: "Real Madrid", slug: "real-madrid", nickname: "RMA", id: 15 },
-  { name: "Real Sociedad", slug: "real-sociedad", nickname: "RSO", id: 16 },
-  { name: "Sevilla FC", slug: "sevilla-fc", nickname: "SEV", id: 17 },
-  { name: "Valencia CF", slug: "valencia-cf", nickname: "VAL", id: 18 },
-  { name: "Villarreal CF", slug: "villarreal-cf", nickname: "VIL", id: 20 },
+  { name: "Deportivo Alavés", slug: "d-alaves", nickname: "ALA", id: 21, stadium: "/stadiums/d-alaves.webp" },
+  { name: "UD Almería", slug: "ud-almeria", nickname: "ALM", id: 1, stadium: "/stadiums/ud-almeria.webp" },
+  { name: "Athletic Club", slug: "athletic-club", nickname: "ATH", id: 3, stadium: "/stadiums/athletic-club.webp" },
+  { name: "Atlético de Madrid", slug: "atletico-de-madrid", nickname: "ATM", id: 2, stadium: "/stadiums/atletico-de-madrid.webp" },
+  { name: "FC Barcelona", slug: "fc-barcelona", nickname: "BAR", id: 4, stadium: "/stadiums/fc-barcelona.webp" },
+  { name: "Real Betis", slug: "real-betis", nickname: "BET", id: 5, stadium: "/stadiums/real-betis.webp" },
+  { name: "Cádiz CF", slug: "cadiz-cf", nickname: "CAD", id: 162, stadium: "/stadiums/cadiz-cf.webp" },
+  { name: "RC Celta", slug: "rc-celta", nickname: "CEL", id: 6, stadium: "/stadiums/rc-celta.webp" },
+  { name: "Getafe CF", slug: "getafe-cf", nickname: "GET", id: 9, stadium: "/stadiums/getafe-cf.webp" },
+  { name: "Girona FC", slug: "girona-fc", nickname: "GIR", id: 28, stadium: "/stadiums/girona-fc.webp" },
+  { name: "Granada CF", slug: "granada-cf", nickname: "GRA", id: 10, stadium: "/stadiums/granada-cf.webp" },
+  { name: "UD Las Palmas", slug: "ud-las-palmas", nickname: "LPA", id: 31, stadium: "/stadiums/ud-las-palmas.webp" },
+  { name: "RCD Mallorca", slug: "rcd-mallorca", nickname: "MLL", id: 33, stadium: "/stadiums/rcd-mallorca.webp" },
+  { name: "C.A. Osasuna", slug: "c-a-osasuna", nickname: "OSA", id: 13, stadium: "/stadiums/c-a-osasuna.webp" },
+  { name: "Rayo Vallecano", slug: "rayo-vallecano", nickname: "RAY", id: 14, stadium: "/stadiums/rayo-vallecano.webp" },
+  { name: "Real Madrid", slug: "real-madrid", nickname: "RMA", id: 15, stadium: "/stadiums/real-madrid.webp" },
+  { name: "Real Sociedad", slug: "real-sociedad", nickname: "RSO", id: 16, stadium: "/stadiums/real-sociedad.webp" },
+  { name: "Sevilla FC", slug: "sevilla-fc", nickname: "SEV", id: 17, stadium: "/stadiums/sevilla-fc.webp" },
+  { name: "Valencia CF", slug: "valencia-cf", nickname: "VAL", id: 18, stadium: "/stadiums/valencia-cf.webp" },
+  { name: "Villarreal CF", slug: "villarreal-cf", nickname: "VIL", id: 20, stadium: "/stadiums/villarreal-cf.webp" },
 ];
+
 
 export function slugById(teamID: number) {
   const team = teams.find((team) => team.id === teamID);
@@ -296,6 +292,13 @@ export function getPositionBadge(positionID: number) {
       };
   }
 }
+
+export function getStadiumByTeamID(teamID: number) {
+  const team = teams.find((team) => team.id === teamID);
+  return team ? team.stadium : "Not Found";
+}
+
+
 
 export async function getTeamLogo(teamID: number) {
   const slug = slugById(teamID);
