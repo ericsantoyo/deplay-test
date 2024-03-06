@@ -450,7 +450,7 @@ export const createColumnDefs = (
 ) => {
   return [
     {
-      field: "playerData.playerID",
+      field: "playerData",
       headerName: "",
       minWidth: 60,
       maxWidth: 70,
@@ -465,7 +465,7 @@ export const createColumnDefs = (
     {
       field: "playerData.lastMarketChange",
       headerName: "Cambio",
-      minWidth: 90,
+      minWidth: 85,
       sort: sortOrder,
       headerClass: "ag-center-header",
       cellRenderer: cellRenderers.tableSubidasBajadas,
@@ -490,7 +490,7 @@ export const createColumnDefs = (
       cellRenderer: cellRenderers.tableValues,
     },
     {
-      field: "playerData.positionID",
+      field: "playerData.position",
       headerName: "Pos",
       minWidth: 65,
       cellRenderer: cellRenderers.tablePositions,
