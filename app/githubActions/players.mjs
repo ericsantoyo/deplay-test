@@ -76,6 +76,9 @@ function formatPlayerStats(statData, playerId) {
     const poss_lost_all = statData[i].stats.poss_lost_all;
     const penalty_conceded = statData[i].stats.penalty_conceded;
     const marca_points = statData[i].stats.marca_points;
+    const won_match = statData[i].stats.won_match;
+    const lost_match = statData[i].stats.lost_match;
+    const drawn_match = statData[i].stats.drawn_match;
 
     const statObject = {
       playerID: playerID,
@@ -103,6 +106,9 @@ function formatPlayerStats(statData, playerId) {
       poss_lost_all: poss_lost_all,
       penalty_conceded: penalty_conceded,
       marca_points: marca_points,
+      won_match: won_match,
+      lost_match: lost_match,
+      drawn_match: drawn_match,
     };
     stats.push(statObject);
   }
@@ -189,7 +195,9 @@ function splitPlayersData(data) {
       previousMarketValue: secondToLastMarketValue,
     };
 
-    const stats = playerData.playerStats ? formatPlayerStats(playerData.playerStats, playerID) : [];
+    const stats = playerData.playerStats
+      ? formatPlayerStats(playerData.playerStats, playerID)
+      : [];
     players.push(player);
     allStatistics.push(...stats);
   }
