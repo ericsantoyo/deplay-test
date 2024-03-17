@@ -47,69 +47,59 @@ function filterDuplicateWeekStats(stats) {
   return filteredStats;
 }
 
-function formatPlayerStats(statData, playerId) {
+function formatPlayerStats(statData, playerId, positionID) {
   const stats = [];
 
+  // Determine if the stats are for a coach based on positionID
+  const isCoach = positionID === 5;
+
   for (let i = 0; i < statData.length; i++) {
-    const playerID = playerId;
     const weekID = statData[i].weekNumber;
     const totalPoints = statData[i].totalPoints;
     const isInIdealFormation = statData[i].isInIdealFormation;
-    const mins_played = statData[i].stats.mins_played;
-    const goals = statData[i].stats.goals;
-    const goal_assist = statData[i].stats.goal_assist;
-    const offtarget_att_assist = statData[i].stats.offtarget_att_assist;
-    const pen_area_entries = statData[i].stats.pen_area_entries;
-    const penalty_won = statData[i].stats.penalty_won;
-    const penalty_save = statData[i].stats.penalty_save;
-    const saves = statData[i].stats.saves;
-    const effective_clearance = statData[i].stats.effective_clearance;
-    const penalty_failed = statData[i].stats.penalty_failed;
-    const own_goals = statData[i].stats.own_goals;
-    const goals_conceded = statData[i].stats.goals_conceded;
-    const yellow_card = statData[i].stats.yellow_card;
-    const second_yellow_card = statData[i].stats.second_yellow_card;
-    const red_card = statData[i].stats.red_card;
-    const total_scoring_att = statData[i].stats.total_scoring_att;
-    const won_contest = statData[i].stats.won_contest;
-    const ball_recovery = statData[i].stats.ball_recovery;
-    const poss_lost_all = statData[i].stats.poss_lost_all;
-    const penalty_conceded = statData[i].stats.penalty_conceded;
-    const marca_points = statData[i].stats.marca_points;
-    const won_match = statData[i].stats.won_match;
-    const lost_match = statData[i].stats.lost_match;
-    const drawn_match = statData[i].stats.drawn_match;
 
-    const statObject = {
-      playerID: playerID,
+    let statObject = {
+      playerID: playerId,
       week: weekID,
       totalPoints: totalPoints,
       isInIdealFormation: isInIdealFormation,
-      mins_played: mins_played,
-      goals: goals,
-      goal_assist: goal_assist,
-      offtarget_att_assist: offtarget_att_assist,
-      pen_area_entries: pen_area_entries,
-      penalty_won: penalty_won,
-      penalty_save: penalty_save,
-      saves: saves,
-      effective_clearance: effective_clearance,
-      penalty_failed: penalty_failed,
-      own_goals: own_goals,
-      goals_conceded: goals_conceded,
-      yellow_card: yellow_card,
-      second_yellow_card: second_yellow_card,
-      red_card: red_card,
-      total_scoring_att: total_scoring_att,
-      won_contest: won_contest,
-      ball_recovery: ball_recovery,
-      poss_lost_all: poss_lost_all,
-      penalty_conceded: penalty_conceded,
-      marca_points: marca_points,
-      won_match: won_match,
-      lost_match: lost_match,
-      drawn_match: drawn_match,
     };
+
+    if (!isCoach) {
+      statObject = {
+        ...statObject,
+        mins_played: statData[i].stats.mins_played,
+        goals: statData[i].stats.goals,
+        goal_assist: statData[i].stats.goal_assist,
+        offtarget_att_assist: statData[i].stats.offtarget_att_assist,
+        pen_area_entries: statData[i].stats.pen_area_entries,
+        penalty_won: statData[i].stats.penalty_won,
+        penalty_save: statData[i].stats.penalty_save,
+        saves: statData[i].stats.saves,
+        effective_clearance: statData[i].stats.effective_clearance,
+        penalty_failed: statData[i].stats.penalty_failed,
+        own_goals: statData[i].stats.own_goals,
+        goals_conceded: statData[i].stats.goals_conceded,
+        yellow_card: statData[i].stats.yellow_card,
+        second_yellow_card: statData[i].stats.second_yellow_card,
+        red_card: statData[i].stats.red_card,
+        total_scoring_att: statData[i].stats.total_scoring_att,
+        won_contest: statData[i].stats.won_contest,
+        ball_recovery: statData[i].stats.ball_recovery,
+        poss_lost_all: statData[i].stats.poss_lost_all,
+        penalty_conceded: statData[i].stats.penalty_conceded,
+        marca_points: statData[i].stats.marca_points,
+      };
+    } else {
+      statObject = {
+        ...statObject,
+        won_match: won_match,
+        lost_match: lost_match,
+        drawn_match: drawn_match,
+        marca_points: statData[i].stats.marca_points,
+      };
+    }
+
     stats.push(statObject);
   }
 
@@ -196,7 +186,7 @@ function splitPlayersData(data) {
     };
 
     const stats = playerData.playerStats
-      ? formatPlayerStats(playerData.playerStats, playerID)
+      ? formatPlayerStats(playerData.playerStats, playerID, positionID)
       : [];
     players.push(player);
     allStatistics.push(...stats);
@@ -242,7 +232,7 @@ async function fetchMarketValues(playerId) {
 
 async function main() {
   const startingIndex = 0;
-  const endingIndex = 1850;
+  const endingIndex = 1950;
   let players = [];
   const promises = [];
 
