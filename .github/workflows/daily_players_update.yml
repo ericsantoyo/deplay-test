@@ -2,7 +2,7 @@ name: Daily PLAYERS Update
 
 on:
   schedule:
-    - cron: '16 23 * * *'
+    - cron: '16 22 * * *'
 jobs:
   update_data:
     runs-on: ubuntu-latest
